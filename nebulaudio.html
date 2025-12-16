@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nebulaudio — Música Original con IA, en segundos</title>
+  <meta name="description" content="Crea música única para YouTube, TikTok, podcasts o streamings. ¡O una canción completa con voz IA + instrumental para grabar tú! Sin derechos, MP3 + PDF + stems.">
+  <script src="https://www.paypal.com/sdk/js?client-id=AU-TEST-SANDBOX-ID&components=buttons,marks" async></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg-dark: #0a0a14;
+      --bg-card: rgba(18, 18, 32, 0.65);
+      --border-glow: rgba(16, 185, 129, 0.4);
+      --text-primary: #f0f0ff;
+      --text-secondary: #a0a0c0;
+      --accent: #10b981;
+      --accent2: #8b5cf6;
+      --free: #64748b;
+      --pro: #10b981;
+      --studio: #8b5cf6;
+      --error: #ef4444;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding: 1.2rem;
+      text-align: center;
+      background-image: 
+        linear-gradient(rgba(10, 10, 20, 0.75), rgba(10, 10, 20, 0.85)),
+        url('https://i.postimg.cc/4ywDV4xc/universo-nebulaudio.png');
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+      position: relative;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: radial-gradient(circle at 30% 20%, rgba(16, 185, 129, 0.08), transparent 40%),
+                  radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.06), transparent 50%);
+      pointer-events: none;
+      z-index: -1;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 1rem 0.5rem;
+    }
+
+    /* ——————————————————— LOGO & HERO ——————————————————— */
+    .logo-top {
+      margin: 1.5rem 0;
+    }
+    .logo-img {
+      height: 120px;
+      filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.5));
+      margin: 0 auto 1rem;
+    }
+    .logo-top h1 {
+      font-size: 2.1rem;
+      font-weight: 800;
+      margin: 0.5rem 0;
+      background: linear-gradient(90deg, #10b981, #8b5cf6);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .logo-top p {
+      font-size: 1.15rem;
+      opacity: 0.85;
+      margin: 0.6rem auto 1.2rem;
+      max-width: 600px;
+      line-height: 1.5;
+    }
+
+    /* ——————————————————— SOCIAL PROOF ——————————————————— */
+    .social-proof {
+      background: rgba(10, 10, 20, 0.4);
+      border-radius: 16px;
+      padding: 0.8rem 1.2rem;
+      margin: 0.8rem auto 1.5rem;
+      max-width: 600px;
+      font-size: 0.95rem;
+      color: var(--accent);
+    }
+
+    /* ——————————————————— QUICK MODE ——————————————————— */
+    .quick-mode {
+      background: var(--bg-card);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-glow);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+    .quick-mode h2 {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      color: white;
+    }
+    .btn-quick {
+      background: linear-gradient(135deg, var(--pro), #0d9a6d);
+      color: white;
+      border: none;
+      padding: 0.9rem 2rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    }
+    .btn-quick:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+    }
+    .quick-note {
+      font-size: 0.85rem;
+      opacity: 0.7;
+      margin-top: 0.6rem;
+    }
+
+    /* ——————————————————— EXAMPLES ——————————————————— */
+    .examples {
+      margin: 2rem 0;
+    }
+    .examples h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1.2rem;
+    }
+    .examples-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.2rem;
+      margin-top: 1rem;
+    }
+    .example-card {
+      background: rgba(10, 10, 20, 0.4);
+      border-radius: 16px;
+      padding: 1.2rem;
+      text-align: left;
+    }
+    .example-card h3 {
+      font-size: 1.05rem;
+      margin-bottom: 0.6rem;
+      color: var(--text-primary);
+    }
+    .example-audio {
+      width: 100%;
+      margin: 0.6rem 0;
+    }
+    .example-download {
+      display: inline-block;
+      background: rgba(139, 92, 246, 0.15);
+      color: var(--accent2);
+      padding: 0.4rem 0.8rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      text-decoration: none;
+      margin-top: 0.4rem;
+    }
+
+    /* ——————————————————— FULL FORM ——————————————————— */
+    .card {
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 1.8rem;
+      margin: 2rem 0;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+    .card h2 {
+      margin-bottom: 1.4rem;
+      font-size: 1.6rem;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      text-align: left;
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+    select, textarea, input {
+      width: 100%;
+      padding: 0.85rem;
+      border-radius: 12px;
+      background: rgba(10, 10, 20, 0.7);
+      border: 1px solid #3a3a5a;
+      color: white;
+      font-size: 1rem;
+    }
+    textarea { min-height: 80px; resize: vertical; }
+
+    /* ✅ Tonality alignment fix */
+    .tonality-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 0.8rem;
+      text-align: left;
+      margin-top: 0.5rem;
+    }
+    .tonality-group h4 {
+      font-size: 0.85rem;
+      margin: 0.5rem 0;
+      color: var(--accent2);
+      font-weight: 600;
+    }
+    .tonality-group label {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      padding: 0.15rem 0;
+    }
+    .tonality-group input[type="radio"] {
+      margin: 0.4rem 0 0;
+      accent-color: var(--accent2);
+      flex-shrink: 0;
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ✅ Instrument alignment fix */
+    .instrument-sections {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      text-align: left;
+    }
+    .instr-section {
+      background: rgba(10, 10, 20, 0.4);
+      padding: 0.9rem;
+      border-radius: 12px;
+    }
+    .instr-section h3 {
+      font-size: 1.05rem;
+      margin: 0.6rem 0 0.7rem;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+    }
+    .instr-section h3::before {
+      content: '';
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      margin-right: 0.5rem;
+      background: var(--accent);
+      border-radius: 4px;
+    }
+    .instr-subgroup {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.7rem;
+      margin-top: 0.5rem;
+    }
+    .subgroup-title {
+      font-size: 0.88rem;
+      margin: 0.7rem 0 0.3rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+    .instr-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+    .instr-group label {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      font-size: 0.88rem;
+      cursor: pointer;
+      line-height: 1.4;
+      padding: 0.15rem 0;
+    }
+    .instr-group input[type="checkbox"] {
+      margin: 0.4rem 0 0;
+      accent-color: var(--pro);
+      flex-shrink: 0;
+      width: 16px;
+      height: 16px;
+    }
+    .instr-subgroup > .instr-group:not(:first-child) {
+      margin-top: 0.5rem;
+    }
+
+    /* ——————————————————— VOCAL SECTION ——————————————————— */
+    #vocal-section {
+      margin-top: 1.5rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid rgba(139, 92, 246, 0.2);
+    }
+    #vocal-options {
+      background: rgba(10, 10, 20, 0.3);
+      border-radius: 12px;
+      padding: 1.2rem;
+      margin-top: 0.8rem;
+    }
+
+    /* ——————————————————— PREVIEW & PLANS ——————————————————— */
+    .preview-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin: 1.5rem 0;
+    }
+    @media (max-width: 768px) {
+      .preview-grid { grid-template-columns: 1fr; }
+      .logo-img { height: 90px; }
+      .form-grid, .tonality-grid, .instr-subgroup { grid-template-columns: 1fr; }
+    }
+
+    .preview-audio, .preview-score {
+      background: rgba(10, 10, 20, 0.5);
+      border-radius: 16px;
+      padding: 1.5rem;
+      text-align: center;
+    }
+    .preview-audio h3, .preview-score h3 {
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+    }
+    #audio-player { width: 100%; margin: 0.8rem 0; }
+    #score-preview-container {
+      margin: 0 auto;
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      border-radius: 8px;
+      background: white;
+      max-width: 400px;
+    }
+
+    #plans-modal { display: none; animation: fadeIn 0.4s; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .plans {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.4rem;
+      margin: 1.5rem 0;
+    }
+    .plan {
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 1.5rem 1.1rem;
+      text-align: center;
+      transition: transform 0.3s;
+      border: 2px solid transparent;
+    }
+    .plan:hover { transform: translateY(-4px); }
+    .plan.free { border-color: var(--free); }
+    .plan.pro { border: 2px solid var(--pro); background: rgba(16, 185, 129, 0.08); }
+    .plan.studio { border: 2px solid var(--studio); background: rgba(139, 92, 246, 0.08); }
+    .plan h3 { font-size: 1.35rem; margin-bottom: 0.6rem; }
+    .price { font-size: 1.6rem; font-weight: 700; margin: 0.4rem 0; }
+    .free .price { color: var(--free); }
+    .pro .price { color: var(--pro); }
+    .studio .price { color: var(--studio); }
+    .features {
+      list-style: none;
+      margin: 1rem 0;
+      text-align: left;
+      font-size: 0.9rem;
+    }
+    .features li {
+      margin: 0.45rem 0;
+      opacity: 0.88;
+    }
+    .features li::before {
+      content: '✓';
+      color: var(--accent);
+      margin-right: 0.5rem;
+      font-weight: bold;
+    }
+    .btn-plan {
+      width: 100%;
+      padding: 0.7rem;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 0.6rem;
+      border: none;
+      font-size: 0.95rem;
+    }
+    .btn-free { background: var(--free); color: white; }
+    .btn-pro { background: var(--pro); color: white; }
+    .btn-studio { background: var(--studio); color: white; }
+
+    #email-form { display: none; margin-top: 1.5rem; padding: 1.5rem; background: rgba(20, 20, 40, 0.4); border-radius: 16px; }
+    #paypal-section { display: none; margin-top: 2rem; }
+    #status { margin: 1.2rem 0; min-height: 24px; font-weight: 500; font-size: 0.95rem; }
+    .status-success { color: var(--pro); }
+    .status-error { color: var(--error); }
+
+    /* ——————————————————— FOOTER ——————————————————— */
+    .footer {
+      margin-top: 2.5rem;
+      font-size: 0.8rem;
+      opacity: 0.6;
+      line-height: 1.5;
+    }
+    .footer a { color: var(--accent2); text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+
+    /* ——————————————————— MODALS ——————————————————— */
+    #leds-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    .leds-content {
+      background: var(--bg-card);
+      padding: 2rem;
+      border-radius: 20px;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    }
+    .leds-content h3 {
+      margin-bottom: 1.2rem;
+      font-size: 1.5rem;
+    }
+    .leds-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .leds-grid input, .leds-grid select { padding: 0.75rem; }
+    .btn-leds {
+      width: 100%;
+      padding: 0.75rem;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      background: var(--pro);
+      color: white;
+    }
+    .close-modal {
+      float: right;
+      cursor: pointer;
+      font-size: 1.2rem;
+      opacity: 0.7;
+    }
+    .close-modal:hover { opacity: 1; }
+
+    /* ——————————————————— UTILITIES ——————————————————— */
+    .hidden { display: none !important; }
+    .text-left { text-align: left; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo-top">
+      <img src="https://i.postimg.cc/x1F9B5YQ/logo-nebulaudio.png" class="logo-img" alt="Nebulaudio">
+      <h1>Nebulaudio</h1>
+      <p>Música original para tus videos, podcasts y streams. ¡O una canción completa con voz IA + instrumental para grabar tú!</p>
+      
+      <div class="social-proof">
+        🌟 <strong>14.200+</strong> creadores usan Nebulaudio este mes
+      </div>
+    </div>
+
+    <!-- ✅ QUICK MODE — clave para usuarios no músicos -->
+    <div class="quick-mode">
+      <h2>🚀 ¿Quieres música YA?</h2>
+      <button id="quick-generate-btn" class="btn-quick">
+        ▶️ Generar al instante (recomendado)
+      </button>
+      <p class="quick-note">
+        Usamos un preset profesional: <em>Guitarra acústica + piano + cuerdas suaves, Do mayor, Inspirador</em>
+      </p>
+    </div>
+
+    <!-- ✅ EJEMPLOS REALES — construyen confianza -->
+    <div class="examples">
+      <h2>🎧 Escucha ejemplos reales (con marca)</h2>
+      <div class="examples-grid">
+        <div class="example-card">
+          <h3>Intro para YouTube</h3>
+          <audio controls class="example-audio">
+            <source src="https://nebulaudio-demo.s3.amazonaws.com/demo-youtube-intro-15s.mp3" type="audio/mpeg">
+          </audio>
+          <a href="#" class="example-download">⏬ Descargar demo (MP3+PDF)</a>
+        </div>
+        <div class="example-card">
+          <h3>Fondo para podcast</h3>
+          <audio controls class="example-audio">
+            <source src="https://nebulaudio-demo.s3.amazonaws.com/demo-podcast-bg-15s.mp3" type="audio/mpeg">
+          </audio>
+          <a href="#" class="example-download">⏬ Descargar demo (MP3+PDF)</a>
+        </div>
+        <div class="example-card">
+          <h3>Canción con voz IA</h3>
+          <audio controls class="example-audio">
+            <source src="https://nebulaudio-demo.s3.amazonaws.com/demo-vocal-ia-30s.mp3" type="audio/mpeg">
+          </audio>
+          <a href="#" class="example-download">⏬ Escuchar demo (voz + instrumental)</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ✅ FORMULARIO COMPLETO — con lenguaje no técnico -->
+    <div class="card" id="form-section">
+      <h2>🎨 Personaliza tu música (opcional)</h2>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="duration">Duración</label>
+          <select id="duration">
+            <option value="30">30 segundos</option>
+            <option value="60">1 minuto</option>
+            <option value="120" selected>2 minutos</option>
+            <option value="180">3 minutos</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="tempo">Energía</label>
+          <select id="tempo">
+            <option value="slow">Tranquila</option>
+            <option value="moderate" selected>Equilibrada</option>
+            <option value="fast">Energética</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="emotion">Emoción</label>
+          <select id="emotion">
+            <option value="happy">Feliz</option>
+            <option value="calm" selected>Tranquila</option>
+            <option value="inspiring">Inspiradora</option>
+            <option value="epic">Épica</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="rhythm">Estilo</label>
+          <select id="rhythm">
+            <option value="acoustic">Acústico</option>
+            <option value="cinematic" selected>Cinematográfico</option>
+            <option value="electronic">Electrónico</option>
+            <option value="latin">Latino</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="use-case">¿Para qué la usarás? <small>(ayuda a la IA)</small></label>
+        <select id="use-case">
+          <option value="youtube_intro">Intro de YouTube</option>
+          <option value="podcast_bg" selected>Fondo para podcast</option>
+          <option value="tiktok_loop">Loop para TikTok/Reels</option>
+          <option value="stream_bg">Fondo para stream</option>
+          <option value="meditation">Meditación/guía</option>
+          <option value="ad">Publicidad/campaña</option>
+          <option value="song">Canción con mi voz</option>
+          <option value="other">Otro</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Tonalidad (Do, Re, Mi...)</label>
+        <div class="tonality-grid">
+          <div class="tonality-group">
+            <h4>Mayores</h4>
+            <label><input type="radio" name="tonality" value="C" checked> Do</label>
+            <label><input type="radio" name="tonality" value="G"> Sol</label>
+            <label><input type="radio" name="tonality" value="F"> Fa</label>
+            <label><input type="radio" name="tonality" value="D"> Re</label>
+          </div>
+          <div class="tonality-group">
+            <h4>Menores</h4>
+            <label><input type="radio" name="tonality" value="Am"> La m</label>
+            <label><input type="radio" name="tonality" value="Em"> Mi m</label>
+            <label><input type="radio" name="tonality" value="Dm"> Re m</label>
+          </div>
+        </div>
+        <p style="font-size:0.85rem; opacity:0.7; margin-top:0.5rem; text-align:left;">
+          ¿No sabes? Déjalo en <strong>Do</strong> — suena bien en casi todo.
+        </p>
+      </div>
+
+      <div class="form-group">
+        <label>Instrumentos <small>(elige 1-3 para mejor resultado)</small></label>
+        <div class="instrument-sections">
+          <div class="instr-section">
+            <h3>🪕 Cuerdas</h3>
+            <div class="instr-subgroup">
+              <div class="instr-group">
+                <div class="subgroup-title">Suaves</div>
+                <label><input type="checkbox" name="instrument" value="guitar_acoustic" checked> Guitarra acústica</label>
+                <label><input type="checkbox" name="instrument" value="piano"> Piano</label>
+                <label><input type="checkbox" name="instrument" value="harp"> Arpa</label>
+              </div>
+              <div class="instr-group">
+                <div class="subgroup-title">Energéticos</div>
+                <label><input type="checkbox" name="instrument" value="guitar_electric"> Guitarra eléctrica</label>
+                <label><input type="checkbox" name="instrument" value="bass"> Bajo</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="instr-section">
+            <h3>🥁 Percusión</h3>
+            <div class="instr-subgroup">
+              <div class="instr-group">
+                <label><input type="checkbox" name="instrument" value="cajon"> Cajón</label>
+                <label><input type="checkbox" name="instrument" value="congas"> Congas</label>
+                <label><input type="checkbox" name="instrument" value="snare_drum"> Caja (suave)</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="instr-section">
+            <h3>🌬️ Vientos</h3>
+            <div class="instr-subgroup">
+              <div class="instr-group">
+                <label><input type="checkbox" name="instrument" value="flute"> Flauta</label>
+                <label><input type="checkbox" name="instrument" value="sax_alto"> Saxo alto</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p style="font-size:0.85rem; opacity:0.7; margin-top:0.8rem; text-align:left;">
+          ✅ <strong>Recomendado:</strong> Combina 1 cuerda + 1 percusión (ej: Guitarra + Cajón).
+        </p>
+      </div>
+
+      <div class="form-group">
+        <label for="concept">¿Algo específico? <small>(opcional)</small></label>
+        <textarea id="concept" placeholder="Ej: 'más lento al final', 'sin batería', 'sonido andino'"></textarea>
+      </div>
+
+      <!-- ✅ NUEVO: MODO CANTANTE (solo Studio) -->
+      <div id="vocal-section" class="hidden">
+        <div class="form-group">
+          <label>🎤 ¿Quieres incluir voz? <small>(solo en Studio)</small></label>
+          <div style="text-align:left; margin-top:0.5rem;">
+            <label style="display:inline-flex; align-items:center; margin-right:1.2rem;">
+              <input type="radio" name="vocal" value="none" checked> No, solo instrumental
+            </label>
+            <label style="display:inline-flex; align-items:center;">
+              <input type="radio" name="vocal" value="yes"> Sí, con voz IA (demo profesional)
+            </label>
+          </div>
+          <p style="font-size:0.85rem; opacity:0.7; margin-top:0.4rem; text-align:left;">
+            ✅ Obtendrás: <strong>1) Canción con voz IA</strong> (para presentar tu idea), <strong>2) Instrumental limpio</strong> (para grabar tu voz), <strong>3) Stems separados</strong>.
+          </p>
+        </div>
+
+        <div id="vocal-options" class="hidden">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="vocal-gender">Género vocal</label>
+              <select id="vocal-gender">
+                <option value="female">Femenina</option>
+                <option value="male" selected>Masculina</option>
+                <option value="neutral">Neutra</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="vocal-style">Estilo</label>
+              <select id="vocal-style">
+                <option value="pop">Pop</option>
+                <option value="ballad" selected>Balada</option>
+                <option value="latin">Latino</option>
+                <option value="rnb">R&B</option>
+                <option value="rock">Rock</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="lyrics">Letra <small>(obligatoria si incluyes voz)</small></label>
+            <textarea id="lyrics" placeholder="Verso 1\nTu voz suena como el mar...\n\nCoro\nY yo sigo aquí, esperando..."></textarea>
+            <p style="font-size:0.85rem; opacity:0.7; margin-top:0.3rem; text-align:left;">
+              ✅ Puedes pegar letra completa. La IA ajusta ritmo y acentos.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <button id="generate-btn" class="btn-plan btn-pro">
+        🎵 Generar mi música
+      </button>
+    </div>
+
+    <!-- Preview y planes -->
+    <div class="card" id="preview-section" style="display:none;">
+      <h2>🎧 Tu música está lista</h2>
+      <div class="preview-grid">
+        <div class="preview-audio">
+          <h3>Audio (30s)</h3>
+          <audio id="audio-player" controls></audio>
+          <p style="font-size:0.85rem; opacity:0.7;">Versión completa al descargar</p>
+        </div>
+        <div class="preview-score">
+          <h3>Partitura (mini)</h3>
+          <div id="score-preview-container"></div>
+          <p style="font-size:0.85rem; opacity:0.7;">PDF editable al descargar</p>
+        </div>
+      </div>
+      <button id="download-btn" class="btn-plan btn-pro" disabled>⬇️ Descargar MP3 + PDF</button>
+    </div>
+
+    <div class="card" id="plans-modal">
+      <h2>🔒 Descarga bloqueada</h2>
+      <p>Obtén tu música sin marca y en alta calidad:</p>
+      <div class="plans">
+        <div class="plan free">
+          <h3>📧 Gratis</h3>
+          <div class="price">Registro</div>
+          <ul class="features">
+            <li>MP3: 30s (inicio)</li>
+            <li>PDF con marca</li>
+            <li>1 por mes</li>
+          </ul>
+          <button class="btn-plan btn-free" onclick="showEmailForm()">Registrarse</button>
+        </div>
+        <div class="plan pro">
+          <h3>Pro</h3>
+          <div class="price">$5/mes</div>
+          <p>8 piezas/mes</p>
+          <ul class="features">
+            <li>✓ MP3 completo</li>
+            <li>✓ PDF sin marca</li>
+            <li>✓ Sin límite de duración</li>
+          </ul>
+          <button class="btn-plan btn-pro" onclick="openLedsModal('pro')">Suscribirse</button>
+        </div>
+        <div class="plan studio">
+          <h3>Studio</h3>
+          <div class="price">$9/mes</div>
+          <p>12 piezas + stems</p>
+          <ul class="features">
+            <li>✓ Todo lo de Pro</li>
+            <li>✓ <strong>Voz IA + instrumental limpio</strong></li>
+            <li>✓ <strong>Stems: voz, batería, bajo, cuerdas</strong></li>
+            <li>✓ Soporte prioritario</li>
+          </ul>
+          <button class="btn-plan btn-studio" onclick="openLedsModal('studio')">Suscribirse</button>
+        </div>
+      </div>
+      <div id="email-form">
+        <input type="email" id="user-email" placeholder="tu@email.com" required>
+        <button class="btn-plan btn-free" onclick="downloadFree()">📥 Descargar versión limitada</button>
+      </div>
+    </div>
+
+    <div id="paypal-section">
+      <div id="paypal-button-container"></div>
+      <div id="status"></div>
+    </div>
+
+    <!-- Modal LEDs -->
+    <div id="leds-modal">
+      <div class="leds-content">
+        <span class="close-modal" onclick="closeLedsModal()">✕</span>
+        <h3>👤 Último paso</h3>
+        <p style="margin-bottom: 1rem; opacity:0.8;">Necesitamos tu email para enviarte las descargas.</p>
+        <div class="leds-grid">
+          <input type="email" id="leds-email" placeholder="Email (obligatorio)" required>
+          <input type="text" id="leds-name" placeholder="Nombre (opcional)">
+        </div>
+        <button class="btn-leds" onclick="submitLeds()">✅ Continuar al pago</button>
+      </div>
+    </div>
+
+    <p class="footer">
+      © 2025 Nebulaudio. Música original, sin derechos de autor.<br>
+      Hecho con ❤️ para creadores digitales. 
+      <a href="/privacy">Privacidad</a> • 
+      <a href="/terms">Términos</a>
+    </p>
+  </div>
+
+  <script>
+    let currentPlan = null;
+
+    // ✅ QUICK MODE — genera con preset inteligente
+    document.getElementById('quick-generate-btn').onclick = () => {
+      // Simula selección de preset
+      document.getElementById('duration').value = '60';
+      document.getElementById('tempo').value = 'moderate';
+      document.getElementById('emotion').value = 'inspiring';
+      document.getElementById('rhythm').value = 'acoustic';
+      document.getElementById('use-case').value = 'youtube_intro';
+      
+      // Selecciona solo guitarra acústica (preset)
+      const checkboxes = document.querySelectorAll('input[name="instrument"]');
+      checkboxes.forEach(cb => cb.checked = false);
+      document.querySelector('input[value="guitar_acoustic"]').checked = true;
+      
+      // Asegura que modo vocal esté desactivado
+      document.querySelector('input[name="vocal"][value="none"]').checked = true;
+      document.getElementById('vocal-options').classList.add('hidden');
+      
+      // Dispara generación
+      simulateGeneration();
+    };
+
+    // Generación desde formulario completo
+    document.getElementById('generate-btn').onclick = () => {
+      simulateGeneration();
+    };
+
+    function simulateGeneration() {
+      // ✅ Validación para modo cantante
+      if (currentPlan === 'studio') {
+        const vocalChoice = document.querySelector('input[name="vocal"]:checked')?.value;
+        if (vocalChoice === 'yes') {
+          const lyrics = document.getElementById('lyrics').value.trim();
+          if (!lyrics) {
+            alert('⚠️ Por favor escribe la letra para generar la voz.');
+            return;
+          }
+        }
+      }
+
+      document.getElementById('status').textContent = '🧠 Generando tu pieza…';
+      document.getElementById('generate-btn').disabled = true;
+      document.getElementById('quick-generate-btn').disabled = true;
+
+      setTimeout(() => {
+        // Mock: audio y partitura
+        let audioSrc = 'https://nebulaudio-demo.s3.amazonaws.com/preview-acoustic-30s.mp3';
+        
+        // Si es modo vocal, usar demo con voz
+        if (currentPlan === 'studio') {
+          const vocalChoice = document.querySelector('input[name="vocal"]:checked')?.value;
+          if (vocalChoice === 'yes') {
+            audioSrc = 'https://nebulaudio-demo.s3.amazonaws.com/demo-vocal-ia-30s.mp3';
+          }
+        }
+        
+        document.getElementById('audio-player').src = audioSrc;
+        document.getElementById('score-preview-container').innerHTML = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" width="100%" height="220">
+  <rect width="100%" height="100%" fill="#fdfdfd" rx="6"/>
+  <g transform="translate(15,30)">
+    <g stroke="#444" stroke-width="0.7">
+      <line x1="0" y1="0" x2="370" y2="0"/><line x1="0" y1="7" x2="370" y2="7"/>
+      <line x1="0" y1="14" x2="370" y2="14"/><line x1="0" y1="21" x2="370" y2="21"/>
+      <line x1="0" y1="28" x2="370" y2="28"/>
+    </g>
+    <g transform="translate(0,45)">
+      <line x1="0" y1="0" x2="370" y2="0"/><line x1="0" y1="7" x2="370" y2="7"/>
+      <line x1="0" y1="14" x2="370" y2="14"/><line x1="0" y1="21" x2="370" y2="21"/>
+      <line x1="0" y1="28" x2="370" y2="28"/>
+    </g>
+    <text x="15" y="18" font-family="serif" font-size="16" fill="#222">Nebulaudio — ${currentPlan === 'studio' && document.querySelector('input[name="vocal"]:checked')?.value === 'yes' ? 'Canción con voz IA' : 'Acoustic Flow'}</text>
+    <text x="15" y="65" font-size="11" fill="#555">${currentPlan === 'studio' && document.querySelector('input[name="vocal"]:checked')?.value === 'yes' ? 'Voz IA + Instrumental' : 'Guitarra acústica • Do mayor • 60s'}</text>
+    <text x="15" y="82" font-size="9" fill="#888">Versión demo — marca Nebulaudio</text>
+  </g>
+</svg>`;
+
+        document.getElementById('preview-section').style.display = 'block';
+        document.getElementById('plans-modal').style.display = 'block';
+        document.getElementById('plans-modal').scrollIntoView({ behavior: 'smooth' });
+        
+        document.getElementById('status').textContent = '';
+        document.getElementById('generate-btn').disabled = false;
+        document.getElementById('quick-generate-btn').disabled = false;
+      }, 1800);
+    }
+
+    // ✅ Mostrar/ocultar sección vocal según plan
+    function openLedsModal(plan) {
+      currentPlan = plan;
+      if (plan === 'studio') {
+        document.getElementById('vocal-section').classList.remove('hidden');
+      } else {
+        document.getElementById('vocal-section').classList.add('hidden');
+        // Reset vocal
+        document.querySelector('input[name="vocal"][value="none"]').checked = true;
+        document.getElementById('vocal-options').classList.add('hidden');
+      }
+      document.getElementById('leds-modal').style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Mostrar opciones vocales al elegir "Sí"
+    document.querySelectorAll('input[name="vocal"]').forEach(radio => {
+      radio.addEventListener('change', () => {
+        const show = radio.value === 'yes' && radio.checked;
+        document.getElementById('vocal-options').classList.toggle('hidden', !show);
+      });
+    });
+
+    // ✅ Post-pago: email simulado con onboarding
+    function simulateOnboardingEmail() {
+      setTimeout(() => {
+        let msg = `✉️ ¡Listo! Te enviamos un email con:\n\n• Enlaces directos a MP3/PDF\n• Video: “Cómo usar en CapCut en 60s”\n• Plantilla editable para YouTube`;
+        
+        if (currentPlan === 'studio') {
+          const vocalChoice = document.querySelector('input[name="vocal"]:checked')?.value;
+          if (vocalChoice === 'yes') {
+            msg += `\n\n🎤 PLUS Studio:\n• Canción con voz IA (demo)\n• Instrumental limpio (para grabar tú)\n• Stems separados (voz, batería, bajo)\n• Guía: “Cómo hacer tu premezcla en Audacity”`;
+          }
+        }
+        
+        msg += `\n\n¡Gracias por crear con Nebulaudio! 🌌`;
+        alert(msg);
+      }, 1000);
+    }
+
+    // ——————— Funciones de suscripción ———————
+    function showEmailForm() {
+      document.getElementById('email-form').style.display = 'block';
+    }
+
+    function downloadFree() {
+      const email = document.getElementById('user-email').value;
+      if (!email || !email.includes('@')) {
+        document.getElementById('status').innerHTML = `<span class="status-error">⚠️ Ingresa un email válido.</span>`;
+        return;
+      }
+      alert(`✅ ¡Descarga iniciada!\n• MP3: primeros 30s\n• PDF: con marca Nebulaudio\n\nRevisa tu bandeja (incluye spam).`);
+    }
+
+    function closeLedsModal() {
+      document.getElementById('leds-modal').style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    function submitLeds() {
+      const email = document.getElementById('leds-email').value.trim();
+      if (!email || !email.includes('@')) {
+        document.getElementById('status').innerHTML = `<span class="status-error">⚠️ Email obligatorio.</span>`;
+        return;
+      }
+      const name = document.getElementById('leds-name').value.trim() || 'Creador';
+      const userData = { name, email, plan: currentPlan };
+      sessionStorage.setItem('nebulaudio_user', JSON.stringify(userData));
+      closeLedsModal();
+      renderPaypalButton(currentPlan, userData);
+    }
+
+    function renderPaypalButton(plan, userData) {
+      const container = document.getElementById('paypal-button-container');
+      container.innerHTML = '';
+      document.getElementById('paypal-section').style.display = 'block';
+
+      document.getElementById('status').textContent = '🔄 Procesando…';
+      setTimeout(() => {
+        document.getElementById('status').innerHTML = `<span class="status-success">🎉 ¡Pago aprobado!</span>`;
+        simulateOnboardingEmail();
+      }, 2000);
+    }
+
+    document.getElementById('leds-modal').onclick = (e) => {
+      if (e.target.id === 'leds-modal') closeLedsModal();
+    };
+  </script>
+</body>
+</html>
