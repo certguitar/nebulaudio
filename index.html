@@ -421,12 +421,9 @@
       margin-bottom: 0.8rem;
       font-size: 1.1rem;
     }
-    #waveform {
-      width: 100%;
-      height: 70px;
-      background: rgba(0,0,0,0.2);
-      border-radius: 8px;
-      margin: 0.4rem 0;
+    .preview-player-box {
+      margin: 0.8rem 0;
+      padding: 0.6rem 0;
     }
     #score-preview-container {
       margin: 0 auto;
@@ -595,10 +592,6 @@
     }
     .footer a { color: var(--accent2); text-decoration: none; }
     .footer a:hover { text-decoration: underline; }
-    .preview-player-box {
-  margin: 0.8rem 0;
-  padding: 0.6rem 0;
-}
   </style>
 </head>
 <body>
@@ -870,9 +863,10 @@
         <div class="preview-audio">
           <h3>Audio completo (ritmo + instrumentos + ambiente)</h3>
           <div class="preview-player-box">
-  <audio id="preview-audio" controls style="width: 100%; max-width: 500px; background: #111; border-radius: 8px;"></audio>
-  <p id="audio-status" style="font-size: 0.85rem; opacity: 0.7; margin-top: 8px;">Selecciona opciones y haz clic en "Generar mi música"</p>
-</div>
+            <audio id="preview-audio" controls style="width: 100%; max-width: 500px; background: #111; border-radius: 8px;"></audio>
+            <p id="audio-status" style="font-size: 0.85rem; opacity: 0.7; margin-top: 8px;">Selecciona opciones y haz clic en "Generar mi música"</p>
+          </div>
+          <button id="compare-btn" class="btn-plan btn-express" style="margin-top:0.6rem; font-size:0.88rem;">
             ↔️ Escuchar otra versión
           </button>
         </div>
@@ -1010,7 +1004,6 @@
         }
       }, 8000);
 
-      // ✅ Garantiza que Wavesurfer.js esté listo antes de usarlo
       if (typeof WaveSurfer === 'undefined') {
         console.warn('⚠️ Wavesurfer.js no cargó. Usa el reproductor nativo como fallback.');
       }
@@ -1064,37 +1057,32 @@
       alert('🎧 Generando segunda versión...\nCon tus ritmo, instrumentos y ambiente.');
     };
 
-   function simulateGeneration() {
-  document.getElementById('preview-section').style.display = 'block';
-  document.getElementById('preview-section').scrollIntoView({ behavior: 'smooth' });
+    function simulateGeneration() {
+      document.getElementById('preview-section').style.display = 'block';
+      document.getElementById('preview-section').scrollIntoView({ behavior: 'smooth' });
 
-  const player = document.getElementById('preview-audio');
-  const status = document.getElementById('audio-status');
+      const player = document.getElementById('preview-audio');
+      const status = document.getElementById('audio-status');
 
-  // Obtiene selecciones del usuario
-  const r = document.querySelector('.rhythm-btn.active')?.textContent || 'Salsa';
-  const a = document.querySelector('.ambience-btn.active')?.dataset.ambience || 'cinematic';
+      const r = document.querySelector('.rhythm-btn.active')?.textContent || 'Salsa';
+      const a = document.querySelector('.ambience-btn.active')?.dataset.ambience || 'cinematic';
 
-  // ✅ URLs públicas, sin CORS, 100% funcionales
-  let url = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
-  if (r.includes('Selva') || a === 'jungle') 
-    url = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3';
-  else if (r.includes('Bossa') || r.includes('Samba')) 
-    url = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3';
-  else if (r.includes('Tango')) 
-    url = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3';
+      let url = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
+      if (r.includes('Selva') || a === 'jungle') 
+        url = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3';
+      else if (r.includes('Bossa') || r.includes('Samba')) 
+        url = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3';
+      else if (r.includes('Tango')) 
+        url = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3';
 
-  // ✅ Solo CARGA el audio — NO reproduce
-  player.src = url;
-  player.load();
+      player.src = url;
+      player.load();
 
-  // Mensaje claro
-  status.textContent = `🎧 Listo: ${r} · ${a.charAt(0).toUpperCase() + a.slice(1)}. Haz clic en ▶️ para escuchar.`;
+      status.textContent = `🎧 Listo: ${r} · ${a.charAt(0).toUpperCase() + a.slice(1)}. Haz clic en ▶️ para escuchar.`;
 
-  // Actualiza guion (sin cambios)
-  const rhythm = r || 'Salsa';
-  const ambience = a ? a.charAt(0).toUpperCase() + a.slice(1) : 'Cinematográfico';
-  document.getElementById('score-preview-container').innerHTML = `
+      const rhythm = r || 'Salsa';
+      const ambience = a ? a.charAt(0).toUpperCase() + a.slice(1) : 'Cinematográfico';
+      document.getElementById('score-preview-container').innerHTML = `
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" width="100%" height="220">
   <rect width="100%" height="100%" fill="#fdfdfd" rx="6"/>
   <g transform="translate(15,50)">
@@ -1104,7 +1092,7 @@
     <text x="0" y="74" font-size="10" fill="#64748b">Guion para arreglista — Nebulaudio</text>
   </g>
 </svg>`;
-}
+    }
 
     function showModal(id) {
       document.getElementById(id).style.display = 'flex';
