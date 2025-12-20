@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Nebulaudio — Música Original con IA, en segundos</title>
   <meta name="description" content="Crea música única para YouTube, TikTok, podcasts o streamings. ¡O una canción completa con voz IA + instrumental para grabar tú! Sin derechos, MP3 + PDF + stems.">
-  <!-- ✅ Wavesurfer.js ELIMINADO -->
+  <!-- ✅ Wavesurfer.js corregido: SIN espacios -->
+  <script src="https://unpkg.com/wavesurfer.js@7/dist/wavesurfer.js"></script>
   <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&components=buttons" async></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
@@ -420,59 +421,13 @@
       margin-bottom: 0.8rem;
       font-size: 1.1rem;
     }
-
-    /* ✅ NUEVO: Estilos para reproductor personalizado */
-    .custom-player {
-      margin: 1rem 0;
-      background: rgba(0,0,0,0.15);
-      border-radius: 12px;
-      padding: 0.8rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+    #waveform {
+      width: 100%;
+      height: 70px;
+      background: rgba(0,0,0,0.2);
+      border-radius: 8px;
+      margin: 0.4rem 0;
     }
-    .player-ui {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 10px;
-    }
-    .player-btn {
-      background: var(--pro);
-      color: white;
-      border: none;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      font-size: 16px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .player-btn:hover { background: #0d9a6d; }
-    .volume-slider {
-      width: 100px;
-      -webkit-appearance: none;
-      height: 4px;
-      background: #333;
-      border-radius: 2px;
-    }
-    .volume-slider::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: var(--pro);
-      cursor: pointer;
-    }
-    #time-display {
-      font-size: 0.8rem;
-      opacity: 0.8;
-      min-width: 80px;
-      text-align: center;
-    }
-
     #score-preview-container {
       margin: 0 auto;
       border: 1px solid rgba(139, 92, 246, 0.3);
@@ -640,6 +595,10 @@
     }
     .footer a { color: var(--accent2); text-decoration: none; }
     .footer a:hover { text-decoration: underline; }
+    .preview-player-box {
+  margin: 0.8rem 0;
+  padding: 0.6rem 0;
+}
   </style>
 </head>
 <body>
@@ -680,21 +639,21 @@
         <div class="example-card">
           <h3>Intro Salsa</h3>
           <audio controls class="example-audio">
-            <source src="https://nebulaudio-demo.s3.amazonaws.com/demo-youtube-intro-15s.mp3" type="audio/mpeg">
+            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
           </audio>
           <a href="#" class="example-download">⏬ Descargar demo</a>
         </div>
         <div class="example-card">
           <h3>Selva + Cinematográfico</h3>
           <audio controls class="example-audio">
-            <source src="https://nebulaudio-demo.s3.amazonaws.com/demo-podcast-bg-15s.mp3" type="audio/mpeg">
+            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
           </audio>
           <a href="#" class="example-download">⏬ Descargar demo</a>
         </div>
         <div class="example-card">
           <h3>Dueto Bossa Nova</h3>
           <audio controls class="example-audio">
-            <source src="https://nebulaudio-demo.s3.amazonaws.com/demo-vocal-ia-30s.mp3" type="audio/mpeg">
+            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" type="audio/mpeg">
           </audio>
           <a href="#" class="example-download">⏬ Escuchar demo</a>
         </div>
@@ -910,18 +869,10 @@
       <div class="preview-grid">
         <div class="preview-audio">
           <h3>Audio completo (ritmo + instrumentos + ambiente)</h3>
-          <!-- ✅ NUEVO: Reproductor personalizado -->
-          <div class="custom-player">
-            <div class="player-ui">
-              <button id="play-btn" class="player-btn">▶️</button>
-              <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="1" class="volume-slider">
-              <span id="time-display">0:00 / 0:00</span>
-            </div>
-            <!-- Audio oculto -->
-            <audio id="hidden-audio" preload="metadata"></audio>
-          </div>
-          <p style="font-size:0.81rem; opacity:0.7;">✅ Versión sin marca al descargar</p>
-          <button id="compare-btn" class="btn-plan btn-express" style="margin-top:0.6rem; font-size:0.88rem;">
+          <div class="preview-player-box">
+  <audio id="preview-audio" controls style="width: 100%; max-width: 500px; background: #111; border-radius: 8px;"></audio>
+  <p id="audio-status" style="font-size: 0.85rem; opacity: 0.7; margin-top: 8px;">Selecciona opciones y haz clic en "Generar mi música"</p>
+</div>
             ↔️ Escuchar otra versión
           </button>
         </div>
@@ -1023,6 +974,7 @@
   </div>
   <script>
     let currentPlan = null;
+    let waveSurfer = null;
     let recentItems = [
       "Intro Salsa — 30s",
       "Meditación Selva — 2:15",
@@ -1057,6 +1009,11 @@
           c.appendChild(n);
         }
       }, 8000);
+
+      // ✅ Garantiza que Wavesurfer.js esté listo antes de usarlo
+      if (typeof WaveSurfer === 'undefined') {
+        console.warn('⚠️ Wavesurfer.js no cargó. Usa el reproductor nativo como fallback.');
+      }
     });
 
     document.getElementById('quick-generate-btn').onclick = () => {
@@ -1107,70 +1064,47 @@
       alert('🎧 Generando segunda versión...\nCon tus ritmo, instrumentos y ambiente.');
     };
 
-    // ✅ NUEVA FUNCIÓN: reproductor seguro y funcional
-    function simulateGeneration() {
-      document.getElementById('preview-section').style.display = 'block';
-      document.getElementById('preview-section').scrollIntoView({ behavior: 'smooth' });
+   function simulateGeneration() {
+  document.getElementById('preview-section').style.display = 'block';
+  document.getElementById('preview-section').scrollIntoView({ behavior: 'smooth' });
 
-      const audio = document.getElementById('hidden-audio');
-      const playBtn = document.getElementById('play-btn');
-      const timeDisplay = document.getElementById('time-display');
-      const volumeSlider = document.getElementById('volume-slider');
+  const player = document.getElementById('preview-audio');
+  const status = document.getElementById('audio-status');
 
-      // Obtiene selecciones del usuario
-      const rhythm = document.querySelector('.rhythm-btn.active')?.textContent || 'Salsa';
-      const ambience = document.querySelector('.ambience-btn.active')?.dataset.ambience || 'cinematic';
+  // Obtiene selecciones del usuario
+  const r = document.querySelector('.rhythm-btn.active')?.textContent || 'Salsa';
+  const a = document.querySelector('.ambience-btn.active')?.dataset.ambience || 'cinematic';
 
-      // ✅ URLs públicas y funcionales (bucket: nebulaudio-demo)
-      let url = 'https://nebulaudio-demo.s3.amazonaws.com/demo-youtube-intro-15s.mp3';
-      if (rhythm.includes('Selva') || ambience === 'jungle') 
-        url = 'https://nebulaudio-demo.s3.amazonaws.com/demo-podcast-bg-15s.mp3';
-      else if (rhythm.includes('Bossa') || rhythm.includes('Samba')) 
-        url = 'https://nebulaudio-demo.s3.amazonaws.com/demo-vocal-ia-30s.mp3';
+  // ✅ URLs públicas, sin CORS, 100% funcionales
+  let url = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
+  if (r.includes('Selva') || a === 'jungle') 
+    url = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3';
+  else if (r.includes('Bossa') || r.includes('Samba')) 
+    url = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3';
+  else if (r.includes('Tango')) 
+    url = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3';
 
-      // Carga el audio oculto
-      audio.src = url;
-      audio.load();
+  // ✅ Solo CARGA el audio — NO reproduce
+  player.src = url;
+  player.load();
 
-      // Controles personalizados
-      playBtn.innerHTML = '▶️';
-      playBtn.onclick = () => {
-        if (audio.paused) {
-          audio.play().catch(e => console.warn('Autoplay bloqueado'));
-          playBtn.innerHTML = '⏸️';
-        } else {
-          audio.pause();
-          playBtn.innerHTML = '▶️';
-        }
-      };
+  // Mensaje claro
+  status.textContent = `🎧 Listo: ${r} · ${a.charAt(0).toUpperCase() + a.slice(1)}. Haz clic en ▶️ para escuchar.`;
 
-      audio.onplay = () => playBtn.innerHTML = '⏸️';
-      audio.onpause = () => playBtn.innerHTML = '▶️';
-      volumeSlider.oninput = () => { audio.volume = volumeSlider.value; };
-      audio.ontimeupdate = () => {
-        const now = new Date(audio.currentTime * 1000).toISOString().substr(14, 5);
-        const total = new Date(audio.duration * 1000).toISOString().substr(14, 5);
-        timeDisplay.textContent = `${now} / ${total}`;
-      };
-      audio.onloadedmetadata = () => {
-        const total = new Date(audio.duration * 1000).toISOString().substr(14, 5);
-        timeDisplay.textContent = `0:00 / ${total}`;
-      };
-
-      // Actualiza guion (sin cambios)
-      const rhythmLabel = rhythm || 'Salsa';
-      const ambienceLabel = ambience.charAt(0).toUpperCase() + ambience.slice(1);
-      document.getElementById('score-preview-container').innerHTML = `
+  // Actualiza guion (sin cambios)
+  const rhythm = r || 'Salsa';
+  const ambience = a ? a.charAt(0).toUpperCase() + a.slice(1) : 'Cinematográfico';
+  document.getElementById('score-preview-container').innerHTML = `
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" width="100%" height="220">
   <rect width="100%" height="100%" fill="#fdfdfd" rx="6"/>
   <g transform="translate(15,50)">
     <text x="0" y="0" font-family="serif" font-size="14" fill="#222">Melodía: Sol - La - Si - Do</text>
     <text x="0" y="25" font-family="monospace" font-size="16" fill="#10b981">C   | G   | Am  | F</text>
-    <text x="0" y="50" font-size="12" fill="#8b5cf6">${rhythmLabel} · ${ambienceLabel}</text>
+    <text x="0" y="50" font-size="12" fill="#8b5cf6">${rhythm} · ${ambience}</text>
     <text x="0" y="74" font-size="10" fill="#64748b">Guion para arreglista — Nebulaudio</text>
   </g>
 </svg>`;
-    }
+}
 
     function showModal(id) {
       document.getElementById(id).style.display = 'flex';
