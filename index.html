@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Nebulaudio — Música Original con IA, en segundos</title>
   <meta name="description" content="Crea música única para YouTube, TikTok, podcasts o streamings. ¡O una canción completa con voz IA + instrumental para grabar tú! Sin derechos, MP3 + PDF + stems.">
-  <script src="https://unpkg.com/wavesurfer.js@7/dist/wavesurfer.js"></script>
+  <!-- ✅ Wavesurfer.js ELIMINADO -->
   <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&components=buttons" async></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
@@ -54,7 +54,6 @@
       margin: 0 auto;
       padding: 0.8rem 0.5rem;
     }
-
     .logo-top {
       margin: 1.2rem 0;
     }
@@ -79,7 +78,6 @@
       max-width: 580px;
       line-height: 1.5;
     }
-
     .social-proof {
       background: rgba(10, 10, 20, 0.4);
       border-radius: 16px;
@@ -89,7 +87,6 @@
       font-size: 0.95rem;
       color: var(--accent);
     }
-
     .quick-mode {
       background: var(--bg-card);
       backdrop-filter: blur(10px);
@@ -135,7 +132,6 @@
       opacity: 0.7;
       margin-top: 0.5rem;
     }
-
     .recent-section {
       margin: 1.2rem 0;
       background: rgba(10,10,20,0.3);
@@ -163,7 +159,6 @@
       opacity: 0.6;
       display: block;
     }
-
     .examples {
       margin: 1.3rem 0;
     }
@@ -202,7 +197,6 @@
       text-decoration: none;
       margin-top: 0.35rem;
     }
-
     .card {
       background: var(--bg-card);
       backdrop-filter: blur(12px);
@@ -216,14 +210,12 @@
       margin-bottom: 1.3rem;
       font-size: 1.55rem;
     }
-
     .form-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
       gap: 0.9rem;
       margin-bottom: 1.1rem;
     }
-
     .form-group label {
       display: block;
       text-align: left;
@@ -242,7 +234,6 @@
       font-size: 0.98rem;
     }
     textarea { min-height: 75px; resize: vertical; }
-
     /* ✅ RITMOS */
     .rhythm-categories {
       display: flex;
@@ -281,7 +272,6 @@
       background: rgba(139,92,246,0.2);
       border-color: var(--accent2);
     }
-
     /* ✅ INSTRUMENTOS POR FAMILIA — VISIBLE, PERMANENTE, SIN TOGGLE */
     .instr-sections {
       display: flex;
@@ -344,7 +334,6 @@
       width: 14px;
       height: 14px;
     }
-
     /* ✅ AMBIENTE */
     .ambience-grid {
       display: grid;
@@ -368,7 +357,6 @@
       border-color: var(--highlight);
       color: white;
     }
-
     /* ✅ VIBE, TEXTURAS, DÉCADA, VOCES */
     .vibe-grid, .texture-grid, .decade-grid, .vocal-grid {
       display: grid;
@@ -379,7 +367,6 @@
     .texture-grid { grid-template-columns: repeat(auto-fit, minmax(140px,1fr)); }
     .decade-grid { grid-template-columns: repeat(auto-fit, minmax(83px,1fr)); }
     .vocal-grid { grid-template-columns: repeat(auto-fit, minmax(122px,1fr)); }
-
     .vibe-btn, .texture-btn, .decade-btn, .vocal-btn, .ambience-btn {
       background: rgba(30,30,50,0.7);
       border-radius: 12px;
@@ -390,12 +377,10 @@
       transition: all 0.2s;
       text-align: center;
     }
-
     .vibe-btn:hover, .vibe-btn.active { background: rgba(139,92,246,0.2); border: 1px solid var(--accent2); color: white; }
     .texture-btn:hover, .texture-btn.active { background: rgba(16,185,129,0.2); border: 1px solid var(--pro); color: white; }
     .decade-btn:hover, .decade-btn.active { background: rgba(59,130,246,0.2); border: 1px solid #3b82f6; color: white; }
     .vocal-btn:hover, .vocal-btn.active { background: rgba(236,72,153,0.2); border: 1px solid #ec4899; color: white; }
-
     #vocal-section { 
       margin-top: 1.2rem; 
       padding-top: 1rem; 
@@ -412,7 +397,6 @@
       text-align: left;
     }
     .karaoke-highlight { color: var(--highlight); }
-
     .preview-section { display: none; }
     .preview-grid {
       display: grid;
@@ -426,7 +410,6 @@
       .form-grid, .vibe-grid, .texture-grid, .ambience-grid, .vocal-grid, .decade-grid, 
       .rhythm-buttons, .instr-subgroup { grid-template-columns: 1fr; }
     }
-
     .preview-audio, .preview-score {
       background: rgba(10, 10, 20, 0.5);
       border-radius: 16px;
@@ -437,13 +420,59 @@
       margin-bottom: 0.8rem;
       font-size: 1.1rem;
     }
-    #waveform {
-      width: 100%;
-      height: 70px;
-      background: rgba(0,0,0,0.2);
-      border-radius: 8px;
-      margin: 0.4rem 0;
+
+    /* ✅ NUEVO: Estilos para reproductor personalizado */
+    .custom-player {
+      margin: 1rem 0;
+      background: rgba(0,0,0,0.15);
+      border-radius: 12px;
+      padding: 0.8rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
+    .player-ui {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .player-btn {
+      background: var(--pro);
+      color: white;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .player-btn:hover { background: #0d9a6d; }
+    .volume-slider {
+      width: 100px;
+      -webkit-appearance: none;
+      height: 4px;
+      background: #333;
+      border-radius: 2px;
+    }
+    .volume-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--pro);
+      cursor: pointer;
+    }
+    #time-display {
+      font-size: 0.8rem;
+      opacity: 0.8;
+      min-width: 80px;
+      text-align: center;
+    }
+
     #score-preview-container {
       margin: 0 auto;
       border: 1px solid rgba(139, 92, 246, 0.3);
@@ -451,10 +480,8 @@
       background: white;
       max-width: 380px;
     }
-
     #plans-section { display: none; animation: fadeIn 0.4s; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
     .plans {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
@@ -479,7 +506,6 @@
       box-shadow: 0 0 20px rgba(16,185,129,0.15);
     }
     .plan.studio { border: 2px solid var(--studio); background: rgba(139, 92, 246, 0.08); }
-
     .best-value-badge {
       position: absolute;
       top: -9px;
@@ -492,7 +518,6 @@
       border-radius: 20px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     }
-
     .plan h3 {
       font-size: 1.26rem;
       margin-bottom: 0.3rem;
@@ -505,13 +530,11 @@
     .express .price { color: var(--express); }
     .pro .price { color: var(--pro); }
     .studio .price { color: var(--studio); }
-
     .subtext {
       font-size: 0.81rem;
       opacity: 0.8;
       margin-bottom: 0.8rem;
     }
-
     .features {
       list-style: none;
       margin: 0.8rem 0;
@@ -532,7 +555,6 @@
       content: '⚠️';
       color: var(--error);
     }
-
     .btn-plan {
       width: 100%;
       padding: 0.65rem;
@@ -554,11 +576,9 @@
       box-shadow: 0 4px 12px rgba(16,185,129,0.3);
     }
     .btn-studio { background: var(--studio); color: white; }
-
     #status { margin: 1rem 0; min-height: 20px; font-weight: 500; font-size: 0.91rem; }
     .status-success { color: var(--pro); }
     .status-error { color: var(--error); }
-
     .modal {
       display: none;
       position: fixed;
@@ -612,7 +632,6 @@
       opacity: 0.7;
     }
     .close-modal:hover { opacity: 1; }
-
     .footer {
       margin-top: 2rem;
       font-size: 0.76rem;
@@ -629,12 +648,10 @@
       <img src="https://i.postimg.cc/x1F9B5YQ/logo-nebulaudio.png" class="logo-img" alt="Nebulaudio">
       <h1>Nebulaudio</h1>
       <p>Música original para tus videos, podcasts y streams. ¡O una canción completa con voz IA + instrumental para grabar tú!</p>
-      
       <div class="social-proof">
         🌟 <strong>14.200+</strong> creadores usan Nebulaudio este mes
       </div>
     </div>
-
     <div class="quick-mode">
       <h2>🚀 ¿Quieres música YA?</h2>
       <div>
@@ -649,7 +666,6 @@
         Usa presets profesionales. ¡Perfecto para no músicos!
       </p>
     </div>
-
     <div class="recent-section">
       <h3>🎧 Recién creados (últimos 10 min)</h3>
       <div class="recent-grid" id="recent-creations">
@@ -658,37 +674,34 @@
         <div class="recent-item">"Dueto Bolero '50s" — 3:00 <small>Studio</small></div>
       </div>
     </div>
-
     <div class="examples">
       <h2>🎧 Escucha ejemplos reales (con marca)</h2>
       <div class="examples-grid">
         <div class="example-card">
           <h3>Intro Salsa</h3>
           <audio controls class="example-audio">
-            <source src="https://nebulaudio-demo.s3.amazonaws.com/demo-salsa-15s.mp3" type="audio/mpeg">
+            <source src="https://nebulaudio-demo.s3.amazonaws.com/demo-youtube-intro-15s.mp3" type="audio/mpeg">
           </audio>
           <a href="#" class="example-download">⏬ Descargar demo</a>
         </div>
         <div class="example-card">
           <h3>Selva + Cinematográfico</h3>
           <audio controls class="example-audio">
-            <source src="https://nebulaudio-demo.s3.amazonaws.com/demo-selva-cinematic-20s.mp3" type="audio/mpeg">
+            <source src="https://nebulaudio-demo.s3.amazonaws.com/demo-podcast-bg-15s.mp3" type="audio/mpeg">
           </audio>
           <a href="#" class="example-download">⏬ Descargar demo</a>
         </div>
         <div class="example-card">
           <h3>Dueto Bossa Nova</h3>
           <audio controls class="example-audio">
-            <source src="https://nebulaudio-demo.s3.amazonaws.com/demo-dueto-bossa-30s.mp3" type="audio/mpeg">
+            <source src="https://nebulaudio-demo.s3.amazonaws.com/demo-vocal-ia-30s.mp3" type="audio/mpeg">
           </audio>
           <a href="#" class="example-download">⏬ Escuchar demo</a>
         </div>
       </div>
     </div>
-
     <div class="card" id="form-section">
       <h2>🎨 Personaliza tu música</h2>
-
       <div class="form-grid">
         <div class="form-group">
           <label for="duration">Duración</label>
@@ -699,7 +712,6 @@
             <option value="180">3 minutos</option>
           </select>
         </div>
-
         <div class="form-group">
           <label for="tempo">Energía</label>
           <select id="tempo">
@@ -708,7 +720,6 @@
             <option value="fast">Energética</option>
           </select>
         </div>
-
         <div class="form-group">
           <label for="emotion">Estilo</label>
           <select id="emotion">
@@ -719,7 +730,6 @@
           </select>
         </div>
       </div>
-
       <!-- ✅ RITMOS -->
       <div class="form-group">
         <label>Ritmos <small>(estructura rítmica)</small></label>
@@ -766,7 +776,6 @@
           </div>
         </div>
       </div>
-
       <!-- ✅ INSTRUMENTOS POR FAMILIA — VISIBLE Y PERMANENTE -->
       <div class="form-group">
         <label>Instrumentos por familia <small>(elige los que suenen)</small></label>
@@ -792,7 +801,6 @@
               </div>
             </div>
           </div>
-
           <div class="instr-section">
             <h3>🌬️ Vientos Madera</h3>
             <div class="instr-subgroup">
@@ -804,7 +812,6 @@
               </div>
             </div>
           </div>
-
           <div class="instr-section">
             <h3>🎺 Vientos Metal</h3>
             <div class="instr-subgroup">
@@ -815,7 +822,6 @@
               </div>
             </div>
           </div>
-
           <div class="instr-section">
             <h3>🥁 Percusión</h3>
             <div class="instr-subgroup">
@@ -832,7 +838,6 @@
           ✅ Combina familias. Ej: Cuerdas + Vientos Madera = sonido orquestal suave.
         </p>
       </div>
-
       <!-- ✅ AMBIENTE -->
       <div class="form-group">
         <label>Ambiente <small>(sonido de fondo)</small></label>
@@ -847,7 +852,6 @@
           <button class="ambience-btn" data-ambience="jungle">Selva</button>
         </div>
       </div>
-
       <div class="form-group">
         <label>Vibe (color emocional)</label>
         <div class="vibe-grid">
@@ -857,7 +861,6 @@
           <button class="vibe-btn" data-vibe="calm" data-tonality="F">Calmado</button>
         </div>
       </div>
-
       <div class="form-group">
         <label>Texturas</label>
         <div class="texture-grid">
@@ -866,7 +869,6 @@
           <button class="texture-btn" data-texture="urban">Urbano 🏙️</button>
         </div>
       </div>
-
       <div class="form-group">
         <label>Estilo: Década</label>
         <div class="decade-grid">
@@ -885,7 +887,6 @@
           Define armonías, instrumentación y groove de la época.
         </p>
       </div>
-
       <div class="form-group">
         <label>Voces <small>(Studio)</small></label>
         <div class="vocal-grid">
@@ -896,23 +897,29 @@
           <button class="vocal-btn" data-vocal="choir">Grupo Coral</button>
         </div>
       </div>
-
       <div class="form-group">
         <label for="concept">¿Algo específico? <small>(opcional)</small></label>
         <textarea id="concept" placeholder="Ej: 'más eco en la selva', 'sonido de tren lejano', 'vibrato tipo Sinatra'"></textarea>
       </div>
-
       <button id="generate-btn" class="btn-plan btn-pro" style="margin-top:1.1rem;">
         🎵 Generar mi música
       </button>
     </div>
-
     <div class="card preview-section" id="preview-section">
       <h2>🎧 Tu música está lista</h2>
       <div class="preview-grid">
         <div class="preview-audio">
           <h3>Audio completo (ritmo + instrumentos + ambiente)</h3>
-          <div id="waveform"></div>
+          <!-- ✅ NUEVO: Reproductor personalizado -->
+          <div class="custom-player">
+            <div class="player-ui">
+              <button id="play-btn" class="player-btn">▶️</button>
+              <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="1" class="volume-slider">
+              <span id="time-display">0:00 / 0:00</span>
+            </div>
+            <!-- Audio oculto -->
+            <audio id="hidden-audio" preload="metadata"></audio>
+          </div>
           <p style="font-size:0.81rem; opacity:0.7;">✅ Versión sin marca al descargar</p>
           <button id="compare-btn" class="btn-plan btn-express" style="margin-top:0.6rem; font-size:0.88rem;">
             ↔️ Escuchar otra versión
@@ -928,7 +935,6 @@
         ⬇️ Descargar MP3 + PDF
       </button>
     </div>
-
     <div class="card" id="plans-section">
       <h2>🔒 Elige el plan que se adapta a tu necesidad creativa</h2>
       <div class="plans">
@@ -948,7 +954,6 @@
             <input type="image" src="https://www.paypalobjects.com/es_ES/ES/i/btn/btn_buynow_LG.gif" border="0" name="submit" alt="PayPal" class="btn-plan btn-express">
           </form>
         </div>
-
         <div class="plan pro">
           <div class="best-value-badge">MÁS ELEGIDO</div>
           <h3>Pro</h3>
@@ -967,7 +972,6 @@
             <input type="image" src="https://www.paypalobjects.com/es_ES/ES/i/btn/btn_subscribe_LG.gif" border="0" name="submit" alt="PayPal" class="btn-plan btn-pro">
           </form>
         </div>
-
         <div class="plan studio">
           <h3>Studio</h3>
           <div class="price">$12</div>
@@ -987,7 +991,6 @@
         </div>
       </div>
     </div>
-
     <div id="email-modal" class="modal">
       <div class="modal-content">
         <span class="close-modal" onclick="closeModal('email-modal')">✕</span>
@@ -999,7 +1002,6 @@
         <button class="btn-modal" style="background:var(--pro); color:white;" onclick="processDownload()">✅ Descargar ahora</button>
       </div>
     </div>
-
     <div id="leds-modal" class="modal">
       <div class="modal-content">
         <span class="close-modal" onclick="closeModal('leds-modal')">✕</span>
@@ -1012,7 +1014,6 @@
         <button class="btn-modal" style="background:var(--studio); color:white;" onclick="submitLeds()">✅ Continuar al pago</button>
       </div>
     </div>
-
     <p class="footer">
       © 2025 Nebulaudio. Música original, sin derechos de autor.<br>
       Hecho para creadores digitales. 
@@ -1020,10 +1021,8 @@
       <a href="/terms">Términos</a>
     </p>
   </div>
-
   <script>
     let currentPlan = null;
-    let waveSurfer = null;
     let recentItems = [
       "Intro Salsa — 30s",
       "Meditación Selva — 2:15",
@@ -1033,7 +1032,6 @@
     ];
 
     document.addEventListener('DOMContentLoaded', () => {
-      // Single-select buttons
       const single = ['.vibe-btn', '.rhythm-btn', '.ambience-btn', '.vocal-btn', '.decade-btn'];
       single.forEach(sel => {
         document.querySelectorAll(sel).forEach(btn => {
@@ -1044,12 +1042,10 @@
         });
       });
 
-      // Multi-select (textures only)
       document.querySelectorAll('.texture-btn').forEach(btn => {
         btn.addEventListener('click', () => btn.classList.toggle('active'));
       });
 
-      // Recent creations rotation
       setInterval(() => {
         const c = document.getElementById('recent-creations');
         const items = c.querySelectorAll('.recent-item');
@@ -1064,7 +1060,7 @@
     });
 
     document.getElementById('quick-generate-btn').onclick = () => {
-      document.querySelector('.rhythm-btn').click(); // Salsa
+      document.querySelector('.rhythm-btn').click();
       document.querySelector('.ambience-btn[data-ambience="cinematic"]').click();
       document.querySelector('.vibe-btn[data-vibe="bright"]').click();
       document.querySelectorAll('.texture-btn').forEach(b => b.classList.remove('active'));
@@ -1102,90 +1098,103 @@
       simulateGeneration();
     };
 
-   document.getElementById('generate-btn').onclick = simulateGeneration;
-document.getElementById('download-btn').onclick = () => {
-  document.getElementById('plans-section').style.display = 'block';
-  document.getElementById('plans-section').scrollIntoView({ behavior: 'smooth' });
-};
-document.getElementById('compare-btn').onclick = () => {
-  alert('🎧 Generando segunda versión...\nCon tus ritmo, instrumentos y ambiente.');
-};
+    document.getElementById('generate-btn').onclick = simulateGeneration;
+    document.getElementById('download-btn').onclick = () => {
+      document.getElementById('plans-section').style.display = 'block';
+      document.getElementById('plans-section').scrollIntoView({ behavior: 'smooth' });
+    };
+    document.getElementById('compare-btn').onclick = () => {
+      alert('🎧 Generando segunda versión...\nCon tus ritmo, instrumentos y ambiente.');
+    };
 
-function simulateGeneration() {
-  document.getElementById('preview-section').style.display = 'block';
-  document.getElementById('preview-section').scrollIntoView({ behavior: 'smooth' });
+    // ✅ NUEVA FUNCIÓN: reproductor seguro y funcional
+    function simulateGeneration() {
+      document.getElementById('preview-section').style.display = 'block';
+      document.getElementById('preview-section').scrollIntoView({ behavior: 'smooth' });
 
-  if (waveSurfer) waveSurfer.destroy();
-  const w = document.getElementById('waveform');
-  w.innerHTML = '';
-  waveSurfer = WaveSurfer.create({
-    container: w,
-    waveColor: 'rgba(139, 92, 246, 0.4)',
-    progressColor: '#10b981',
-    barWidth: 1.6,
-    barGap: 0.6,
-    barRadius: 2,
-    height: 70,
-    responsive: true
-  });
+      const audio = document.getElementById('hidden-audio');
+      const playBtn = document.getElementById('play-btn');
+      const timeDisplay = document.getElementById('time-display');
+      const volumeSlider = document.getElementById('volume-slider');
 
-  // ✅ AUDIO REAL (URLs corregidas: sin espacios al final)
-  let url = 'https://nebulaudio-assets.s3.amazonaws.com/demo-salsa-cinematic-30s.mp3';
-  const r = document.querySelector('.rhythm-btn.active')?.textContent;
-  const a = document.querySelector('.ambience-btn.active')?.dataset.ambience;
+      // Obtiene selecciones del usuario
+      const rhythm = document.querySelector('.rhythm-btn.active')?.textContent || 'Salsa';
+      const ambience = document.querySelector('.ambience-btn.active')?.dataset.ambience || 'cinematic';
 
-  if (r?.includes('Selva') || a === 'jungle') 
-    url = 'https://nebulaudio-assets.s3.amazonaws.com/demo-selva-joropo-30s.mp3';
-  else if (r?.includes('Bossa') || r?.includes('Samba')) 
-    url = 'https://nebulaudio-assets.s3.amazonaws.com/demo-bossa-playa-30s.mp3';
-  else if (r?.includes('Tango')) 
-    url = 'https://nebulaudio-assets.s3.amazonaws.com/demo-tango-ciudad-30s.mp3';
+      // ✅ URLs públicas y funcionales (bucket: nebulaudio-demo)
+      let url = 'https://nebulaudio-demo.s3.amazonaws.com/demo-youtube-intro-15s.mp3';
+      if (rhythm.includes('Selva') || ambience === 'jungle') 
+        url = 'https://nebulaudio-demo.s3.amazonaws.com/demo-podcast-bg-15s.mp3';
+      else if (rhythm.includes('Bossa') || rhythm.includes('Samba')) 
+        url = 'https://nebulaudio-demo.s3.amazonaws.com/demo-vocal-ia-30s.mp3';
 
-  waveSurfer.load(url);
-  setTimeout(() => waveSurfer.play(), 800);
+      // Carga el audio oculto
+      audio.src = url;
+      audio.load();
 
-  const rhythm = r || 'Salsa';
-  const ambience = a ? a.charAt(0).toUpperCase() + a.slice(1) : 'Cinematográfico';
+      // Controles personalizados
+      playBtn.innerHTML = '▶️';
+      playBtn.onclick = () => {
+        if (audio.paused) {
+          audio.play().catch(e => console.warn('Autoplay bloqueado'));
+          playBtn.innerHTML = '⏸️';
+        } else {
+          audio.pause();
+          playBtn.innerHTML = '▶️';
+        }
+      };
 
-  document.getElementById('score-preview-container').innerHTML = `
+      audio.onplay = () => playBtn.innerHTML = '⏸️';
+      audio.onpause = () => playBtn.innerHTML = '▶️';
+      volumeSlider.oninput = () => { audio.volume = volumeSlider.value; };
+      audio.ontimeupdate = () => {
+        const now = new Date(audio.currentTime * 1000).toISOString().substr(14, 5);
+        const total = new Date(audio.duration * 1000).toISOString().substr(14, 5);
+        timeDisplay.textContent = `${now} / ${total}`;
+      };
+      audio.onloadedmetadata = () => {
+        const total = new Date(audio.duration * 1000).toISOString().substr(14, 5);
+        timeDisplay.textContent = `0:00 / ${total}`;
+      };
+
+      // Actualiza guion (sin cambios)
+      const rhythmLabel = rhythm || 'Salsa';
+      const ambienceLabel = ambience.charAt(0).toUpperCase() + ambience.slice(1);
+      document.getElementById('score-preview-container').innerHTML = `
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" width="100%" height="220">
   <rect width="100%" height="100%" fill="#fdfdfd" rx="6"/>
   <g transform="translate(15,50)">
     <text x="0" y="0" font-family="serif" font-size="14" fill="#222">Melodía: Sol - La - Si - Do</text>
     <text x="0" y="25" font-family="monospace" font-size="16" fill="#10b981">C   | G   | Am  | F</text>
-    <text x="0" y="50" font-size="12" fill="#8b5cf6">${rhythm} · ${ambience}</text>
+    <text x="0" y="50" font-size="12" fill="#8b5cf6">${rhythmLabel} · ${ambienceLabel}</text>
     <text x="0" y="74" font-size="10" fill="#64748b">Guion para arreglista — Nebulaudio</text>
   </g>
 </svg>`;
-}
+    }
 
-function showModal(id) {
-  document.getElementById(id).style.display = 'flex';
-  document.body.style.overflow = 'hidden';
-}
-
-function closeModal(id) {
-  document.getElementById(id).style.display = 'none';
-  document.body.style.overflow = '';
-}
-
-function processDownload() {
-  const e = document.getElementById('user-email').value;
-  if (!e || !e.includes('@')) return alert('⚠️ Email válido requerido.');
-  alert(`✅ ¡Listo!\nMP3 + PDF en ${e} en 2 minutos.`);
-  closeModal('email-modal');
-}
-
-function submitLeds() {
-  const e = document.getElementById('leds-email').value.trim();
-  if (!e || !e.includes('@')) return alert('⚠️ Email obligatorio.');
-  alert(`🎉 ¡Pago procesado!\nPlan activo. Acceso y guía en breve.`);
-  closeModal('leds-modal');
-}
-
-document.querySelectorAll('.modal').forEach(m => {
-  m.onclick = e => { if (e.target === m) closeModal(m.id); };
-});
+    function showModal(id) {
+      document.getElementById(id).style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal(id) {
+      document.getElementById(id).style.display = 'none';
+      document.body.style.overflow = '';
+    }
+    function processDownload() {
+      const e = document.getElementById('user-email').value;
+      if (!e || !e.includes('@')) return alert('⚠️ Email válido requerido.');
+      alert(`✅ ¡Listo!\nMP3 + PDF en ${e} en 2 minutos.`);
+      closeModal('email-modal');
+    }
+    function submitLeds() {
+      const e = document.getElementById('leds-email').value.trim();
+      if (!e || !e.includes('@')) return alert('⚠️ Email obligatorio.');
+      alert(`🎉 ¡Pago procesado!\nPlan activo. Acceso y guía en breve.`);
+      closeModal('leds-modal');
+    }
+    document.querySelectorAll('.modal').forEach(m => {
+      m.onclick = e => { if (e.target === m) closeModal(m.id); };
+    });
   </script>
 </body>
 </html>
