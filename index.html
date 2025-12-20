@@ -1102,47 +1102,52 @@
       simulateGeneration();
     };
 
-    document.getElementById('generate-btn').onclick = simulateGeneration;
-    document.getElementById('download-btn').onclick = () => {
-      document.getElementById('plans-section').style.display = 'block';
-      document.getElementById('plans-section').scrollIntoView({ behavior: 'smooth' });
-    };
-    document.getElementById('compare-btn').onclick = () => {
-      alert('🎧 Generando segunda versión...\nCon tus ritmo, instrumentos y ambiente.');
-    };
+   document.getElementById('generate-btn').onclick = simulateGeneration;
+document.getElementById('download-btn').onclick = () => {
+  document.getElementById('plans-section').style.display = 'block';
+  document.getElementById('plans-section').scrollIntoView({ behavior: 'smooth' });
+};
+document.getElementById('compare-btn').onclick = () => {
+  alert('🎧 Generando segunda versión...\nCon tus ritmo, instrumentos y ambiente.');
+};
 
-    function simulateGeneration() {
-      document.getElementById('preview-section').style.display = 'block';
-      document.getElementById('preview-section').scrollIntoView({ behavior: 'smooth' });
+function simulateGeneration() {
+  document.getElementById('preview-section').style.display = 'block';
+  document.getElementById('preview-section').scrollIntoView({ behavior: 'smooth' });
 
-      if (waveSurfer) waveSurfer.destroy();
-      const w = document.getElementById('waveform');
-      w.innerHTML = '';
-      waveSurfer = WaveSurfer.create({
-        container: w,
-        waveColor: 'rgba(139, 92, 246, 0.4)',
-        progressColor: '#10b981',
-        barWidth: 1.6,
-        barGap: 0.6,
-        barRadius: 2,
-        height: 70,
-        responsive: true
-      });
+  if (waveSurfer) waveSurfer.destroy();
+  const w = document.getElementById('waveform');
+  w.innerHTML = '';
+  waveSurfer = WaveSurfer.create({
+    container: w,
+    waveColor: 'rgba(139, 92, 246, 0.4)',
+    progressColor: '#10b981',
+    barWidth: 1.6,
+    barGap: 0.6,
+    barRadius: 2,
+    height: 70,
+    responsive: true
+  });
 
-      let url = 'https://nebulaudio-demo.s3.amazonaws.com/demo-salsa-cinematic-120s.mp3';
-      const r = document.querySelector('.rhythm-btn.active')?.textContent;
-      const a = document.querySelector('.ambience-btn.active')?.dataset.ambience;
+  // ✅ AUDIO REAL (URLs corregidas: sin espacios al final)
+  let url = 'https://nebulaudio-assets.s3.amazonaws.com/demo-salsa-cinematic-30s.mp3';
+  const r = document.querySelector('.rhythm-btn.active')?.textContent;
+  const a = document.querySelector('.ambience-btn.active')?.dataset.ambience;
 
-      if (r?.includes('Selva') || a === 'jungle') url = 'https://nebulaudio-demo.s3.amazonaws.com/demo-selva-joropo-120s.mp3';
-      else if (r?.includes('Bossa') || r?.includes('Samba')) url = 'https://nebulaudio-demo.s3.amazonaws.com/demo-bossa-playa-120s.mp3';
+  if (r?.includes('Selva') || a === 'jungle') 
+    url = 'https://nebulaudio-assets.s3.amazonaws.com/demo-selva-joropo-30s.mp3';
+  else if (r?.includes('Bossa') || r?.includes('Samba')) 
+    url = 'https://nebulaudio-assets.s3.amazonaws.com/demo-bossa-playa-30s.mp3';
+  else if (r?.includes('Tango')) 
+    url = 'https://nebulaudio-assets.s3.amazonaws.com/demo-tango-ciudad-30s.mp3';
 
-      waveSurfer.load(url);
-      setTimeout(() => waveSurfer.play(), 800);
+  waveSurfer.load(url);
+  setTimeout(() => waveSurfer.play(), 800);
 
-      const rhythm = r || 'Salsa';
-      const ambience = a ? a.charAt(0).toUpperCase() + a.slice(1) : 'Cinematográfico';
+  const rhythm = r || 'Salsa';
+  const ambience = a ? a.charAt(0).toUpperCase() + a.slice(1) : 'Cinematográfico';
 
-      document.getElementById('score-preview-container').innerHTML = `
+  document.getElementById('score-preview-container').innerHTML = `
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" width="100%" height="220">
   <rect width="100%" height="100%" fill="#fdfdfd" rx="6"/>
   <g transform="translate(15,50)">
@@ -1152,35 +1157,35 @@
     <text x="0" y="74" font-size="10" fill="#64748b">Guion para arreglista — Nebulaudio</text>
   </g>
 </svg>`;
-    }
+}
 
-    function showModal(id) {
-      document.getElementById(id).style.display = 'flex';
-      document.body.style.overflow = 'hidden';
-    }
+function showModal(id) {
+  document.getElementById(id).style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
 
-    function closeModal(id) {
-      document.getElementById(id).style.display = 'none';
-      document.body.style.overflow = '';
-    }
+function closeModal(id) {
+  document.getElementById(id).style.display = 'none';
+  document.body.style.overflow = '';
+}
 
-    function processDownload() {
-      const e = document.getElementById('user-email').value;
-      if (!e || !e.includes('@')) return alert('⚠️ Email válido requerido.');
-      alert(`✅ ¡Listo!\nMP3 + PDF en ${e} en 2 minutos.`);
-      closeModal('email-modal');
-    }
+function processDownload() {
+  const e = document.getElementById('user-email').value;
+  if (!e || !e.includes('@')) return alert('⚠️ Email válido requerido.');
+  alert(`✅ ¡Listo!\nMP3 + PDF en ${e} en 2 minutos.`);
+  closeModal('email-modal');
+}
 
-    function submitLeds() {
-      const e = document.getElementById('leds-email').value.trim();
-      if (!e || !e.includes('@')) return alert('⚠️ Email obligatorio.');
-      alert(`🎉 ¡Pago procesado!\nPlan activo. Acceso y guía en breve.`);
-      closeModal('leds-modal');
-    }
+function submitLeds() {
+  const e = document.getElementById('leds-email').value.trim();
+  if (!e || !e.includes('@')) return alert('⚠️ Email obligatorio.');
+  alert(`🎉 ¡Pago procesado!\nPlan activo. Acceso y guía en breve.`);
+  closeModal('leds-modal');
+}
 
-    document.querySelectorAll('.modal').forEach(m => {
-      m.onclick = e => { if (e.target === m) closeModal(m.id); };
-    });
+document.querySelectorAll('.modal').forEach(m => {
+  m.onclick = e => { if (e.target === m) closeModal(m.id); };
+});
   </script>
 </body>
 </html>
