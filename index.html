@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Nebulaudio — Música Humana, Libre de Derechos</title>
+<meta name="description" content="Biblioteca de música instrumental humana, libre de derechos, para creadores de YouTube, TikTok, Instagram y más. MP3 + PDF descargables.">
+<!-- ✅ SDK Express -->
+<script src="https://www.paypal.com/sdk/js?client-id=BAAPN_ogrYY1NsdzU_yczNdW31JvWKIEep6W_ZrfY9UxdZOX3G3tCR8YWU3U5_c1MOPhGabjU55VleyDww&components=hosted-buttons&disable-funding=venmo&currency=USD"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+--bg-dark: #0a0a14;
+--bg-card: rgba(18, 18, 32, 0.65);
+--border-glow: rgba(16, 185, 129, 0.4);
+--text-primary: #f0f0ff;
+--text-secondary: #a0a0c0;
+--accent: #10b981;
+--accent2: #8b5cf6;
+--express: #64748b;
+--pro: #10b981;
+--studio: #8b5cf6;
+}
+body {
+font-family: 'Inter', sans-serif;
+background: var(--bg-dark);
+color: var(--text-primary);
+min-height: 100vh;
+padding: 1rem;
+text-align: center;
+background-image:
+linear-gradient(rgba(10, 10, 20, 0.75), rgba(10, 10, 20, 0.85)),
+url('https://i.postimg.cc/4ywDV4xc/universo-nebulaudio.png');
+background-size: cover;
+background-attachment: fixed;
+background-position: center;
+position: relative;
+overflow-x: hidden;
+}
+body::before {
+content: '';
+position: absolute;
+top: 0; left: 0; width: 100%; height: 100%;
+background: radial-gradient(circle at 30% 20%, rgba(16, 185, 129, 0.08), transparent 40%),
+radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.06), transparent 50%);
+pointer-events: none;
+z-index: -1;
+}
+.container {
+max-width: 960px;
+margin: 0 auto;
+padding: 0.8rem 0.5rem;
+}
+.logo-img {
+height: 110px;
+filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.5));
+margin: 0 auto 0.8rem;
+}
+.logo-top h1 {
+font-size: 2rem;
+font-weight: 800;
+margin: 0.4rem 0;
+background: linear-gradient(90deg, #10b981, #8b5cf6);
+-webkit-background-clip: text;
+background-clip: text;
+color: transparent;
+}
+.logo-top p {
+font-size: 1.1rem;
+opacity: 0.85;
+margin: 0.5rem auto 1rem;
+max-width: 580px;
+line-height: 1.5;
+}
+.social-proof {
+background: rgba(10, 10, 20, 0.4);
+border-radius: 16px;
+padding: 0.7rem 1.1rem;
+margin: 0.7rem auto 1.2rem;
+max-width: 580px;
+font-size: 0.95rem;
+color: var(--accent);
+}
+.recent-section {
+margin: 1.2rem 0;
+background: rgba(10,10,20,0.3);
+border-radius: 16px;
+padding: 0.9rem;
+}
+.recent-section h3 {
+font-size: 1.15rem;
+margin-bottom: 0.7rem;
+color: var(--text-secondary);
+}
+.recent-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(170px,1fr));
+gap: 0.7rem;
+}
+.recent-item {
+background: rgba(20,20,40,0.4);
+border-radius: 10px;
+padding: 0.55rem;
+font-size: 0.78rem;
+text-align: left;
+}
+.examples {
+margin: 1.3rem 0;
+}
+.examples h2 {
+font-size: 1.45rem;
+margin-bottom: 1.1rem;
+}
+.examples-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+gap: 1.1rem;
+margin-top: 1rem;
+}
+.example-card {
+background: rgba(10, 10, 20, 0.4);
+border-radius: 16px;
+padding: 1.1rem;
+text-align: left;
+}
+.example-card h3 {
+font-size: 1rem;
+margin-bottom: 0.55rem;
+color: var(--text-primary);
+}
+.example-audio {
+width: 100%;
+margin: 0.55rem 0;
+}
+.card {
+background: var(--bg-card);
+backdrop-filter: blur(12px);
+border: 1px solid rgba(255, 255, 255, 0.08);
+border-radius: 20px;
+padding: 1.6rem;
+margin: 1.8rem 0;
+box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+.card h2 {
+margin-bottom: 1.3rem;
+font-size: 1.55rem;
+}
+.preview-section { display: none; }
+.preview-grid {
+display: grid;
+grid-template-columns: 1fr;
+gap: 1.3rem;
+margin: 1.3rem 0;
+}
+@media (min-width: 769px) {
+.preview-grid { grid-template-columns: 1fr 1fr; }
+}
+.preview-audio, .preview-score {
+background: rgba(10, 10, 20, 0.5);
+border-radius: 16px;
+padding: 1.3rem;
+text-align: center;
+}
+.preview-audio h3, .preview-score h3 {
+margin-bottom: 0.8rem;
+font-size: 1.1rem;
+}
+.preview-player-box {
+margin: 0.8rem 0;
+padding: 0.6rem 0;
+}
+.pdf-preview {
+width: 100%;
+height: 280px;
+border: none;
+border-radius: 8px;
+background: #f8f9fa;
+}
+.pdf-container {
+margin-top: 0.5rem;
+}
+.pdf-meta {
+font-size: 0.85rem;
+margin-top: 0.8rem;
+line-height: 1.5;
+}
+.pdf-meta p { margin: 0.3rem 0; }
+.pdf-meta .downloads { color: var(--accent); font-weight: 500; }
+.pdf-meta .license { color: #e11d48; font-size: 0.8rem; }
+
+#plans-section { display: none; }
+.plans {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+gap: 1.5rem;
+margin: 1.3rem 0;
+}
+.plan {
+background: var(--bg-card);
+backdrop-filter: blur(12px);
+border-radius: 20px;
+padding: 1.5rem 1.2rem;
+text-align: center;
+transition: transform 0.3s;
+border: 2px solid transparent;
+position: relative;
+}
+.plan:hover { transform: translateY(-4px); }
+.plan.express { border-color: var(--express); }
+.plan.pro {
+border: 2px solid var(--pro);
+background: rgba(16, 185, 129, 0.08);
+box-shadow: 0 0 20px rgba(16,185,129,0.15);
+}
+.plan.studio {
+border: 2px solid var(--studio);
+background: rgba(139, 92, 246, 0.08);
+}
+.plan h3 {
+font-size: 1.26rem;
+margin-bottom: 0.3rem;
+}
+.price {
+font-size: 1.6rem;
+font-weight: 700;
+margin: 0.3rem 0;
+}
+.express .price { color: var(--express); }
+.pro .price { color: var(--pro); }
+.studio .price { color: var(--studio); }
+.subtext {
+font-size: 0.85rem;
+opacity: 0.8;
+margin-bottom: 0.8rem;
+}
+.features {
+list-style: none;
+margin: 0.8rem 0;
+text-align: left;
+font-size: 0.9rem;
+}
+.features li {
+margin: 0.4rem 0;
+opacity: 0.88;
+}
+.features li::before {
+content: '✓';
+color: var(--accent);
+margin-right: 0.5rem;
+font-weight: bold;
+}
+.features li.warn::before {
+content: '⚠️';
+color: var(--error);
+}
+.coming-soon {
+background: rgba(100, 116, 139, 0.15);
+color: var(--accent2);
+padding: 0.7rem 0.5rem;
+border-radius: 10px;
+font-size: 0.85rem;
+margin-top: 0.8rem;
+font-weight: 600;
+}
+.btn-plan {
+width: 100%;
+padding: 0.7rem;
+border-radius: 12px;
+font-weight: 600;
+cursor: pointer;
+margin-top: 0.6rem;
+border: none;
+font-size: 0.93rem;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 0.5rem;
+}
+.btn-express {
+background: linear-gradient(135deg, var(--pro), #0d9a6d);
+color: white;
+box-shadow: 0 4px 12px rgba(16,185,129,0.3);
+}
+.footer {
+margin-top: 2rem;
+font-size: 0.76rem;
+opacity: 0.6;
+line-height: 1.5;
+}
+.footer a { color: var(--accent2); text-decoration: none; }
+.footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="container">
+<div class="logo-top">
+  <img src="https://i.postimg.cc/x1F9B5YQ/logo-nebulaudio.png" class="logo-img" alt="Nebulaudio">
+  <h1>Nebulaudio</h1>
+  <p>Música instrumental humana, libre de derechos, para creadores digitales.<br>MP3 + Partitura PDF descargables. Todo por $1.50.</p>
+  
+  <div class="social-proof">
+    🎼 <strong>Bienvenidos, compositores y creadores de contenido.</strong><br>
+    Por favor, toma un momento para leer nuestros principios:<br>
+    <a href="estatutos-nebulaudio.html" style="color:#10b981; text-decoration:underline; font-weight:600;">
+      📜 Estatutos Nebulaudio — Human Composition
+    </a>
+  </div>
+</div>
+
+<div class="recent-section">
+<h3>🎧 Recién agregados (Beta)</h3>
+<div class="recent-grid">
+<div class="recent-item">"Bastián" — 68s</div>
+<div class="recent-item">"Carabobo-22" — 74s</div>
+<div class="recent-item">"Desolación" — 81s</div>
+<div class="recent-item">"Kraloka" — 85s</div>
+</div>
+</div>
+
+<div class="examples">
+<h2>🎧 Escucha ejemplos reales</h2>
+<div class="examples-grid">
+<div class="example-card">
+<h3>Bastián</h3>
+<audio controls controlsList="nodownload" class="example-audio">
+<source src="audios/bastian.mp3" type="audio/mpeg">
+</audio>
+</div>
+<div class="example-card">
+<h3>Desolación</h3>
+<audio controls controlsList="nodownload" class="example-audio">
+<source src="audios/desolacion.mp3" type="audio/mpeg">
+</audio>
+</div>
+<div class="example-card">
+<h3>Navío</h3>
+<audio controls controlsList="nodownload" class="example-audio">
+<source src="audio/navio.mp3" type="audio/mpeg">
+</audio>
+</div>
+</div>
+</div>
+
+<button id="generate-btn" class="btn-plan btn-express" style="margin: 1.2rem auto; width: fit-content; padding: 0.85rem 1.6rem; font-size: 1.1rem;">
+🎵 Explorar música humana
+</button>
+
+<div class="card preview-section" id="preview-section">
+<h2>🎧 Tu pieza está lista</h2>
+<div class="preview-grid">
+<div class="preview-audio">
+<h3>Audio completo</h3>
+<div class="preview-player-box">
+<audio id="preview-audio" controls controlsList="nodownload" style="width: 100%; max-width: 500px; background: #111; border-radius: 8px;"></audio>
+<div id="audio-controls" style="display:flex; justify-content:center; align-items:center; gap:12px; margin-top:8px; font-size:0.85rem; opacity:0.7;">
+  <span id="audio-status">Selecciona una pieza humana</span>
+  <button id="save-btn" class="btn-plan" style="padding:4px 10px; font-size:0.75rem; background:#334155; display:none;">
+    ✚ Guardar
+  </button>
+</div>
+</div>
+<button id="compare-btn" class="btn-plan btn-express" style="margin-top:0.6rem; font-size:0.88rem;">
+↔️ Escuchar otra obra
+</button>
+
+<!-- Selección múltiple -->
+<div id="selection-bar" style="margin-top:1.2rem; display:none;">
+  <h3 style="font-size:1.05rem; margin-bottom:0.7rem; color:var(--text-secondary);">
+    🎵 Obras guardadas (<span id="selection-count">0</span>/3)
+  </h3>
+  <div id="selection-list" style="display:flex; flex-wrap:wrap; gap:0.6rem; justify-content:center;"></div>
+</div>
+</div>
+<div class="preview-score">
+<h3>📄 Partitura (PDF)</h3>
+<div class="pdf-container">
+<iframe id="pdf-preview" src="" class="pdf-preview" frameborder="0"
+        scrolling="no"
+        onload="this.contentWindow?.focus?.()"></iframe>
+</div>
+<div class="pdf-meta">
+<p><strong>Título:</strong> <span id="pdf-title">—</span></p>
+<p><strong>Compositor:</strong> <span id="pdf-composer">—</span></p>
+<p><strong>Duración:</strong> <span id="pdf-duration">—</span></p>
+<p class="downloads">⏬ Descargado <span id="pdf-downloads">0</span> veces</p>
+<p class="license">
+<small>Derechos conexos cedidos. Derechos de autor reservados.</small>
+</p>
+</div>
+</div>
+</div>
+<button id="download-btn" class="btn-plan btn-express" style="margin-top:1.1rem;">
+⬇️ Descargar MP3 + PDF ($1.50)
+</button>
+</div>
+
+<div class="card" id="plans-section">
+<h2>🔒 Elige tu plan</h2>
+<div class="plans">
+<div class="plan express">
+<h3>Express</h3>
+<div class="price">$1.50</div>
+<div class="subtext">por pieza · ≤90s</div>
+<ul class="features">
+<li>✅ MP3 320kbps</li>
+<li>✅ Partitura PDF profesional</li>
+<li class="warn">⚠️ Uso personal</li>
+</ul>
+<p style="font-size:0.8rem; opacity:0.8; margin-top:0.5rem;">
+Incluye partitura — el compositor cede derechos conexos, no derechos de autor.
+</p>
+<div id="paypal-container-7DJ5GCQ3RMKSN" style="margin-top:1rem;"></div>
+</div>
+<div class="plan pro">
+<h3>Pro</h3>
+<div class="price">$7</div>
+<div class="subtext">/mes · 12 piezas</div>
+<ul class="features">
+<li>✅ Todo Express</li>
+<li>✅ + WAV 24-bit</li>
+<li>✅ PDF profesional</li>
+<li>✅ Licencia comercial</li>
+<li>➕ Generación IA complementaria</li>
+</ul>
+<div class="coming-soon">Próximamente</div>
+</div>
+<div class="plan studio">
+<h3>Studio</h3>
+<div class="price">$12</div>
+<div class="subtext">/mes · 20 piezas + stems</div>
+<ul class="features">
+<li>✅ Todo Pro</li>
+<li>🎙️ Voces: Solo, Dueto, Coral</li>
+<li>🎛️ Stems por familia</li>
+<li>🎤 Pre-mezcla con tu voz</li>
+</ul>
+<div class="coming-soon">Próximamente</div>
+</div>
+</div>
+</div>
+
+<!-- 🎻 Sección para compositores -->
+<div style="margin-top: 2rem; padding: 1.2rem; background: rgba(10,10,20,0.3); border-radius: 16px;">
+  <h3 style="font-size:1.2rem; margin-bottom:0.8rem; color:var(--pro);">🎻 ¿Eres compositor?</h3>
+  <p style="margin-bottom:1rem; opacity:0.85;">
+    Únete a Nebulaudio como Socio-Compositor (I.B.) y comparte tu música humana con creadores del mundo.
+  </p>
+  <button id="open-register-modal" class="btn-plan btn-express" style="width:auto; padding:0.6rem 1.4rem;">
+    📝 Registrarme
+  </button>
+</div>
+
+<p class="footer">
+© 2026 Nebulaudio. Música humana, libre de derechos.<br>
+Compositor: Carlos Reyes (CERT) • Hecho para creadores digitales.<br>
+<a href="/privacy">Privacidad</a> • <a href="/terms">Términos</a>
+</p>
+</div>
+
+<!-- 📩 Modal de registro REAL (Formspree) -->
+<div id="register-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:1000; justify-content:center; align-items:center;">
+  <div style="background:var(--bg-card); border-radius:20px; padding:2rem; max-width:500px; width:90%; box-shadow:0 20px 40px rgba(0,0,0,0.5); position:relative;">
+    <button id="close-modal" style="position:absolute; top:1rem; right:1rem; background:#334155; border:none; color:white; width:30px; height:30px; border-radius:50%; font-weight:bold;">×</button>
+    <h2 style="margin-bottom:1.2rem; color:var(--pro);">📝 Registro de Compositor</h2>
+    <p style="opacity:0.8; margin-bottom:1.5rem;">Únete a la primera biblioteca ética de música humana.</p>
+    
+    <!-- ✅ FORMULARIO REAL (Formspree) -->
+    <form id="composer-form" action="https://formspree.io/f/maqnegrq" method="POST">
+      <div style="margin-bottom:1.2rem;">
+        <label style="display:block; margin-bottom:0.4rem; font-weight:500;">Nombre completo</label>
+        <input type="text" name="nombre" placeholder="Ej: Ana Martínez" required
+               style="width:100%; padding:0.7rem; border-radius:10px; border:1px solid rgba(255,255,255,0.1); background:rgba(10,10,20,0.5); color:white;">
+      </div>
+      
+      <div style="margin-bottom:1.2rem;">
+        <label style="display:block; margin-bottom:0.4rem; font-weight:500;">Email</label>
+        <input type="email" name="email" placeholder="tu@email.com" required
+               style="width:100%; padding:0.7rem; border-radius:10px; border:1px solid rgba(255,255,255,0.1); background:rgba(10,10,20,0.5); color:white;">
+      </div>
+      
+      <div style="margin-bottom:1.2rem;">
+        <label style="display:block; margin-bottom:0.4rem; font-weight:500;">PayPal (para regalías)</label>
+        <input type="email" name="paypal" placeholder="paypal@email.com"
+               style="width:100%; padding:0.7rem; border-radius:10px; border:1px solid rgba(255,255,255,0.1); background:rgba(10,10,20,0.5); color:white;">
+        <p style="font-size:0.8rem; opacity:0.7; margin-top:0.3rem;">*Opcional</p>
+      </div>
+      
+      <div style="margin-bottom:1.5rem;">
+        <label style="display:flex; align-items:center; gap:0.5rem;">
+          <input type="checkbox" name="acepto" value="sí" required>
+          <span>Acepto los <a href="estatutos-nebulaudio.html" target="_blank" style="color:var(--pro);">Estatutos Nebulaudio</a></span>
+        </label>
+      </div>
+      
+      <button type="submit" class="btn-plan btn-express" style="width:100%;">
+        📤 Enviar solicitud
+      </button>
+    </form>
+    
+    <p id="form-status" style="margin-top:1rem; font-size:0.85rem; min-height:1.2rem;"></p>
+  </div>
+</div>
+
+<script>
+const LIBRARY = [
+  {"id":"bastian","title":"Bastián","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Recuerdo","mood":"Melancólico","duration":68,"audio_folder":"audios","pdf_folder":"pdf","file_mp3":"bastian.mp3","file_pdf":"bastian.pdf","downloads":12},
+  {"id":"carabobo-22","title":"Carabobo-22","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Folclórico","style_decade":"1970s","ambience":"Campo","mood":"Contemplativo","duration":74,"audio_folder":"audios","pdf_folder":"pdf","file_mp3":"carabobo-22.mp3","file_pdf":"carabobo-22.pdf","downloads":8},
+  {"id":"cotidiana","title":"Cotidiana","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Urbano","style_decade":"2020s","ambience":"Ciudad","mood":"Nostálgico","duration":52,"audio_folder":"audios","pdf_folder":"pdf","file_mp3":"cotidiana.mp3","file_pdf":"cotidiana.pdf","downloads":21},
+  {"id":"desolacion","title":"Desolación","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Espacio","mood":"Melancólico","duration":81,"audio_folder":"audios","pdf_folder":"pdf","file_mp3":"desolacion.mp3","file_pdf":"desolacion.pdf","downloads":17},
+  {"id":"el-espacio-de-los-juguetes","title":"El Espacio de los Juguetes","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Íntimo","style_decade":"1990s","ambience":"Recuerdo","mood":"Contemplativo","duration":63,"audio_folder":"audios","pdf_folder":"pdf","file_mp3":"el-espacio-de-los-juguetes.mp3","file_pdf":"el-espacio-de-los-juguetes.pdf","downloads":5},
+  {"id":"el-infeliz","title":"El Infeliz","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Espacio","mood":"Misterioso","duration":77,"audio_folder":"audios","pdf_folder":"pdf","file_mp3":"el-infeliz.mp3","file_pdf":"el-infeliz.pdf","downloads":9},
+  {"id":"el-paseo","title":"El Paseo","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Urbano","style_decade":"2020s","ambience":"Ciudad","mood":"Tranquilo","duration":58,"audio_folder":"audios","pdf_folder":"pdf","file_mp3":"el-paseo.mp3","file_pdf":"el-paseo.pdf","downloads":14},
+  {"id":"entre-suenos-y-fantasias","title":"Entre Sueños y Fantasías","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Íntimo","style_decade":"2010s","ambience":"Recuerdo","mood":"Esperanzador","duration":72,"audio_folder":"audios","pdf_folder":"pdf","file_mp3":"entre-suenos-y-fantasias.mp3","file_pdf":"entre-suenos-y-fantasias.pdf","downloads":3},
+  {"id":"escalones","title":"Escalones","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Ciudad","mood":"Contemplativo","duration":66,"audio_folder":"audios","pdf_folder":"pdf","file_mp3":"escalones.mp3","file_pdf":"escalones.pdf","downloads":11},
+  {"id":"humbolt","title":"Humbolt","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Montaña","mood":"Contemplativo","duration":79,"audio_folder":"audios","pdf_folder":"pdf","file_mp3":"humbolt.mp3","file_pdf":"humbolt.pdf","downloads":7},
+  {"id":"karim","title":"Karím","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Íntimo","style_decade":"2020s","ambience":"Recuerdo","mood":"Nostálgico","duration":64,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"karim.mp3","file_pdf":"karim.pdf","downloads":6},
+  {"id":"kraloka","title":"Kraloka","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Espacio","mood":"Épico","duration":85,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"kraloka.mp3","file_pdf":"kraloka.pdf","downloads":24},
+  {"id":"navio","title":"Navío","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Playa","mood":"Melancólico","duration":70,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"navio.mp3","file_pdf":"navio.pdf","downloads":19},
+  {"id":"peldaños","title":"Peldaños","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Ciudad","mood":"Contemplativo","duration":61,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"peldaños.mp3","file_pdf":"peldaños.pdf","downloads":10},
+  {"id":"pesadumbre","title":"Pesadumbre","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Espacio","mood":"Melancólico","duration":83,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"pesadumbre.mp3","file_pdf":"pesadumbre.pdf","downloads":16},
+  {"id":"pescando-soledades","title":"Pescando Soledades","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Íntimo","style_decade":"2020s","ambience":"Playa","mood":"Tranquilo","duration":76,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"pescando-soledades.mp3","file_pdf":"pescando-soledades.pdf","downloads":4},
+  {"id":"solemne","title":"Solemne","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Espacio","mood":"Épico","duration":88,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"solemne.mp3","file_pdf":"solemne.pdf","downloads":22},
+  {"id":"sombra","title":"Sombra","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Ciudad","mood":"Misterioso","duration":56,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"sombra.mp3","file_pdf":"sombra.pdf","downloads":13},
+  {"id":"valses-melancolicos","title":"Valses Melancólicos","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Folclórico","style_decade":"1930s","ambience":"Café","mood":"Melancólico","duration":82,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"valses-melancolicos.mp3","file_pdf":"valses-melancolicos.pdf","downloads":18}
+];
+
+document.addEventListener('DOMContentLoaded', function() {
+  let selection = [];
+
+  // === MODAL DE REGISTRO REAL (Formspree) ===
+  document.getElementById('open-register-modal')?.addEventListener('click', () => {
+    document.getElementById('register-modal').style.display = 'flex';
+  });
+  document.getElementById('close-modal')?.addEventListener('click', () => {
+    document.getElementById('register-modal').style.display = 'none';
+  });
+
+  document.getElementById('composer-form')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const form = this;
+    const status = document.getElementById('form-status');
+    
+    status.textContent = '📨 Enviando...';
+    status.style.color = '#10b981';
+
+    fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    })
+    .then(response => {
+      if (response.ok) {
+        status.textContent = '✅ ¡Solicitud enviada! Te contactaré en 48h.';
+        setTimeout(() => {
+          document.getElementById('register-modal').style.display = 'none';
+          form.reset();
+          status.textContent = '';
+        }, 3000);
+      } else {
+        status.textContent = '❌ Error. Intenta de nuevo.';
+        status.style.color = '#ef4444';
+      }
+    })
+    .catch(() => {
+      status.textContent = '⚠️ Sin conexión. Revisa tu internet.';
+      status.style.color = '#eab308';
+    });
+  });
+
+  function updateSelectionUI() {
+    const countEl = document.getElementById('selection-count');
+    const listEl = document.getElementById('selection-list');
+    const barEl = document.getElementById('selection-bar');
+    
+    countEl.textContent = selection.length;
+    listEl.innerHTML = '';
+    
+    selection.forEach((item, i) => {
+      const card = document.createElement('div');
+      card.style.cssText = `
+        background: rgba(20,20,40,0.5);
+        border-radius: 8px;
+        padding: 0.5rem 0.8rem;
+        font-size: 0.8rem;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        min-width: 180px;
+      `;
+      
+      card.innerHTML = `
+        <strong>${item.title}</strong>
+        <small>${item.duration}s · ${item.composer.split(' ')[0]}</small>
+        <div style="display:flex; gap:6px; margin-top:4px;">
+          <button class="select-final" data-index="${i}" 
+                  style="padding:2px 8px; font-size:0.7rem; background:#10b981; border:none; border-radius:4px; color:white;">
+            ✅ Elegir
+          </button>
+          <button class="remove-item" data-index="${i}" 
+                  style="padding:2px 8px; font-size:0.7rem; background:#ef4444; border:none; border-radius:4px; color:white;">
+            ✖
+          </button>
+        </div>
+      `;
+      
+      listEl.appendChild(card);
+    });
+    
+    barEl.style.display = selection.length > 0 ? 'block' : 'none';
+  }
+
+  function showSaveButton(show = true) {
+    const btn = document.getElementById('save-btn');
+    if (btn) btn.style.display = show ? 'inline-block' : 'none';
+  }
+
+  function generateMusic() {
+    const selected = LIBRARY[Math.floor(Math.random() * LIBRARY.length)];
+    sessionStorage.setItem('nebulaudio_selection', JSON.stringify(selected));
+
+    const preview = document.getElementById('preview-section');
+    preview.style.display = 'block';
+    preview.scrollIntoView({ behavior: 'smooth' });
+
+    const status = document.getElementById('audio-status');
+    const player = document.getElementById('preview-audio');
+    const pdfEmbed = document.getElementById('pdf-preview');
+    const pdfTitle = document.getElementById('pdf-title');
+    const pdfComposer = document.getElementById('pdf-composer');
+    const pdfDuration = document.getElementById('pdf-duration');
+    const pdfDownloads = document.getElementById('pdf-downloads');
+
+    status.textContent = '🎧 Preparando obra humana…';
+    player.removeAttribute('src');
+    player.load();
+    pdfEmbed.src = '';
+
+    setTimeout(() => {
+      player.src = selected.audio_folder + '/' + selected.file_mp3;
+      player.load();
+
+      const pdfUrl = selected.pdf_folder + '/' + selected.file_pdf + '#toolbar=0&navpanes=0&scrollbar=0&zoom=80';
+      pdfEmbed.src = pdfUrl;
+
+      pdfTitle.textContent = selected.title;
+      pdfComposer.textContent = selected.composer;
+      pdfDuration.textContent = `${selected.duration}s`;
+      pdfDownloads.textContent = selected.downloads || 0;
+
+      status.textContent = `🎵 ${selected.title} · ${selected.duration}s`;
+      showSaveButton(true);
+    }, 300);
+  }
+
+  document.getElementById('generate-btn').addEventListener('click', generateMusic);
+  document.getElementById('compare-btn').addEventListener('click', generateMusic);
+
+  document.getElementById('save-btn').addEventListener('click', function() {
+    const sel = JSON.parse(sessionStorage.getItem('nebulaudio_selection'));
+    if (!sel) return;
+    
+    if (selection.some(s => s.id === sel.id)) {
+      alert('Ya guardaste esta obra.');
+      return;
+    }
+    
+    if (selection.length >= 3) {
+      alert('Máximo 3 obras guardadas. Elige una o retira una.');
+      return;
+    }
+    
+    selection.push({...sel});
+    updateSelectionUI();
+    this.textContent = '✓ Guardada';
+    setTimeout(() => this.textContent = '✚ Guardar', 1200);
+  });
+
+  document.getElementById('selection-list').addEventListener('click', function(e) {
+    if (e.target.classList.contains('select-final')) {
+      const idx = e.target.dataset.index;
+      const chosen = selection[idx];
+      sessionStorage.setItem('nebulaudio_selection', JSON.stringify(chosen));
+      window.location.href = window.location.pathname + '?paid=1';
+    }
+    
+    if (e.target.classList.contains('remove-item')) {
+      const idx = e.target.dataset.index;
+      selection.splice(idx, 1);
+      updateSelectionUI();
+    }
+  });
+
+  document.getElementById('download-btn').addEventListener('click', function() {
+    const sel = JSON.parse(sessionStorage.getItem('nebulaudio_selection'));
+    if (!sel) {
+      alert('Primero explora una pieza o elige una guardada.');
+      return;
+    }
+    window.location.href = window.location.pathname + '?paid=1';
+  });
+
+  if (typeof paypal !== 'undefined') {
+    paypal.HostedButtons({ hostedButtonId: "7DJ5GCQ3RMKSN" }).render("#paypal-container-7DJ5GCQ3RMKSN");
+  } else {
+    const check = setInterval(() => {
+      if (typeof paypal !== 'undefined') {
+        clearInterval(check);
+        paypal.HostedButtons({ hostedButtonId: "7DJ5GCQ3RMKSN" }).render("#paypal-container-7DJ5GCQ3RMKSN");
+      }
+    }, 300);
+  }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('paid') === '1') {
+    const sel = JSON.parse(sessionStorage.getItem('nebulaudio_selection'));
+    if (sel) {
+      document.getElementById('plans-section').style.display = 'block';
+      document.getElementById('plans-section').scrollIntoView({ behavior: 'smooth' });
+      
+      const infoContainer = document.querySelector('.plan.express');
+      const existingPayPal = infoContainer.querySelector('#paypal-container-7DJ5GCQ3RMKSN');
+      
+      if (existingPayPal && !infoContainer.querySelector('.chosen-info')) {
+        const infoDiv = document.createElement('div');
+        infoDiv.className = 'chosen-info';
+        infoDiv.innerHTML = `
+          <p style="font-size:0.75rem; opacity:0.7; margin:0.4rem 0;">
+            🎵 <strong>${sel.title}</strong> · ${sel.duration}s
+          </p>
+        `;
+        existingPayPal.insertAdjacentElement('beforebegin', infoDiv);
+      }
+    }
+  }
+});
+
+// 🔧 Plantilla para generar nuevas entradas (puedes usar en Excel/Google Sheets)
+/*
+function generateLibraryEntry({
+  id, title, composer="Carlos Reyes (CERT)", composer_id="carlos-reyes-cert",
+  composer_paypal="certproducciones@gmail.com", style, style_decade="2020s",
+  ambience, mood, duration, audio_folder="audio", pdf_folder="pdf",
+  file_mp3, file_pdf, downloads=0
+}) {
+  return {
+    id, title, composer, composer_id, composer_paypal,
+    style, style_decade, ambience, mood, duration,
+    audio_folder, pdf_folder, file_mp3, file_pdf, downloads
+  };
+}
+// Ej: generateLibraryEntry({id:"nueva-obra", title:"Nueva Obra", ...})
+*/
+</script>
+</body>
+</html>
