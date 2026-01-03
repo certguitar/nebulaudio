@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🔐 Oficina Nebulaudio | Balance y Auditoría</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0a0a14;
+      --bg-card: rgba(18, 18, 32, 0.65);
+      --border-glow: rgba(16, 185, 129, 0.4);
+      --text-primary: #f0f0ff;
+      --text-secondary: #a0a0c0;
+      --accent: #10b981;
+      --accent2: #8b5cf6;
+      --express: #64748b;
+      --pro: #10b981;
+      --studio: #8b5cf6;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding: 1rem;
+      text-align: center;
+      background-image:
+        linear-gradient(rgba(10, 10, 20, 0.75), rgba(10, 10, 20, 0.85)),
+        url('https://i.postimg.cc/4ywDV4xc/universo-nebulaudio.png');
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+      position: relative;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: radial-gradient(circle at 30% 20%, rgba(16, 185, 129, 0.08), transparent 40%),
+                  radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.06), transparent 50%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 1.2rem 0.8rem;
+    }
+
+    .logo-top {
+      margin: 0 auto 1.4rem;
+      max-width: 600px;
+    }
+    .logo-img {
+      height: 90px;
+      filter: drop-shadow(0 0 16px rgba(139, 92, 246, 0.5));
+      margin: 0 auto 0.6rem;
+    }
+    .logo-top h1 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin: 0.3rem 0;
+      background: linear-gradient(90deg, #10b981, #8b5cf6);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .logo-top p {
+      font-size: 1rem;
+      opacity: 0.8;
+      margin: 0.4rem auto;
+      max-width: 500px;
+      line-height: 1.5;
+    }
+
+    .controls {
+      background: rgba(10, 10, 20, 0.4);
+      border-radius: 16px;
+      padding: 1rem;
+      margin: 1rem auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      justify-content: center;
+      align-items: center;
+    }
+    .controls label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 500;
+    }
+    .controls input[type="date"] {
+      background: rgba(20, 20, 40, 0.6);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 0.5rem 0.8rem;
+      color: white;
+      font-family: 'Inter', sans-serif;
+    }
+    .btn {
+      padding: 0.65rem 1.3rem;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      font-size: 0.93rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+    }
+    .btn-filter {
+      background: var(--express);
+      color: white;
+    }
+    .btn-export {
+      background: linear-gradient(135deg, var(--pro), #0d9a6d);
+      color: white;
+      box-shadow: 0 4px 12px rgba(16,185,129,0.3);
+    }
+    .btn:hover { transform: translateY(-2px); }
+
+    .card {
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 1.4rem;
+      margin: 1.2rem 0;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .summary-item {
+      background: rgba(10, 10, 20, 0.4);
+      border-radius: 16px;
+      padding: 1rem;
+      text-align: center;
+    }
+    .summary-value {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin: 0.3rem 0;
+    }
+    .summary-label {
+      font-size: 0.85rem;
+      opacity: 0.7;
+    }
+    .summary-value.platform { color: var(--pro); }
+    .summary-value.author { color: var(--accent2); }
+    .summary-value.fund { color: var(--accent2); }
+    .summary-value.total { color: #64dd17; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.2rem;
+      font-size: 0.92rem;
+    }
+    thead {
+      background: rgba(16, 185, 129, 0.08);
+    }
+    th, td {
+      padding: 0.75rem 0.6rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    th {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    tbody tr:hover {
+      background: rgba(255,255,255,0.03);
+    }
+    .amount { text-align: right; }
+    .platform { color: var(--pro); font-weight: 600; }
+    .author { color: var(--accent2); font-weight: 600; }
+    .ia-type { color: var(--accent2); font-weight: 600; }
+
+    .empty-state {
+      padding: 2rem;
+      opacity: 0.6;
+      font-style: italic;
+    }
+
+    .footer {
+      margin-top: 2rem;
+      font-size: 0.76rem;
+      opacity: 0.6;
+      line-height: 1.5;
+    }
+
+    /* Pantalla de acceso */
+    #access-screen {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: var(--bg-dark);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      backdrop-filter: blur(4px);
+    }
+    #access-screen h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(90deg, #10b981, #8b5cf6);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    #access-form {
+      background: rgba(18, 18, 32, 0.65);
+      padding: 2rem;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    #access-form input {
+      width: 100%;
+      padding: 0.8rem;
+      margin: 0.6rem 0;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      background: rgba(10,10,20,0.5);
+      color: white;
+      font-size: 1rem;
+    }
+    #access-form button {
+      width: 100%;
+      padding: 0.8rem;
+      background: linear-gradient(135deg, var(--pro), #0d9a6d);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 0.5rem;
+    }
+    #access-form button:hover {
+      opacity: 0.9;
+    }
+    #access-error {
+      color: #ef4444;
+      font-size: 0.85rem;
+      margin-top: 0.5rem;
+      min-height: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🚪 Pantalla de acceso -->
+  <div id="access-screen">
+    <div class="logo-top">
+      <img src="https://i.postimg.cc/x1F9B5YQ/logo-nebulaudio.png" class="logo-img" alt="Nebulaudio">
+      <h1>Nebulaudio</h1>
+    </div>
+    <div id="access-form">
+      <h2>🔐 Acceso restringido</h2>
+      <p style="opacity:0.7; margin-bottom:1rem;">Solo personal autorizado</p>
+      <input type="password" id="access-key" placeholder="Clave de acceso (CERT)" autocomplete="off">
+      <button onclick="checkAccess()">Acceder</button>
+      <div id="access-error"></div>
+    </div>
+  </div>
+
+  <!-- 💼 Contenido real -->
+  <div id="main-content" style="display:none;">
+    <div class="container">
+      <div class="logo-top">
+        <h1>🔐 Oficina Nebulaudio</h1>
+        <p>Balance de ventas, auditoría y distribución de regalías — Beta Privada</p>
+      </div>
+
+      <div class="controls">
+        <label>
+          📅 Fecha:
+          <input type="date" id="dateFilter">
+        </label>
+        <button class="btn btn-filter" onclick="filterByDate()">🔍 Filtrar</button>
+        <button class="btn btn-export" onclick="exportToCSV()">📥 Exportar CSV</button>
+      </div>
+
+      <div class="card">
+        <h2>📊 Resumen del día</h2>
+        <div class="summary-grid">
+          <div class="summary-item">
+            <div class="summary-value" id="total-sales">0</div>
+            <div class="summary-label">Obras vendidas</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-value platform" id="platform-earn">$0.00</div>
+            <div class="summary-label">Tu parte (15%)</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-value author" id="author-earn">$0.00</div>
+            <div class="summary-label">Para compositores (85%)</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-value" id="total-income">$0.00</div>
+            <div class="summary-label">Ingresos brutos</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-value fund" id="fund-ia">$0.00</div>
+            <div class="summary-label">Fondo I.A. (100%)</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-value total" id="fund-share">$0.00</div>
+            <div class="summary-label">Tu parte del fondo</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>📜 Registros de ventas</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Hora</th>
+              <th>Título</th>
+              <th>Compositor</th>
+              <th class="amount">Total</th>
+              <th class="amount">Tu parte</th>
+              <th class="amount">Para autor</th>
+              <th>Tipo</th>
+            </tr>
+          </thead>
+          <tbody id="logBody">
+          </tbody>
+        </table>
+        <div id="emptyMessage" class="empty-state">
+          🌌 No hay ventas registradas para esta fecha.<br>
+          Una vez se realice una compra en <code>index.html</code>, los datos aparecerán aquí.
+        </div>
+      </div>
+
+      <p class="footer">
+        © 2026 Nebulaudio — Oficina privada de Carlos Reyes (CERT)<br>
+        Clave de acceso: <code>cert2025</code>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    const ACCESS_KEY = "cert2025";
+
+    // 🔐 Generador de UUID v4 (sin dependencias)
+    function uuid() {
+      return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+        (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+      );
+    }
+
+    function checkAccess() {
+      const input = document.getElementById('access-key').value.trim();
+      const error = document.getElementById('access-error');
+      
+      if (input === ACCESS_KEY) {
+        document.getElementById('access-screen').style.display = 'none';
+        document.getElementById('main-content').style.display = 'block';
+        document.getElementById('dateFilter').valueAsDate = new Date();
+        setTimeout(filterByDate, 100);
+      } else {
+        error.textContent = "❌ Clave incorrecta";
+        document.getElementById('access-key').value = '';
+        document.getElementById('access-key').focus();
+      }
+    }
+
+    document.getElementById('access-key').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') checkAccess();
+    });
+
+    // ==== Funciones de balance ====
+    function loadSalesLog() {
+      const raw = localStorage.getItem('nebulaudio_sales_log');
+      return raw ? JSON.parse(raw) : [];
+    }
+
+    function filterByDate() {
+      const date = document.getElementById('dateFilter').value || new Date().toISOString().split('T')[0];
+      const allSales = loadSalesLog();
+      const filtered = allSales.filter(sale => sale.date === date);
+      render(filtered, date);
+    }
+
+    function formatTime(isoString) {
+      return new Date(isoString).toLocaleTimeString('es-ES', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+      });
+    }
+
+    function render(sales, date) {
+      const tbody = document.getElementById('logBody');
+      const empty = document.getElementById('emptyMessage');
+      const els = {
+        total: document.getElementById('total-sales'),
+        platform: document.getElementById('platform-earn'),
+        author: document.getElementById('author-earn'),
+        income: document.getElementById('total-income'),
+        fund: document.getElementById('fund-ia'),
+        share: document.getElementById('fund-share')
+      };
+
+      tbody.innerHTML = '';
+      if (sales.length === 0) {
+        empty.style.display = 'block';
+        els.total.textContent = '0';
+        els.platform.textContent = '$0.00';
+        els.author.textContent = '$0.00';
+        els.income.textContent = '$0.00';
+        els.fund.textContent = '$0.00';
+        els.share.textContent = '$0.00';
+        return;
+      }
+
+      empty.style.display = 'none';
+
+      let totalSales = 0, totalPlatform = 0, totalAuthor = 0, totalIncome = 0;
+      let totalIA = 0;
+      const composers = new Set();
+
+      sales.forEach(sale => {
+        const isIA = sale.is_ai || false;
+        if (isIA) totalIA += sale.amount;
+        composers.add(sale.composition.composer_id); // ✅ usamos ID, no nombre
+
+        const row = tbody.insertRow();
+        const time = formatTime(sale.timestamp);
+        const comp = sale.composition;
+        const tipo = isIA ? '🤖 I.A.' : '🎵 Humano';
+
+        row.innerHTML = `
+          <td style="font-family:monospace; font-size:0.85rem;">${sale.transaction_id?.substring(0,6) || '—'}</td>
+          <td>${time}</td>
+          <td>${comp.title}</td>
+          <td>${comp.composer}</td>
+          <td class="amount">$${sale.amount.toFixed(2)}</td>
+          <td class="amount platform">$${sale.platformCut.toFixed(2)}</td>
+          <td class="amount author">$${sale.composerEarn.toFixed(2)}</td>
+          <td class="ia-type">${tipo}</td>
+        `;
+
+        totalSales++;
+        totalPlatform += sale.platformCut;
+        totalAuthor += sale.composerEarn;
+        totalIncome += sale.amount;
+      });
+
+      const numCompositores = composers.size;
+      const fondoIA = totalIA;
+      const tuParteFondo = numCompositores > 0 ? fondoIA / numCompositores : 0;
+
+      els.total.textContent = totalSales;
+      els.platform.textContent = `$${totalPlatform.toFixed(2)}`;
+      els.author.textContent = `$${totalAuthor.toFixed(2)}`;
+      els.income.textContent = `$${totalIncome.toFixed(2)}`;
+      els.fund.textContent = `$${fondoIA.toFixed(2)}`;
+      els.share.textContent = `$${tuParteFondo.toFixed(2)}`;
+    }
+
+    function escapeCSV(value) {
+      if (typeof value !== 'string') value = String(value);
+      // ✅ Protección contra fórmulas maliciosas en Excel
+      value = value.replace(/"/g, '""');
+      if (value.includes(',') || value.includes('\n') || value.includes('"') || value.startsWith('=')) {
+        return `"${value}"`;
+      }
+      return value;
+    }
+
+    function exportToCSV() {
+      const date = document.getElementById('dateFilter').value || new Date().toISOString().split('T')[0];
+      const sales = loadSalesLog().filter(s => s.date === date);
+
+      if (sales.length === 0) {
+        alert('❌ No hay ventas registradas para esta fecha.');
+        return;
+      }
+
+      // ✅ CSV seguro (anti-inyección) + composer_id
+      let csv = 'ID,Título,Compositor,Compositor_ID,Total,Tu_parte,Para_autor,Tipo,PayPal\n';
+      sales.forEach(sale => {
+        const comp = sale.composition;
+        const tipo = sale.is_ai ? 'IA' : 'Humano';
+        const paypal = comp.composer_id === 'carlos-reyes-cert' ? 'certproducciones@gmail.com' : comp.composer_paypal || '';
+        
+        csv += [
+          escapeCSV(sale.transaction_id || ''),
+          escapeCSV(comp.title),
+          escapeCSV(comp.composer),
+          escapeCSV(comp.composer_id),
+          sale.amount.toFixed(2),
+          sale.platformCut.toFixed(2),
+          sale.composerEarn.toFixed(2),
+          escapeCSV(tipo),
+          escapeCSV(paypal)
+        ].join(',') + '\n';
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `nebulaudio_balance_${date}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      const btn = document.querySelector('.btn-export');
+      const original = btn.innerHTML;
+      btn.innerHTML = '✅ CSV exportado';
+      setTimeout(() => btn.innerHTML = original, 2000);
+    }
+  </script>
+</body>
+</html>
