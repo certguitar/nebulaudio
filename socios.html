@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>👥 Nebulaudio — Tabla de Socios Compositores</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0a0a14;
+      --bg-card: rgba(18, 18, 32, 0.65);
+      --border-glow: rgba(16, 185, 129, 0.4);
+      --text-primary: #f0f0ff;
+      --text-secondary: #a0a0c0;
+      --accent: #10b981;
+      --accent2: #8b5cf6;
+      --express: #64748b;
+      --pro: #10b981;
+      --studio: #8b5cf6;
+      --paid: #10b981;
+      --pending: #eab308;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding: 1rem;
+      text-align: center;
+      background-image:
+        linear-gradient(rgba(10, 10, 20, 0.75), rgba(10, 10, 20, 0.85)),
+        url('https://i.postimg.cc/4ywDV4xc/universo-nebulaudio.png');
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+      position: relative;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: radial-gradient(circle at 30% 20%, rgba(16, 185, 129, 0.08), transparent 40%),
+                  radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.06), transparent 50%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 1.2rem 0.8rem;
+    }
+
+    .logo-top {
+      margin: 0 auto 1.4rem;
+      max-width: 600px;
+    }
+    .logo-img {
+      height: 80px;
+      filter: drop-shadow(0 0 16px rgba(139, 92, 246, 0.5));
+      margin: 0 auto 0.6rem;
+    }
+    .logo-top h1 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin: 0.3rem 0;
+      background: linear-gradient(90deg, #10b981, #8b5cf6);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      opacity: 0.85;
+      margin: 0.5rem auto;
+      max-width: 580px;
+      line-height: 1.5;
+    }
+
+    /* Pantalla de acceso */
+    #access-screen {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: var(--bg-dark);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      backdrop-filter: blur(4px);
+    }
+    #access-screen h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(90deg, #10b981, #8b5cf6);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    #access-form {
+      background: rgba(18, 18, 32, 0.65);
+      padding: 2rem;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    #access-form input {
+      width: 100%;
+      padding: 0.8rem;
+      margin: 0.6rem 0;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      background: rgba(10,10,20,0.5);
+      color: white;
+      font-size: 1rem;
+    }
+    #access-form button {
+      width: 100%;
+      padding: 0.8rem;
+      background: linear-gradient(135deg, var(--pro), #0d9a6d);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 0.5rem;
+    }
+    #access-form button:hover {
+      opacity: 0.9;
+    }
+    #access-error {
+      color: #ef4444;
+      font-size: 0.85rem;
+      margin-top: 0.5rem;
+      min-height: 1.2rem;
+    }
+
+    .card {
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin: 1.4rem 0;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      text-align: left;
+    }
+    .card h2 {
+      margin-bottom: 1.1rem;
+      color: var(--pro);
+      font-size: 1.4rem;
+    }
+
+    .table-container {
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+    }
+    thead {
+      background: rgba(16, 185, 129, 0.08);
+    }
+    th, td {
+      padding: 0.75rem 0.6rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    th {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    tbody tr:hover {
+      background: rgba(255,255,255,0.03);
+    }
+    .amount { text-align: right; }
+    .status-paid { color: var(--paid); font-weight: 600; }
+    .status-pending { color: var(--pending); font-weight: 600; }
+    .total-col { color: var(--accent2); font-weight: 700; }
+
+    .controls {
+      display: flex;
+      gap: 0.8rem;
+      margin: 1rem 0;
+      flex-wrap: wrap;
+    }
+    .btn {
+      padding: 0.6rem 1.2rem;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .btn-update {
+      background: linear-gradient(135deg, var(--pro), #0d9a6d);
+      color: white;
+    }
+    .btn-export {
+      background: var(--express);
+      color: white;
+    }
+
+    .footer {
+      margin-top: 2rem;
+      font-size: 0.76rem;
+      opacity: 0.6;
+      line-height: 1.5;
+    }
+
+    .empty-state {
+      padding: 2rem;
+      opacity: 0.6;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🚪 Pantalla de acceso -->
+  <div id="access-screen">
+    <div class="logo-top">
+      <img src="https://i.postimg.cc/x1F9B5YQ/logo-nebulaudio.png" class="logo-img" alt="Nebulaudio">
+      <h1>Nebulaudio</h1>
+    </div>
+    <div id="access-form">
+      <h2>🔐 Acceso restringido</h2>
+      <p style="opacity:0.7; margin-bottom:1rem;">Solo para compositores registrados</p>
+      <input type="password" id="access-key" placeholder="Clave de socios" autocomplete="off">
+      <button onclick="checkAccess()">Acceder</button>
+      <div id="access-error"></div>
+      <p style="font-size:0.8rem; margin-top:1rem; opacity:0.7;">
+        ¿No tienes la clave? Escríbele a <strong>CERT</strong>.
+      </p>
+    </div>
+  </div>
+
+  <!-- 📊 Contenido real -->
+  <div id="main-content" style="display:none;">
+    <div class="container">
+      <div class="logo-top">
+        <h1>👥 Tabla de Socios Compositores</h1>
+        <p class="subtitle">Transparencia total — Enero 2026</p>
+      </div>
+
+      <div class="card">
+        <h2>📊 Ranking de Socios</h2>
+        <p style="opacity:0.85; margin-bottom:1rem;">
+          Todos reciben la misma parte del Fondo I.A. (equitativo).  
+          Tu parte por obra: <strong>85% de $1.50 = $1.275</strong>.
+        </p>
+
+        <div class="controls">
+          <button class="btn btn-update" onclick="loadData()">🔃 Actualizar mis datos</button>
+          <button class="btn btn-export" onclick="exportCSV()">📥 Exportar CSV completo</button>
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Compositor</th>
+                <th>Obras</th>
+                <th>Descargas</th>
+                <th class="amount">Adeudado</th>
+                <th class="amount">Pagado</th>
+                <th class="amount">Fondo I.A.</th>
+                <th class="amount">Total mes</th>
+              </tr>
+            </thead>
+            <tbody id="socios-table">
+            </tbody>
+          </table>
+        </div>
+
+        <div id="empty-message" class="empty-state" style="display:none;">
+          🌌 Aún no hay ventas registradas.<br>
+          Una vez se realice una compra en <code>index.html</code>, los datos aparecerán aquí.
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>ℹ️ ¿Cómo funciona?</h3>
+        <ul style="text-align:left; padding-left:1.4rem;">
+          <li>✅ <strong>15%</strong> de cada venta financia la plataforma y el <strong>Fondo I.A.</strong></li>
+          <li>✅ <strong>85%</strong> va directo al compositor de la obra vendida.</li>
+          <li>✅ El <strong>Fondo I.A.</strong> se reparte <strong>equitativamente</strong> entre todos los socios, sin importar descargas.</li>
+          <li>✅ Los pagos se procesan la <strong>primera semana de cada mes</strong>.</li>
+        </ul>
+      </div>
+
+      <p class="footer">
+        © 2026 Nebulaudio — Música humana, equidad real<br>
+        Clave de acceso: <code>nebula2026</code>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    const ACCESS_KEY = "nebula2026";
+
+    function checkAccess() {
+      const input = document.getElementById('access-key').value.trim();
+      const error = document.getElementById('access-error');
+      
+      if (input === ACCESS_KEY) {
+        document.getElementById('access-screen').style.display = 'none';
+        document.getElementById('main-content').style.display = 'block';
+        setTimeout(loadData, 100);
+      } else {
+        error.textContent = "❌ Clave incorrecta";
+        document.getElementById('access-key').value = '';
+        document.getElementById('access-key').focus();
+      }
+    }
+
+    document.getElementById('access-key').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') checkAccess();
+    });
+
+    // ==== Carga y procesamiento ====
+    function loadSalesByComposer() {
+      const allKeys = Object.keys(localStorage);
+      const composerSales = {};
+
+      // Busca todas las ventas (clave: nebulaudio_sales_*)
+      allKeys.forEach(key => {
+        if (key.startsWith('nebulaudio_sales_')) {
+          try {
+            const sales = JSON.parse(localStorage.getItem(key)) || [];
+            sales.forEach(sale => {
+              const compId = sale.composition.composer_id;
+              const compName = sale.composition.composer;
+              if (!composerSales[compId]) {
+                composerSales[compId] = {
+                  name: compName,
+                  works: new Set(),
+                  pending: 0,
+                  paid: 0,
+                  totalSales: 0
+                };
+              }
+              composerSales[compId].works.add(sale.composition.id);
+              composerSales[compId].totalSales += 1;
+              if (sale.paid) {
+                composerSales[compId].paid += sale.composerEarn;
+              } else {
+                composerSales[compId].pending += sale.composerEarn;
+              }
+            });
+          } catch (e) {
+            console.warn("Clave no JSON:", key);
+          }
+        }
+      });
+
+      return composerSales;
+    }
+
+    function calculateIADistribution(totalSocios) {
+      // En la Beta, el Fondo I.A. es 0 — pero dejamos el cálculo listo
+      const totalIA = 0; // futuro: leer de localStorage o fijar
+      return totalSocios > 0 ? totalIA / totalSocios : 0;
+    }
+
+    function loadData() {
+      const composerData = loadSalesByComposer();
+      const socios = Object.entries(composerData);
+      const totalSocios = socios.length;
+      const fondoIA = calculateIADistribution(totalSocios);
+
+      const tbody = document.getElementById('socios-table');
+      const empty = document.getElementById('empty-message');
+      tbody.innerHTML = '';
+
+      if (socios.length === 0) {
+        empty.style.display = 'block';
+        return;
+      }
+
+      empty.style.display = 'none';
+
+      // Ordenar por total (desc)
+      socios.sort((a, b) => {
+        const totalA = a[1].pending + a[1].paid + fondoIA;
+        const totalB = b[1].pending + b[1].paid + fondoIA;
+        return totalB - totalA;
+      });
+
+      socios.forEach(([id, data], idx) => {
+        const row = tbody.insertRow();
+        const total = data.pending + data.paid + fondoIA;
+        row.innerHTML = `
+          <td>${idx + 1}</td>
+          <td>${data.name}</td>
+          <td>${data.works.size}</td>
+          <td>${data.totalSales}</td>
+          <td class="amount status-pending">$${data.pending.toFixed(2)}</td>
+          <td class="amount status-paid">$${data.paid.toFixed(2)}</td>
+          <td class="amount">$${fondoIA.toFixed(2)}</td>
+          <td class="amount total-col">$${total.toFixed(2)}</td>
+        `;
+      });
+    }
+
+    function exportCSV() {
+      const composerData = loadSalesByComposer();
+      const socios = Object.entries(composerData);
+      const totalSocios = socios.length;
+      const fondoIA = calculateIADistribution(totalSocios);
+
+      if (socios.length === 0) {
+        alert("❌ No hay datos para exportar.");
+        return;
+      }
+
+      let csv = "Compositor,Obras,Descargas,Adeudado,Pagado,Fondo_IA,Total\n";
+      socios.forEach(([id, data]) => {
+        const total = data.pending + data.paid + fondoIA;
+        csv += `"${data.name}",${data.works.size},${data.totalSales},${data.pending.toFixed(2)},${data.paid.toFixed(2)},${fondoIA.toFixed(2)},${total.toFixed(2)}\n`;
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `nebulaudio_socios_${new Date().toISOString().split('T')[0]}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+  </script>
+</body>
+</html>
