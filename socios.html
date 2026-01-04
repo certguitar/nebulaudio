@@ -269,6 +269,90 @@
       min-height: 1.2rem;
       font-size: 0.85rem;
       margin-top: 0.5rem;
+      color: #ef4444;
+    }
+
+    /* ✅ Formulario de edición (solo para admin) */
+    #data-input-screen {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: var(--bg-dark);
+      z-index: 2000;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 2rem;
+      overflow-y: auto;
+    }
+    .input-card {
+      background: var(--bg-card);
+      border-radius: 20px;
+      padding: 2rem;
+      max-width: 800px;
+      width: 90%;
+      margin: 0 auto;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    }
+    .input-card h2 {
+      margin-bottom: 1.2rem;
+      color: var(--pro);
+    }
+    .composer-row {
+      display: flex;
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .composer-row input {
+      padding: 0.6rem;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      background: rgba(10,10,20,0.5);
+      color: white;
+      font-family: 'Inter', sans-serif;
+    }
+    .composer-name {
+      flex: 2;
+      min-width: 200px;
+    }
+    .composer-downloads, .composer-paid {
+      flex: 1;
+      min-width: 100px;
+      text-align: center;
+    }
+    #add-composer-btn {
+      background: rgba(16,185,129,0.1);
+      color: var(--pro);
+      border: 1px dashed var(--pro);
+      padding: 0.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    #save-data-btn {
+      background: linear-gradient(135deg, var(--pro), #0d9a6d);
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+
+    /* Botón de acción tras autorización */
+    .btn-mark-paid {
+      padding: 4px 10px;
+      font-size: 0.75rem;
+      background: var(--pending);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .btn-mark-paid:hover {
+      background: #d97706;
     }
   </style>
 </head>
@@ -283,16 +367,34 @@
     <div id="access-form">
       <h2>🔐 Acceso restringido</h2>
       <p style="opacity:0.7; margin-bottom:1rem;">Solo para compositores registrados</p>
-      <input type="password" id="access-key" placeholder="Clave de socios" autocomplete="off">
+      <input type="password" id="access-key" placeholder="Clave de acceso" autocomplete="off">
       <button onclick="checkAccess()">Acceder</button>
       <div id="access-error"></div>
-      <p style="font-size:0.8rem; margin-top:1rem; opacity:0.7;">
-        ¿No tienes la clave? Escríbele a <strong>CERT</strong>.
-      </p>
     </div>
   </div>
 
-  <!-- 📊 Contenido real -->
+  <!-- ✅ Formulario de edición (solo para ti) -->
+  <div id="data-input-screen">
+    <div class="input-card">
+      <h2>✏️ Editar datos del mes — Enero 2026</h2>
+      <div id="composer-inputs">
+        <div class="composer-row">
+          <input type="text" class="composer-name" placeholder="Nombre del compositor" value="Carlos Reyes (CERT)">
+          <input type="number" class="composer-downloads" placeholder="Descargas" value="42" min="0">
+          <input type="number" class="composer-paid" placeholder="Pagado ($)" value="0.00" step="0.01" min="0">
+        </div>
+        <div class="composer-row">
+          <input type="text" class="composer-name" placeholder="Nombre del compositor" value="Ana Martínez (I.B.)">
+          <input type="number" class="composer-downloads" placeholder="Descargas" value="15" min="0">
+          <input type="number" class="composer-paid" placeholder="Pagado ($)" value="19.13" step="0.01" min="0">
+        </div>
+      </div>
+      <button id="add-composer-btn" onclick="addComposerRow()">➕ Añadir compositor</button>
+      <button id="save-data-btn" onclick="saveMonthlyData()">✅ Guardar y volver a la tabla</button>
+    </div>
+  </div>
+
+  <!-- 📊 Contenido principal -->
   <div id="main-content" style="display:none;">
     <div class="container">
       <div class="logo-top">
@@ -303,13 +405,12 @@
       <div class="card">
         <h2>📊 Ranking de Socios</h2>
         <p style="opacity:0.85; margin-bottom:1rem;">
-          Todos reciben la misma parte del Fondo I.A. (equitativo).  
           Tu parte por obra: <strong>85% de $1.50 = $1.275</strong>.
         </p>
 
         <div class="controls">
-          <button class="btn btn-update" onclick="loadData()">🔃 Actualizar mis datos</button>
-          <button class="btn btn-export" onclick="exportCSV()">📥 Exportar CSV completo</button>
+          <button id="btn-edit" class="btn btn-update" style="display:none;" onclick="showDataInput()">✏️ Editar datos del mes</button>
+          <button class="btn btn-export" onclick="exportCSV()">📥 Exportar CSV</button>
         </div>
 
         <div class="table-container">
@@ -322,8 +423,7 @@
                 <th>Descargas</th>
                 <th class="amount">Adeudado</th>
                 <th class="amount">Pagado</th>
-                <th class="amount">Fondo I.A.</th>
-                <th class="amount">Total mes</th>
+                <th class="amount">Total</th>
                 <th>Acción</th>
               </tr>
             </thead>
@@ -333,65 +433,69 @@
         </div>
 
         <div id="empty-message" class="empty-state" style="display:none;">
-          🌌 Aún no hay ventas registradas.<br>
-          Una vez se realice una compra en <code>index.html</code>, los datos aparecerán aquí.
+          🌌 Sin datos. Usa "✏️ Editar datos del mes" para cargarlos.
         </div>
       </div>
 
-      <div class="card">
-        <h3>ℹ️ ¿Cómo funciona?</h3>
-        <ul style="text-align:left; padding-left:1.4rem;">
-          <li>✅ <strong>15%</strong> de cada venta financia la plataforma y el <strong>Fondo I.A.</strong></li>
-          <li>✅ <strong>85%</strong> va directo al compositor de la obra vendida.</li>
-          <li>✅ El <strong>Fondo I.A.</strong> se reparte <strong>equitativamente</strong> entre todos los socios.</li>
-          <li>✅ Los pagos se procesan la <strong>primera semana de cada mes</strong>.</li>
-          <li>🔒 Solo el administrador puede registrar pagos (autorización adicional requerida).</li>
-        </ul>
-      </div>
-
-      <p class="footer">
-        © 2026 Nebulaudio — Música humana, equidad real<br>
-        Clave de acceso: <code>nebula2026</code>
-      </p>
+      <p class="footer">© 2026 Nebulaudio</p>
     </div>
   </div>
 
-  <!-- 🔐 Modal de autorización de tesorería -->
+  <!-- 🔐 Modal de tesorería -->
   <div id="auth-modal">
     <div id="auth-modal-content">
-      <button id="close-auth-modal">×</button>
-      <h3 style="margin-bottom:1rem; color:var(--pro);">🔐 Autorización de Tesorería</h3>
-      <p style="opacity:0.85; margin-bottom:1rem;">
-        Solo el administrador puede registrar pagos.<br>
-        Ingresa la clave de autorización para desbloquear esta acción.
-      </p>
-      <input type="password" id="treasury-key" placeholder="Clave de tesorería">
+      <button id="close-auth-modal" onclick="closeAuthModal()">×</button>
+      <h3>🔐 Autorización de Tesorería</h3>
+      <p>Ingresa la clave para habilitar marcar pagos.</p>
+      <input type="password" id="treasury-key" placeholder="Clave de tesorería" onkeypress="if(event.key==='Enter') authorizePayment()">
       <button class="btn btn-update" onclick="authorizePayment()" style="width:100%;">✅ Autorizar</button>
       <p id="auth-status"></p>
     </div>
   </div>
 
   <script>
-  const ACCESS_KEY = "nebula2026";
-  const TREASURY_KEY = "Cert$log171072";
+  const KEY_SOCIO = "nebula2026";
+  const KEY_ADMIN = "Cert$log171072";
+  let currentData = null;
+  let isAdmin = false;
   let isAuthorized = false;
-  let authTimeout = null;
 
-  // Cerrar modal con ESC
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-      document.getElementById('auth-modal').style.display = 'none';
-    }
-  });
+  // ───────────────────────────────────────────────────────────────
+  // ✏️ DATOS DEL MES — Enero 2026
+  // ▼ EDITA ESTE BLOQUE CUANDO AGREGUES/ACTUALICES COMPOSITORES ▼
+  // Formato: { name: "Nombre (Abrev.)", works: N, downloads: N, paid: N.NN }
+  // ───────────────────────────────────────────────────────────────
+  const MONTHLY_DATA = [
+    { name: "Carlos Reyes (CERT)", works: 19, downloads: 42, paid: 0.00 },
+    { name: "Ana Martínez (I.B.)", works: 2, downloads: 15, paid: 19.13 },
+    { name: "JB",                 works: 0, downloads: 0,  paid: 0.00 }
+    // Agrega más aquí si lo deseas, por ejemplo:
+    // { name: "Luis Gómez (L.G.)", works: 5, downloads: 7, paid: 0.00 }
+  ];
+  // ───────────────────────────────────────────────────────────────
+
+  function closeAuthModal() {
+    document.getElementById('auth-modal').style.display = 'none';
+  }
 
   function checkAccess() {
-    const input = document.getElementById('access-key').value.trim();
+    const key = document.getElementById('access-key').value.trim();
     const error = document.getElementById('access-error');
     
-    if (input === ACCESS_KEY) {
+    if (key === KEY_ADMIN) {
+      isAdmin = true;
       document.getElementById('access-screen').style.display = 'none';
       document.getElementById('main-content').style.display = 'block';
-      setTimeout(loadData, 100);
+      document.getElementById('btn-edit').style.display = 'inline-block';
+      currentData = JSON.parse(JSON.stringify(MONTHLY_DATA)); // ✅ Usa datos fijos
+      renderTable();
+    } else if (key === KEY_SOCIO) {
+      isAdmin = false;
+      isAuthorized = false;
+      document.getElementById('access-screen').style.display = 'none';
+      document.getElementById('main-content').style.display = 'block';
+      currentData = JSON.parse(JSON.stringify(MONTHLY_DATA)); // ✅ Mismos datos
+      renderTable();
     } else {
       error.textContent = "❌ Clave incorrecta";
       document.getElementById('access-key').value = '';
@@ -403,228 +507,185 @@
     if (e.key === 'Enter') checkAccess();
   });
 
+  // === Edición (solo para admin) ===
+  function showDataInput() {
+    if (!isAdmin) return;
+    // Precarga los datos actuales en el formulario
+    const container = document.getElementById('composer-inputs');
+    container.innerHTML = '';
+    currentData.forEach(item => {
+      const row = document.createElement('div');
+      row.className = 'composer-row';
+      row.innerHTML = `
+        <input type="text" class="composer-name" placeholder="Nombre del compositor" value="${item.name}">
+        <input type="number" class="composer-downloads" placeholder="Descargas" value="${item.downloads}" min="0">
+        <input type="number" class="composer-paid" placeholder="Pagado ($)" value="${item.paid.toFixed(2)}" step="0.01" min="0">
+      `;
+      container.appendChild(row);
+    });
+    document.getElementById('data-input-screen').style.display = 'flex';
+    document.getElementById('main-content').style.display = 'none';
+  }
+
+  function addComposerRow() {
+    const container = document.getElementById('composer-inputs');
+    const row = document.createElement('div');
+    row.className = 'composer-row';
+    row.innerHTML = `
+      <input type="text" class="composer-name" placeholder="Nombre del compositor" value="">
+      <input type="number" class="composer-downloads" placeholder="Descargas" value="0" min="0">
+      <input type="number" class="composer-paid" placeholder="Pagado ($)" value="0.00" step="0.01" min="0">
+    `;
+    container.appendChild(row);
+  }
+
+  function saveMonthlyData() {
+    if (!isAdmin) return;
+    const rows = document.querySelectorAll('.composer-row');
+    const newData = [];
+    for (let row of rows) {
+      const name = row.querySelector('.composer-name').value.trim();
+      const downloads = parseInt(row.querySelector('.composer-downloads').value) || 0;
+      const paid = parseFloat(row.querySelector('.composer-paid').value) || 0;
+      const works = 0; // opcional: podrías inferirlo o añadir campo
+      if (name) newData.push({ name, works, downloads, paid });
+    }
+
+    // ✅ Notifica al admin que debe actualizar MONTHLY_DATA manualmente
+    const jsonStr = JSON.stringify(newData, null, 2);
+    alert(
+      "✅ Datos guardados temporalmente.\n\n" +
+      "⚠️ Para que TODOS los socios vean estos cambios:\n" +
+      "1. Copia el JSON que aparece a continuación.\n" +
+      "2. Reemplaza el contenido de MONTHLY_DATA en socios.html.\n" +
+      "3. Sube el archivo actualizado a GitHub.\n\n" +
+      "👇 Haz clic en Aceptar y luego copia el JSON:"
+    );
+    const confirmed = confirm("¿Abrir cuadro para copiar JSON ahora?");
+    if (confirmed) {
+      prompt("📌 Copia este JSON y pégalo en MONTHLY_DATA:", jsonStr);
+    }
+
+    currentData = newData;
+    document.getElementById('data-input-screen').style.display = 'none';
+    document.getElementById('main-content').style.display = 'block';
+    renderTable();
+  }
+
+  // === Tabla ===
+  function renderTable() {
+    if (!currentData || currentData.length === 0) {
+      document.getElementById('empty-message').style.display = 'block';
+      document.getElementById('socios-table').innerHTML = '';
+      return;
+    }
+
+    document.getElementById('empty-message').style.display = 'none';
+    const tbody = document.getElementById('socios-table');
+    tbody.innerHTML = '';
+
+    const sorted = [...currentData].sort((a, b) => {
+      const totalA = a.downloads * 1.275;
+      const totalB = b.downloads * 1.275;
+      return (totalB - b.paid) - (totalA - a.paid); // Orden por adeudado descendente
+    });
+
+    sorted.forEach((item, idx) => {
+      const totalEarn = item.downloads * 1.275;
+      const pending = totalEarn - item.paid;
+      const row = tbody.insertRow();
+
+      let actionCell = '';
+      if (isAdmin && isAuthorized && pending > 0) {
+        actionCell = `<button class="btn-mark-paid" onclick="markAsPaid(${idx})">✅ Marcar como pagado</button>`;
+      } else if (isAdmin && !isAuthorized && pending > 0) {
+        actionCell = `<button onclick="openAuthModal()" style="padding:4px 10px; font-size:0.75rem; background:var(--locked); color:white; border:none; border-radius:4px; opacity:0.4; cursor:pointer;">🔒 Acceso restringido</button>`;
+      } else {
+        actionCell = `<span style="opacity:0.5;">🔒 Acceso restringido</span>`;
+      }
+
+      row.innerHTML = `
+        <td>${idx + 1}</td>
+        <td>${item.name}</td>
+        <td>${item.works > 0 ? item.works : '—'}</td>
+        <td>${item.downloads}</td>
+        <td class="amount ${pending > 0 ? 'status-pending' : 'status-paid'}">$${Math.max(0, pending).toFixed(2)}</td>
+        <td class="amount status-paid">$${item.paid.toFixed(2)}</td>
+        <td class="amount total-col">$${totalEarn.toFixed(2)}</td>
+        <td>${actionCell}</td>
+      `;
+    });
+  }
+
+  // === Gestión de pagos ===
   function openAuthModal() {
+    if (!isAdmin) return;
     document.getElementById('treasury-key').value = '';
     document.getElementById('auth-status').textContent = '';
     document.getElementById('auth-modal').style.display = 'flex';
     document.getElementById('treasury-key').focus();
   }
 
-  document.getElementById('close-auth-modal').addEventListener('click', function() {
-    document.getElementById('auth-modal').style.display = 'none';
-  });
-
   function authorizePayment() {
+    if (!isAdmin) return;
     const input = document.getElementById('treasury-key').value.trim();
-    const status = document.getElementById('auth-status');
+    const statusEl = document.getElementById('auth-status');
     
-    if (input === TREASURY_KEY) {
+    if (input === KEY_ADMIN) {
       isAuthorized = true;
-      status.textContent = "✅ Autorización concedida.";
-      status.style.color = "#10b981";
-      
-      // Cambiar apariencia de botones dinámicamente (delegación lo maneja)
-      document.querySelectorAll('button[data-composer-id]').forEach(btn => {
-        btn.disabled = false;
-        btn.style.opacity = "1";
-        btn.innerHTML = "💰 Marcar como pagado";
-        btn.style.background = "var(--pending)";
-      });
-      
-      if (authTimeout) clearTimeout(authTimeout);
-      authTimeout = setTimeout(() => {
-        isAuthorized = false;
-        status.textContent = "⏰ Autorización expirada.";
-        status.style.color = "#eab308";
-        // Revertir apariencia
-        document.querySelectorAll('button[data-composer-id]').forEach(btn => {
-          btn.disabled = true;
-          btn.style.opacity = "0.4";
-          btn.innerHTML = "🔒 Acceso restringido";
-          btn.style.background = "var(--locked)";
-        });
-      }, 5 * 60 * 1000);
-      
+      closeAuthModal();
+      renderTable();
     } else {
-      status.textContent = "❌ Clave incorrecta";
-      status.style.color = "#ef4444";
-      document.getElementById('treasury-key').value = '';
-      document.getElementById('treasury-key').focus();
+      statusEl.textContent = "❌ Clave incorrecta";
     }
   }
 
-  // === Carga de datos ===
-  function loadSalesByComposer() {
-    const composerSales = {};
-    try {
-      const allKeys = Object.keys(localStorage).filter(k => k.startsWith('nebulaudio_sales_'));
-      allKeys.forEach(key => {
-        try {
-          const sales = JSON.parse(localStorage.getItem(key)) || [];
-          sales.forEach(sale => {
-            const compId = sale.composition?.composer_id || 'unknown';
-            const compName = sale.composition?.composer || 'Anónimo';
-            if (!composerSales[compId]) {
-              composerSales[compId] = {
-                name: compName,
-                works: new Set(),
-                pending: 0,
-                paid: 0,
-                totalSales: 0
-              };
-            }
-            composerSales[compId].works.add(sale.composition?.id || 'unknown');
-            composerSales[compId].totalSales += 1;
-            const earn = parseFloat(sale.composerEarn) || 0;
-            if (sale.paid) {
-              composerSales[compId].paid += earn;
-            } else {
-              composerSales[compId].pending += earn;
-            }
-          });
-        } catch (e) {
-          console.warn("Error parsing key:", key, e);
-        }
-      });
-    } catch (e) {
-      console.error("Error loading sales:", e);
-    }
-    return composerSales;
+  function markAsPaid(index) {
+    if (!isAdmin || !isAuthorized) return;
+    const item = currentData[index];
+    const total = item.downloads * 1.275;
+    item.paid = total; // ✅ Actualización real
+    renderTable();
   }
 
-  function calculateIADistribution(totalSocios) {
-    return 0;
-  }
-
-  function loadData() {
-    const composerData = loadSalesByComposer();
-    const socios = Object.entries(composerData);
-    const totalSocios = socios.length;
-    const fondoIA = calculateIADistribution(totalSocios);
-
-    const tbody = document.getElementById('socios-table');
-    const empty = document.getElementById('empty-message');
-    tbody.innerHTML = '';
-
-    if (socios.length === 0) {
-      empty.style.display = 'block';
-      return;
-    }
-
-    empty.style.display = 'none';
-
-    socios.sort((a, b) => {
-      const totalA = a[1].pending + a[1].paid + fondoIA;
-      const totalB = b[1].pending + b[1].paid + fondoIA;
-      return totalB - totalA;
-    });
-
-    socios.forEach(([id, data], idx) => {
-      const total = data.pending + data.paid + fondoIA;
-      const row = tbody.insertRow();
-      row.innerHTML = `
-        <td>${idx + 1}</td>
-        <td>${data.name}</td>
-        <td>${data.works.size}</td>
-        <td>${data.totalSales}</td>
-        <td class="amount status-pending">$${data.pending.toFixed(2)}</td>
-        <td class="amount status-paid">$${data.paid.toFixed(2)}</td>
-        <td class="amount">$${fondoIA.toFixed(2)}</td>
-        <td class="amount total-col">$${total.toFixed(2)}</td>
-        <td>
-          <button 
-            data-composer-id="${id}"
-            style="padding:4px 10px; font-size:0.75rem; background:var(--locked); 
-                   color:white; border:none; border-radius:4px; opacity:0.4; 
-                   cursor:pointer;"  <!-- ⚠️ IMPORTANTE: cursor:pointer (no not-allowed) -->
-            disabled>
-            🔒 Acceso restringido
-          </button>
-        </td>
-      `;
-    });
-  }
-
-  function markAsPaid(composerId) {
-    if (!isAuthorized) {
-      openAuthModal();
-      return;
-    }
-
-    const key = `nebulaudio_sales_${composerId}`;
-    let sales;
-    try {
-      sales = JSON.parse(localStorage.getItem(key) || '[]');
-    } catch (e) {
-      alert("⚠️ Error al leer datos. Contacta a CERT.");
-      return;
-    }
-    
-    let updated = false;
-    for (let sale of sales) {
-      if (!sale.paid) {
-        sale.paid = true;
-        updated = true;
-      }
-    }
-
-    if (updated) {
-      try {
-        localStorage.setItem(key, JSON.stringify(sales));
-        alert(`✅ Pagos marcados para ${composerId}`);
-        loadData();
-      } catch (e) {
-        alert("❌ Error al guardar. ¿Espacio lleno?");
-      }
-    } else {
-      alert('ℹ️ No hay pagos pendientes.');
-    }
-  }
-
+  // === Exportar CSV real ===
   function exportCSV() {
-    const composerData = loadSalesByComposer();
-    const socios = Object.entries(composerData);
-    if (socios.length === 0) {
-      alert("❌ No hay datos.");
+    if (!currentData || currentData.length === 0) {
+      alert("⚠️ No hay datos para exportar.");
       return;
     }
 
-    let csv = "Compositor,Obras,Descargas,Adeudado,Pagado,Fondo_IA,Total\n";
-    socios.forEach(([id, data]) => {
-      const total = data.pending + data.paid;
-      csv += `"${data.name}",${data.works.size},${data.totalSales},${data.pending.toFixed(2)},${data.paid.toFixed(2)},0,${total.toFixed(2)}\n`;
+    let csvContent = "ID,Compositor,Obras,Descargas,Adeudado,Pagado,Total\n";
+    currentData.forEach((item, idx) => {
+      const total = item.downloads * 1.275;
+      const pending = total - item.paid;
+      const row = [
+        idx + 1,
+        `"${item.name.replace(/"/g, '""')}"`,
+        item.works || '—',
+        item.downloads,
+        pending.toFixed(2),
+        item.paid.toFixed(2),
+        total.toFixed(2)
+      ];
+      csvContent += row.join(",") + "\n";
     });
 
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `nebulaudio_socios_${new Date().toISOString().split('T')[0]}.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
+    const link = document.createElement("a");
+    link.href = url;
+    const timestamp = new Date().toISOString().slice(0,10);
+    link.download = `nebulaudio_socios_${timestamp}.csv`;
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 
-  // ✅ DELEGACIÓN DE EVENTOS ROBUSTA (clave para que funcione SIEMPRE)
-  document.addEventListener('click', function(e) {
-    // Buscar botón ascendente (por si se hace clic en el texto/ícono)
-    let btn = e.target.closest('button[data-composer-id]');
-    if (!btn) return;
-
-    e.preventDefault();
-    e.stopPropagation();
-
-    const composerId = btn.getAttribute('data-composer-id');
-    
-    if (isAuthorized) {
-      markAsPaid(composerId);
-    } else {
-      openAuthModal(); // ← ¡Este SÍ se ejecutará!
-    }
-  });
-
-  // ✅ Abrir modal también si se presiona Enter dentro del campo de clave
-  document.getElementById('treasury-key').addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') authorizePayment();
+  // Inicialización
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => document.getElementById('access-key')?.focus(), 100);
   });
 </script>
 </body>
