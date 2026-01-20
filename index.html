@@ -474,49 +474,47 @@ Compositor: Carlos Reyes (CERT) • Hecho para creadores digitales.<br>
 </p>
 </div>
 
-<!-- 📩 Modal de registro REAL (Formspree) -->
+<!-- 📩 Modal de registro REAL (Jotform embebido como iframe) -->
 <div id="register-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:1000; justify-content:center; align-items:center;">
-  <div style="background:var(--bg-card); border-radius:20px; padding:2rem; max-width:500px; width:90%; box-shadow:0 20px 40px rgba(0,0,0,0.5); position:relative;">
+  <div style="background:var(--bg-card); border-radius:20px; padding:2rem; max-width:500px; width:90%; box-shadow:0 20px 40px rgba(0,0,0,0.5); position:relative; max-height:90vh; overflow:auto;">
     <button id="close-modal" style="position:absolute; top:1rem; right:1rem; background:#334155; border:none; color:white; width:30px; height:30px; border-radius:50%; font-weight:bold;">×</button>
     <h2 style="margin-bottom:1.2rem; color:var(--pro);">📝 Registro de Compositor</h2>
     <p style="opacity:0.8; margin-bottom:1.5rem;">Únete a la primera biblioteca ética de música humana.</p>
-    
-    <!-- ✅ FORMULARIO REAL (Formspree) -->
-    <form id="composer-form" action="https://formspree.io/f/maqnegrq" method="POST">
-      <div style="margin-bottom:1.2rem;">
-        <label style="display:block; margin-bottom:0.4rem; font-weight:500;">Nombre completo</label>
-        <input type="text" name="nombre" placeholder="Ej: Ana Martínez" required
-               style="width:100%; padding:0.7rem; border-radius:10px; border:1px solid rgba(255,255,255,0.1); background:rgba(10,10,20,0.5); color:white;">
-      </div>
-      
-      <div style="margin-bottom:1.2rem;">
-        <label style="display:block; margin-bottom:0.4rem; font-weight:500;">Email</label>
-        <input type="email" name="email" placeholder="tu@email.com" required
-               style="width:100%; padding:0.7rem; border-radius:10px; border:1px solid rgba(255,255,255,0.1); background:rgba(10,10,20,0.5); color:white;">
-      </div>
-      
-      <div style="margin-bottom:1.2rem;">
-        <label style="display:block; margin-bottom:0.4rem; font-weight:500;">PayPal (para regalías)</label>
-        <input type="email" name="paypal" placeholder="paypal@email.com"
-               style="width:100%; padding:0.7rem; border-radius:10px; border:1px solid rgba(255,255,255,0.1); background:rgba(10,10,20,0.5); color:white;">
-        <p style="font-size:0.8rem; opacity:0.7; margin-top:0.3rem;">*Opcional</p>
-      </div>
-      
-      <div style="margin-bottom:1.5rem;">
-        <label style="display:flex; align-items:center; gap:0.5rem;">
-          <input type="checkbox" name="acepto" value="sí" required>
-          <span>Acepto los <a href="estatutos-nebulaudio.html" target="_blank" style="color:var(--pro);">Estatutos Nebulaudio</a></span>
-        </label>
-      </div>
-      
-      <button type="submit" class="btn-plan btn-express" style="width:100%;">
-        📤 Enviar solicitud
-      </button>
-    </form>
-    
+
+    <!-- iframe directo de Jotform (versión responsive) -->
+    <iframe
+      id="jotform-iframe"
+      src="https://form.jotform.com/42672612123649"
+      style="width:100%; min-height:600px; border:none; background:transparent;"
+      frameborder="0"
+      scrolling="no"
+    ></iframe>
+
     <p id="form-status" style="margin-top:1rem; font-size:0.85rem; min-height:1.2rem;"></p>
   </div>
 </div>
+
+<!-- Script para abrir/cerrar el modal -->
+<script>
+  // Asegúrate de que este selector coincida con tu botón de "Registrarse"
+  // Puedes cambiarlo a cualquier clase o ID que uses
+  document.querySelectorAll('[data-modal="register"]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.getElementById('register-modal').style.display = 'flex';
+    });
+  });
+
+  document.getElementById('close-modal').addEventListener('click', () => {
+    document.getElementById('register-modal').style.display = 'none';
+  });
+
+  // Cerrar al hacer clic fuera del contenido
+  document.getElementById('register-modal').addEventListener('click', (e) => {
+    if (e.target.id === 'register-modal') {
+      document.getElementById('register-modal').style.display = 'none';
+    }
+  });
+</script>
 
 <script>
 const LIBRARY = [
@@ -533,7 +531,7 @@ const LIBRARY = [
   {"id":"karim","title":"Karím","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Íntimo","style_decade":"2020s","ambience":"Recuerdo","mood":"Nostálgico","duration":64,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"karim.mp3","file_pdf":"karim.pdf","downloads":6},
   {"id":"kraloka","title":"Kraloka","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Espacio","mood":"Épico","duration":85,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"kraloka.mp3","file_pdf":"kraloka.pdf","downloads":24},
   {"id":"navio","title":"Navío","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Playa","mood":"Melancólico","duration":70,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"navio.mp3","file_pdf":"navio.pdf","downloads":19},
-  {"id":"peldanos","title":"Peldaños","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Ciudad","mood":"Contemplativo","duration":61,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"peldaños.mp3","file_pdf":"peldaños.pdf","downloads":10},
+  {"id":"peldaños","title":"Peldaños","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Ciudad","mood":"Contemplativo","duration":61,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"peldaños.mp3","file_pdf":"peldaños.pdf","downloads":10},
   {"id":"pesadumbre","title":"Pesadumbre","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Espacio","mood":"Melancólico","duration":83,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"pesadumbre.mp3","file_pdf":"pesadumbre.pdf","downloads":16},
   {"id":"pescando-soledades","title":"Pescando Soledades","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Íntimo","style_decade":"2020s","ambience":"Playa","mood":"Tranquilo","duration":76,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"pescando-soledades.mp3","file_pdf":"pescando-soledades.pdf","downloads":4},
   {"id":"solemne","title":"Solemne","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Espacio","mood":"Épico","duration":88,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"solemne.mp3","file_pdf":"solemne.pdf","downloads":22},
@@ -549,7 +547,7 @@ const LIBRARY = [
   {"id":"chipi","title":"Chipi","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Íntimo","style_decade":"2020s","ambience":"Infancia","mood":"Alegre","duration":55,"audio_folder":"sonoras","pdf_folder":"pdf","file_mp3":"chipi.mp3","file_pdf":"chipi.pdf","downloads":0},
   {"id":"cole","title":"Cole","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Urbano","style_decade":"2000s","ambience":"Escuela","mood":"Energético","duration":64,"audio_folder":"sonoras","pdf_folder":"pdf","file_mp3":"cole.mp3","file_pdf":"cole.pdf","downloads":0},
   {"id":"edbe-oriente","title":"Edbe Oriente","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Ciudad","mood":"Reflexivo","duration":78,"audio_folder":"sonoras","pdf_folder":"pdf","file_mp3":"edbe-oriente.mp3","file_pdf":"edbe-oriente.pdf","downloads":0},
-  {"id":"elevación","title":"Elevación","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Espacio","mood":"Esperanzador","duration":86,"audio_folder":"sonoras","pdf_folder":"pdf","file_mp3":"elevación.mp3","file_pdf":"elevacion.pdf","downloads":0},
+  {"id":"elevacion","title":"Elevación","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Espacio","mood":"Esperanzador","duration":86,"audio_folder":"sonoras","pdf_folder":"pdf","file_mp3":"elevacion.mp3","file_pdf":"elevacion.pdf","downloads":0},
   {"id":"gara","title":"Gara","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Folclórico","style_decade":"1970s","ambience":"Llanos","mood":"Contemplativo","duration":71,"audio_folder":"sonoras","pdf_folder":"pdf","file_mp3":"gara.mp3","file_pdf":"gara.pdf","downloads":0},
   {"id":"kivanch","title":"Kivanch","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Desierto","mood":"Misterioso","duration":80,"audio_folder":"sonoras","pdf_folder":"pdf","file_mp3":"kivanch.mp3","file_pdf":"kivanch.pdf","downloads":0},
   {"id":"la-zuliana","title":"La Zuliana","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Folclórico","style_decade":"1960s","ambience":"Lago","mood":"Melancólico","duration":75,"audio_folder":"sonoras","pdf_folder":"pdf","file_mp3":"la-zuliana.mp3","file_pdf":"la-zuliana.pdf","downloads":0},
@@ -557,9 +555,9 @@ const LIBRARY = [
   {"id":"linderos","title":"Linderos","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Frontera","mood":"Contemplativo","duration":77,"audio_folder":"sonoraudio","pdf_folder":"pdf","file_mp3":"linderos.mp3","file_pdf":"linderos.pdf","downloads":0},
   {"id":"los-artistas","title":"Los Artistas","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Íntimo","style_decade":"2010s","ambience":"Taller","mood":"Creativo","duration":69,"audio_folder":"sonoraudio","pdf_folder":"pdf","file_mp3":"los-artistas.mp3","file_pdf":"los-artistas.pdf","downloads":0},
   {"id":"los-patacones-de-mi-ninez","title":"Los Patácones de mi Niñez","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Folclórico","style_decade":"1980s","ambience":"Cocina","mood":"Nostálgico","duration":72,"audio_folder":"sonoraudio","pdf_folder":"pdf","file_mp3":"los-patacones-de-mi-ninez.mp3","file_pdf":"los-patacones-de-mi-ninez.pdf","downloads":0},
-  {"id":"medano","title":"Médano","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Desierto","mood":"Solitario","duration":84,"audio_folder":"sonoraudio","pdf_folder":"pdf","file_mp3":"medano.mp3","file_pdf":"medano.pdf","downloads":0},
+  {"id":"medano","title":"Medaño","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Desierto","mood":"Solitario","duration":84,"audio_folder":"sonoraudio","pdf_folder":"pdf","file_mp3":"medano.mp3","file_pdf":"medano.pdf","downloads":0},
   {"id":"nikoru","title":"Nikoru","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Íntimo","style_decade":"2020s","ambience":"Bosque","mood":"Tranquilo","duration":61,"audio_folder":"sonoraudio","pdf_folder":"pdf","file_mp3":"nikoru.mp3","file_pdf":"nikoru.pdf","downloads":0},
-  {"id":"pequeñas-aventuras","title":"Pequeñas Aventuras","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Urbano","style_decade":"2000s","ambience":"Parque","mood":"Juguetón","duration":58,"audio_folder":"sonoraudio","pdf_folder":"pdf","file_mp3":"pequeñas-aventuras.mp3","file_pdf":"pequenas-aventuras.pdf","downloads":0},
+  {"id":"pequenas-aventuras","title":"Pequeñas Aventuras","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Urbano","style_decade":"2000s","ambience":"Parque","mood":"Juguetón","duration":58,"audio_folder":"sonoraudio","pdf_folder":"pdf","file_mp3":"pequenas-aventuras.mp3","file_pdf":"pequenas-aventuras.pdf","downloads":0},
   {"id":"royal","title":"Royal","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"1940s","ambience":"Salón","mood":"Elegante","duration":79,"audio_folder":"sonoraudio","pdf_folder":"pdf","file_mp3":"royal.mp3","file_pdf":"royal.pdf","downloads":0},
   {"id":"silvestre","title":"Silvestre","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Folclórico","style_decade":"1950s","ambience":"Selva","mood":"Libre","duration":76,"audio_folder":"sonoraudio","pdf_folder":"pdf","file_mp3":"silvestre.mp3","file_pdf":"silvestre.pdf","downloads":0},
   {"id":"tonada-marabina","title":"Tonada Marabina","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Folclórico","style_decade":"1960s","ambience":"Río","mood":"Melancólico","duration":83,"audio_folder":"sonoraudio","pdf_folder":"pdf","file_mp3":"tonada-marabina.mp3","file_pdf":"tonada-marabina.pdf","downloads":0},
@@ -835,7 +833,3 @@ function generateLibraryEntry({
 </script>
 </body>
 </html>
-
-
-
-
