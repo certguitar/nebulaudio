@@ -8,6 +8,9 @@
 <!-- ✅ SDK Express -->
 <script src="https://www.paypal.com/sdk/js?client-id=BAAPN_ogrYY1NsdzU_yczNdW31JvWKIEep6W_ZrfY9UxdZOX3G3tCR8YWU3U5_c1MOPhGabjU55VleyDww&components=hosted-buttons&disable-funding=venmo&currency=USD"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- 🔑 PWA: Manifest -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#5d7eba">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 :root {
@@ -188,7 +191,6 @@ line-height: 1.5;
 .pdf-meta p { margin: 0.3rem 0; }
 .pdf-meta .downloads { color: var(--accent); font-weight: 500; }
 .pdf-meta .license { color: #e11d48; font-size: 0.8rem; }
-
 #plans-section { display: none; }
 .plans {
 display: grid;
@@ -292,212 +294,190 @@ line-height: 1.5;
 .footer a:hover { text-decoration: underline; }
 </style>
 </head>
-<link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#5d7eba">
 <body>
+
 <div class="container">
-<div class="logo-top">
-  <img src="imagen/logo-nebulaudio.png" class="logo-img" alt="Nebulaudio">
-  <h1>Nebulaudio</h1>
-  <p>Música instrumental humana, libre de derechos, para creadores digitales.<br>MP3 + Partitura PDF descargables. Todo por $1.50.</p>
-  
-  <div class="social-proof">
-    🎼 <strong>Bienvenidos, compositores y creadores de contenido.</strong><br>
-    Por favor, toma un momento para leer nuestros principios:<br>
-    <a href="estatutos-nebulaudio.html" style="color:#10b981; text-decoration:underline; font-weight:600;">
-      📜 Estatutos Nebulaudio — Human Composition
-    </a>
+  <div class="logo-top">
+    <img src="imagen/logo-nebulaudio.png" class="logo-img" alt="Nebulaudio">
+    <h1>Nebulaudio</h1>
+    <p>Música instrumental humana, libre de derechos, para creadores digitales.<br>MP3 + Partitura PDF descargables. Todo por $1.50.</p>
+    <div class="social-proof">
+      🎼 <strong>Bienvenidos, compositores y creadores de contenido.</strong><br>
+      Por favor, toma un momento para leer nuestros principios:<br>
+      <a href="estatutos-nebulaudio.html" style="color:#10b981; text-decoration:underline; font-weight:600;">
+        📜 Estatutos Nebulaudio — Human Composition
+      </a>
+    </div>
+
+    <!-- 👥 Tabla de Socios Compositores -->
+    <div style="margin-top: 2rem; padding: 1.2rem; background: rgba(10,10,20,0.3); border-radius: 16px;">
+      <h3 style="font-size:1.2rem; margin-bottom:0.8rem; color:var(--studio);">
+        👥 Tabla Pública de Socios Compositores
+      </h3>
+      <p style="margin-bottom:1rem; opacity:0.85;">
+        Transparencia total: ranking, regalías, Fondo I.A. y pagos.
+      </p>
+      <button onclick="window.open('socios.html', '_blank')"
+              class="btn-plan btn-express" style="width:auto; padding:0.6rem 1.4rem;">
+        📊 Ver tabla de socios
+      </button>
+      <p style="font-size:0.8rem; opacity:0.7; margin-top:0.6rem;">
+        🔐 Clave requerida (solo para compositores registrados)
+      </p>
+    </div>
   </div>
-  <!-- 👥 Tabla de Socios Compositores -->
-<div style="margin-top: 2rem; padding: 1.2rem; background: rgba(10,10,20,0.3); border-radius: 16px;">
-  <h3 style="font-size:1.2rem; margin-bottom:0.8rem; color:var(--studio);">
-    👥 Tabla Pública de Socios Compositores
-  </h3>
-  <p style="margin-bottom:1rem; opacity:0.85;">
-    Transparencia total: ranking, regalías, Fondo I.A. y pagos.
-  </p>
-  <button onclick="window.open('socios.html', '_blank')"
-          class="btn-plan btn-express" style="width:auto; padding:0.6rem 1.4rem;">
-    📊 Ver tabla de socios
+
+  <div class="recent-section">
+    <h3>🎧 Recién agregados (Beta)</h3>
+    <div class="recent-grid">
+      <div class="recent-item">"Bastián" — 68s</div>
+      <div class="recent-item">"Carabobo-22" — 74s</div>
+      <div class="recent-item">"Desolación" — 81s</div>
+      <div class="recent-item">"Kraloka" — 85s</div>
+    </div>
+  </div>
+
+  <!-- 📲 Botón de instalación PWA -->
+  <button id="install-pwa" style="display:none; background:var(--pro); color:white; border:none; padding:0.5rem 1rem; border-radius:10px; font-size:0.9rem;">
+    📲 Instalar Nebulaudio App
   </button>
-  <p style="font-size:0.8rem; opacity:0.7; margin-top:0.6rem;">
-    🔐 Clave requerida (solo para compositores registrados)
-  </p>
-</div>
-</div>
 
-<div class="recent-section">
-<h3>🎧 Recién agregados (Beta)</h3>
-<div class="recent-grid">
-<div class="recent-item">"Bastián" — 68s</div>
-<div class="recent-item">"Carabobo-22" — 74s</div>
-<div class="recent-item">"Desolación" — 81s</div>
-<div class="recent-item">"Kraloka" — 85s</div>
-</div>
-</div>
-<button id="install-pwa" style="display:none; background:var(--pro); color:white; border:none; padding:0.5rem 1rem; border-radius:10px; font-size:0.9rem;">
-  📲 Instalar Nebulaudio App
-</button>
+  <div class="examples">
+    <h2>🎧 Escucha ejemplos reales</h2>
+    <div class="examples-grid">
+      <div class="example-card">
+        <h3>Bastián</h3>
+        <audio controls controlsList="nodownload" class="example-audio">
+          <source src="audios/bastian.mp3" type="audio/mpeg">
+        </audio>
+      </div>
+      <div class="example-card">
+        <h3>Desolación</h3>
+        <audio controls controlsList="nodownload" class="example-audio">
+          <source src="audios/desolacion.mp3" type="audio/mpeg">
+        </audio>
+      </div>
+      <div class="example-card">
+        <h3>Navío</h3>
+        <audio controls controlsList="nodownload" class="example-audio">
+          <source src="audio/navio.mp3" type="audio/mpeg">
+        </audio>
+      </div>
+    </div>
+  </div>
 
-<script>
-  let deferredPrompt;
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    document.getElementById('install-pwa').style.display = 'inline-block';
-  });
-
-  document.getElementById('install-pwa').addEventListener('click', () => {
-    if (deferredPrompt) {
-      deferredPrompt.prompt();
-      deferredPrompt.userChoice.then((choiceResult) => {
-        if (choiceResult.outcome === 'accepted') {
-          console.log('Usuario instaló la PWA');
-        }
-        deferredPrompt = null;
-      });
-    }
-  });
-</script>
-
-<div class="examples">
-<h2>🎧 Escucha ejemplos reales</h2>
-<div class="examples-grid">
-<div class="example-card">
-<h3>Bastián</h3>
-<audio controls controlsList="nodownload" class="example-audio">
-<source src="audios/bastian.mp3" type="audio/mpeg">
-</audio>
-</div>
-<div class="example-card">
-<h3>Desolación</h3>
-<audio controls controlsList="nodownload" class="example-audio">
-<source src="audios/desolacion.mp3" type="audio/mpeg">
-</audio>
-</div>
-<div class="example-card">
-<h3>Navío</h3>
-<audio controls controlsList="nodownload" class="example-audio">
-<source src="audio/navio.mp3" type="audio/mpeg">
-</audio>
-</div>
-</div>
-</div>
-
-<button id="generate-btn" class="btn-plan btn-express" style="margin: 1.2rem auto; width: fit-content; padding: 0.85rem 1.6rem; font-size: 1.1rem;">
-🎵 Explorar música humana
-</button>
-
-<div class="card preview-section" id="preview-section">
-<h2>🎧 Tu pieza está lista</h2>
-<div class="preview-grid">
-<div class="preview-audio">
-<h3>Audio completo</h3>
-<div class="preview-player-box">
-<audio id="preview-audio" controls controlsList="nodownload" style="width: 100%; max-width: 500px; background: #111; border-radius: 8px;"></audio>
-<div id="audio-controls" style="display:flex; justify-content:center; align-items:center; gap:12px; margin-top:8px; font-size:0.85rem; opacity:0.7;">
-  <span id="audio-status">Selecciona una pieza humana</span>
-  <button id="save-btn" class="btn-plan" style="padding:4px 10px; font-size:0.75rem; background:#334155; display:none;">
-    ✚ Guardar
+  <button id="generate-btn" class="btn-plan btn-express" style="margin: 1.2rem auto; width: fit-content; padding: 0.85rem 1.6rem; font-size: 1.1rem;">
+    🎵 Explorar música humana
   </button>
-</div>
-</div>
-<button id="compare-btn" class="btn-plan btn-express" style="margin-top:0.6rem; font-size:0.88rem;">
-↔️ Escuchar otra obra
-</button>
 
-<!-- Selección múltiple -->
-<div id="selection-bar" style="margin-top:1.2rem; display:none;">
-  <h3 style="font-size:1.05rem; margin-bottom:0.7rem; color:var(--text-secondary);">
-    🎵 Obras guardadas (<span id="selection-count">0</span>/3)
-  </h3>
-  <div id="selection-list" style="display:flex; flex-wrap:wrap; gap:0.6rem; justify-content:center;"></div>
-</div>
-</div>
-<div class="preview-score">
-<h3>📄 Partitura (PDF)</h3>
-<div class="pdf-container">
-<iframe id="pdf-preview" src="" class="pdf-preview" frameborder="0"
-        scrolling="no"
-        onload="this.contentWindow?.focus?.()"></iframe>
-</div>
-<div class="pdf-meta">
-<p><strong>Título:</strong> <span id="pdf-title">—</span></p>
-<p><strong>Compositor:</strong> <span id="pdf-composer">—</span></p>
-<p><strong>Duración:</strong> <span id="pdf-duration">—</span></p>
-<p class="downloads">⏬ Descargado <span id="pdf-downloads">0</span> veces</p>
-<p class="license">
-<small>Derechos conexos cedidos. Derechos de autor reservados.</small>
-</p>
-</div>
-</div>
-</div>
-<button id="download-btn" class="btn-plan btn-express" style="margin-top:1.1rem;">
-⬇️ Descargar MP3 + PDF ($1.50)
-</button>
-</div>
+  <div class="card preview-section" id="preview-section">
+    <h2>🎧 Tu pieza está lista</h2>
+    <div class="preview-grid">
+      <div class="preview-audio">
+        <h3>Audio completo</h3>
+        <div class="preview-player-box">
+          <audio id="preview-audio" controls controlsList="nodownload" style="width: 100%; max-width: 500px; background: #111; border-radius: 8px;"></audio>
+          <div id="audio-controls" style="display:flex; justify-content:center; align-items:center; gap:12px; margin-top:8px; font-size:0.85rem; opacity:0.7;">
+            <span id="audio-status">Selecciona una pieza humana</span>
+            <button id="save-btn" class="btn-plan" style="padding:4px 10px; font-size:0.75rem; background:#334155; display:none;">
+              ✚ Guardar
+            </button>
+          </div>
+        </div>
+        <button id="compare-btn" class="btn-plan btn-express" style="margin-top:0.6rem; font-size:0.88rem;">
+          ↔️ Escuchar otra obra
+        </button>
 
-<div class="card" id="plans-section">
-<h2>🔒 Elige tu plan</h2>
-<div class="plans">
-<div class="plan express">
-<h3>Express</h3>
-<div class="price">$1.50</div>
-<div class="subtext">por pieza · ≤90s</div>
-<ul class="features">
-<li>✅ MP3 320kbps</li>
-<li>✅ Partitura PDF profesional</li>
-<li class="warn">⚠️ Uso personal</li>
-</ul>
-<p style="font-size:0.8rem; opacity:0.8; margin-top:0.5rem;">
-Incluye partitura — el compositor cede derechos conexos, no derechos de autor.
-</p>
-<div id="paypal-container-7DJ5GCQ3RMKSN" style="margin-top:1rem;"></div>
-</div>
-<div class="plan pro">
-<h3>Pro</h3>
-<div class="price">$7</div>
-<div class="subtext">/mes · 12 piezas</div>
-<ul class="features">
-<li>✅ Todo Express</li>
-<li>✅ + WAV 24-bit</li>
-<li>✅ PDF profesional</li>
-<li>✅ Licencia comercial</li>
-<li>➕ Generación IA complementaria</li>
-</ul>
-<div class="coming-soon">Próximamente</div>
-</div>
-<div class="plan studio">
-<h3>Studio</h3>
-<div class="price">$12</div>
-<div class="subtext">/mes · 20 piezas + stems</div>
-<ul class="features">
-<li>✅ Todo Pro</li>
-<li>🎙️ Voces: Solo, Dueto, Coral</li>
-<li>🎛️ Stems por familia</li>
-<li>🎤 Pre-mezcla con tu voz</li>
-</ul>
-<div class="coming-soon">Próximamente</div>
-</div>
-</div>
-</div>
+        <!-- Selección múltiple -->
+        <div id="selection-bar" style="margin-top:1.2rem; display:none;">
+          <h3 style="font-size:1.05rem; margin-bottom:0.7rem; color:var(--text-secondary);">
+            🎵 Obras guardadas (<span id="selection-count">0</span>/3)
+          </h3>
+          <div id="selection-list" style="display:flex; flex-wrap:wrap; gap:0.6rem; justify-content:center;"></div>
+        </div>
+      </div>
+      <div class="preview-score">
+        <h3>📄 Partitura (PDF)</h3>
+        <div class="pdf-container">
+          <iframe id="pdf-preview" src="" class="pdf-preview" frameborder="0" scrolling="no"></iframe>
+        </div>
+        <div class="pdf-meta">
+          <p><strong>Título:</strong> <span id="pdf-title">—</span></p>
+          <p><strong>Compositor:</strong> <span id="pdf-composer">—</span></p>
+          <p><strong>Duración:</strong> <span id="pdf-duration">—</span></p>
+          <p class="downloads">⏬ Descargado <span id="pdf-downloads">0</span> veces</p>
+          <p class="license">
+            <small>Derechos conexos cedidos. Derechos de autor reservados.</small>
+          </p>
+        </div>
+      </div>
+    </div>
+    <button id="download-btn" class="btn-plan btn-express" style="margin-top:1.1rem;">
+      ⬇️ Descargar MP3 + PDF ($1.50)
+    </button>
+  </div>
 
-<!-- 🎻 Sección para compositores -->
-<div style="margin-top: 2rem; padding: 1.2rem; background: rgba(10,10,20,0.3); border-radius: 16px;">
-  <h3 style="font-size:1.2rem; margin-bottom:0.8rem; color:var(--pro);">🎻 ¿Eres compositor?</h3>
-  <p style="margin-bottom:1rem; opacity:0.85;">
-    Únete a Nebulaudio como Socio-Compositor (I.B.) y comparte tu música humana con creadores del mundo.
+  <div class="card" id="plans-section">
+    <h2>🔒 Elige tu plan</h2>
+    <div class="plans">
+      <div class="plan express">
+        <h3>Express</h3>
+        <div class="price">$1.50</div>
+        <div class="subtext">por pieza · ≤90s</div>
+        <ul class="features">
+          <li>✅ MP3 320kbps</li>
+          <li>✅ Partitura PDF profesional</li>
+          <li class="warn">⚠️ Uso personal</li>
+        </ul>
+        <p style="font-size:0.8rem; opacity:0.8; margin-top:0.5rem;">
+          Incluye partitura — el compositor cede derechos conexos, no derechos de autor.
+        </p>
+        <div id="paypal-container-7DJ5GCQ3RMKSN" style="margin-top:1rem;"></div>
+      </div>
+      <div class="plan pro">
+        <h3>Pro</h3>
+        <div class="price">$7</div>
+        <div class="subtext">/mes · 12 piezas</div>
+        <ul class="features">
+          <li>✅ Todo Express</li>
+          <li>✅ + WAV 24-bit</li>
+          <li>✅ PDF profesional</li>
+          <li>✅ Licencia comercial</li>
+          <li>➕ Generación IA complementaria</li>
+        </ul>
+        <div class="coming-soon">Próximamente</div>
+      </div>
+      <div class="plan studio">
+        <h3>Studio</h3>
+        <div class="price">$12</div>
+        <div class="subtext">/mes · 20 piezas + stems</div>
+        <ul class="features">
+          <li>✅ Todo Pro</li>
+          <li>🎙️ Voces: Solo, Dueto, Coral</li>
+          <li>🎛️ Stems por familia</li>
+          <li>🎤 Pre-mezcla con tu voz</li>
+        </ul>
+        <div class="coming-soon">Próximamente</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🎻 Sección para compositores -->
+  <div style="margin-top: 2rem; padding: 1.2rem; background: rgba(10,10,20,0.3); border-radius: 16px;">
+    <h3 style="font-size:1.2rem; margin-bottom:0.8rem; color:var(--pro);">🎻 ¿Eres compositor?</h3>
+    <p style="margin-bottom:1rem; opacity:0.85;">
+      Únete a Nebulaudio como Socio-Compositor (I.B.) y comparte tu música humana con creadores del mundo.
+    </p>
+    <button id="open-register-modal" class="btn-plan btn-express" style="width:auto; padding:0.6rem 1.4rem;">
+      📝 Registrarme
+    </button>
+  </div>
+
+  <p class="footer">
+    © 2026 Nebulaudio. Música humana, libre de derechos.<br>
+    Compositor: Carlos Reyes (CERT) • Hecho para creadores digitales.<br>
+    <a href="/privacy">Privacidad</a> • <a href="/terms">Términos</a>
   </p>
-  <button id="open-register-modal" class="btn-plan btn-express" style="width:auto; padding:0.6rem 1.4rem;">
-    📝 Registrarme
-  </button>
-</div>
-
-<p class="footer">
-© 2026 Nebulaudio. Música humana, libre de derechos.<br>
-Compositor: Carlos Reyes (CERT) • Hecho para creadores digitales.<br>
-<a href="/privacy">Privacidad</a> • <a href="/terms">Términos</a>
-</p>
 </div>
 
 <!-- 📩 Modal de registro REAL (Jotform embebido como iframe) -->
@@ -506,8 +486,6 @@ Compositor: Carlos Reyes (CERT) • Hecho para creadores digitales.<br>
     <button id="close-modal" style="position:absolute; top:1rem; right:1rem; background:#334155; border:none; color:white; width:30px; height:30px; border-radius:50%; font-weight:bold;">×</button>
     <h2 style="margin-bottom:1.2rem; color:var(--pro);">📝 Registro de Compositor</h2>
     <p style="opacity:0.8; margin-bottom:1.5rem;">Únete a la primera biblioteca ética de música humana.</p>
-
-    <!-- iframe directo de Jotform (versión responsive) -->
     <iframe
       id="jotform-iframe"
       src="https://form.jotform.com/42672612123649"
@@ -515,81 +493,56 @@ Compositor: Carlos Reyes (CERT) • Hecho para creadores digitales.<br>
       frameborder="0"
       scrolling="no"
     ></iframe>
-
     <p id="form-status" style="margin-top:1rem; font-size:0.85rem; min-height:1.2rem;"></p>
   </div>
 </div>
 
-<!-- Script para abrir/cerrar el modal -->
 <script>
-  // Asegúrate de que este selector coincida con tu botón de "Registrarse"
-  // Puedes cambiarlo a cualquier clase o ID que uses
-  document.querySelectorAll('[data-modal="register"]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.getElementById('register-modal').style.display = 'flex';
-    });
-  });
-
-  document.getElementById('close-modal').addEventListener('click', () => {
-    document.getElementById('register-modal').style.display = 'none';
-  });
-
-  // Cerrar al hacer clic fuera del contenido
-  document.getElementById('register-modal').addEventListener('click', (e) => {
-    if (e.target.id === 'register-modal') {
-      document.getElementById('register-modal').style.display = 'none';
-    }
-  });
-</script>
-
-<script>
+// === LIBRARY ===
 const LIBRARY = [
-  {"id":"bastian","title":"Bastián","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Recuerdo","mood":"Melancólico","duration":68,"audio_folder":"audios","pdf_folder":"pdf","file_mp3":"bastian.mp3","file_pdf":"bastian.pdf","downloads":12},
-  {"id":"carabobo-22","title":"Carabobo-22","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Folclórico","style_decade":"1970s","ambience":"Campo","mood":"Contemplativo","duration":74,"audio_folder":"audios","pdf_folder":"pdf","file_mp3":"carabobo-22.mp3","file_pdf":"carabobo-22.pdf","downloads":8},
-  {"id":"cotidiana","title":"Cotidiana","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Urbano","style_decade":"2020s","ambience":"Ciudad","mood":"Nostálgico","duration":52,"audio_folder":"audios","pdf_folder":"pdf","file_mp3":"cotidiana.mp3","file_pdf":"cotidiana.pdf","downloads":21},
-  {"id":"desolacion","title":"Desolación","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Espacio","mood":"Melancólico","duration":81,"audio_folder":"audios","pdf_folder":"pdf","file_mp3":"desolacion.mp3","file_pdf":"desolacion.pdf","downloads":17},
-  {"id":"el-espacio-de-los-juguetes","title":"El Espacio de los Juguetes","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Íntimo","style_decade":"1990s","ambience":"Recuerdo","mood":"Contemplativo","duration":63,"audio_folder":"audios","pdf_folder":"pdf","file_mp3":"el-espacio-de-los-juguetes.mp3","file_pdf":"el-espacio-de-los-juguetes.pdf","downloads":5},
-  {"id":"el-infeliz","title":"El Infeliz","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Espacio","mood":"Misterioso","duration":77,"audio_folder":"audios","pdf_folder":"pdf","file_mp3":"el-infeliz.mp3","file_pdf":"el-infeliz.pdf","downloads":9},
-  {"id":"el-paseo","title":"El Paseo","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Urbano","style_decade":"2020s","ambience":"Ciudad","mood":"Tranquilo","duration":58,"audio_folder":"audios","pdf_folder":"pdf","file_mp3":"el-paseo.mp3","file_pdf":"el-paseo.pdf","downloads":14},
-  {"id":"entre-suenos-y-fantasias","title":"Entre Sueños y Fantasías","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Íntimo","style_decade":"2010s","ambience":"Recuerdo","mood":"Esperanzador","duration":72,"audio_folder":"audios","pdf_folder":"pdf","file_mp3":"entre-suenos-y-fantasias.mp3","file_pdf":"entre-suenos-y-fantasias.pdf","downloads":3},
-  {"id":"escalones","title":"Escalones","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Ciudad","mood":"Contemplativo","duration":66,"audio_folder":"audios","pdf_folder":"pdf","file_mp3":"escalones.mp3","file_pdf":"escalones.pdf","downloads":11},
-  {"id":"humbolt","title":"Humbolt","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Montaña","mood":"Contemplativo","duration":79,"audio_folder":"audios","pdf_folder":"pdf","file_mp3":"humbolt.mp3","file_pdf":"humbolt.pdf","downloads":7},
-  {"id":"karim","title":"Karím","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Íntimo","style_decade":"2020s","ambience":"Recuerdo","mood":"Nostálgico","duration":64,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"karim.mp3","file_pdf":"karim.pdf","downloads":6},
-  {"id":"kraloka","title":"Kraloka","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Espacio","mood":"Épico","duration":85,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"kraloka.mp3","file_pdf":"kraloka.pdf","downloads":24},
-  {"id":"navio","title":"Navío","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Playa","mood":"Melancólico","duration":70,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"navio.mp3","file_pdf":"navio.pdf","downloads":19},
-  {"id":"peldaños","title":"Peldaños","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Ciudad","mood":"Contemplativo","duration":61,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"peldaños.mp3","file_pdf":"peldaños.pdf","downloads":10},
-  {"id":"pesadumbre","title":"Pesadumbre","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Espacio","mood":"Melancólico","duration":83,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"pesadumbre.mp3","file_pdf":"pesadumbre.pdf","downloads":16},
-  {"id":"pescando-soledades","title":"Pescando Soledades","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Íntimo","style_decade":"2020s","ambience":"Playa","mood":"Tranquilo","duration":76,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"pescando-soledades.mp3","file_pdf":"pescando-soledades.pdf","downloads":4},
-  {"id":"solemne","title":"Solemne","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Espacio","mood":"Épico","duration":88,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"solemne.mp3","file_pdf":"solemne.pdf","downloads":22},
-  {"id":"sombra","title":"Sombra","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Ciudad","mood":"Misterioso","duration":56,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"sombra.mp3","file_pdf":"sombra.pdf","downloads":13},
-  {"id":"valses-melancolicos","title":"Valses Melancólicos","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Folclórico","style_decade":"1930s","ambience":"Café","mood":"Melancólico","duration":82,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"valses-melancolicos.mp3","file_pdf":"valses-melancolicos.pdf","downloads":18},
-
-  // === NUEVAS PIEZAS (22) ===
-
-  {"id":"arte-ingenuo","title":"Arte Ingenuo","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Íntimo","style_decade":"2020s","ambience":"Taller","mood":"Inocente","duration":67,"audio_folder":"sonoras","pdf_folder":"pdf","file_mp3":"arte-ingenuo.mp3","file_pdf":"arte-ingenuo.pdf","downloads":0},
-  {"id":"beka","title":"Beka","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Recuerdo","mood":"Nostálgico","duration":73,"audio_folder":"sonoras","pdf_folder":"pdf","file_mp3":"beka.mp3","file_pdf":"beka.pdf","downloads":0},
-  {"id":"besitos","title":"Besitos","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Íntimo","style_decade":"2010s","ambience":"Hogar","mood":"Cariñoso","duration":59,"audio_folder":"sonoras","pdf_folder":"pdf","file_mp3":"besitos.mp3","file_pdf":"besitos.pdf","downloads":0},
-  {"id":"calcceta","title":"Calcceta","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Urbano","style_decade":"2020s","ambience":"Barrio","mood":"Juguetón","duration":62,"audio_folder":"sonoras","pdf_folder":"pdf","file_mp3":"calcceta.mp3","file_pdf":"calcceta.pdf","downloads":0},
-  {"id":"chipi","title":"Chipi","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Íntimo","style_decade":"2020s","ambience":"Infancia","mood":"Alegre","duration":55,"audio_folder":"sonoras","pdf_folder":"pdf","file_mp3":"chipi.mp3","file_pdf":"chipi.pdf","downloads":0},
-  {"id":"cole","title":"Cole","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Urbano","style_decade":"2000s","ambience":"Escuela","mood":"Energético","duration":64,"audio_folder":"sonoras","pdf_folder":"pdf","file_mp3":"cole.mp3","file_pdf":"cole.pdf","downloads":0},
-  {"id":"edbe-oriente","title":"Edbe Oriente","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Ciudad","mood":"Reflexivo","duration":78,"audio_folder":"sonoras","pdf_folder":"pdf","file_mp3":"edbe-oriente.mp3","file_pdf":"edbe-oriente.pdf","downloads":0},
-  {"id":"elevacion","title":"Elevación","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Espacio","mood":"Esperanzador","duration":86,"audio_folder":"sonoras","pdf_folder":"pdf","file_mp3":"elevacion.mp3","file_pdf":"elevacion.pdf","downloads":0},
-  {"id":"gara","title":"Gara","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Folclórico","style_decade":"1970s","ambience":"Llanos","mood":"Contemplativo","duration":71,"audio_folder":"sonoras","pdf_folder":"pdf","file_mp3":"gara.mp3","file_pdf":"gara.pdf","downloads":0},
-  {"id":"kivanch","title":"Kivanch","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Desierto","mood":"Misterioso","duration":80,"audio_folder":"sonoras","pdf_folder":"pdf","file_mp3":"kivanch.mp3","file_pdf":"kivanch.pdf","downloads":0},
-  {"id":"la-zuliana","title":"La Zuliana","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Folclórico","style_decade":"1960s","ambience":"Lago","mood":"Melancólico","duration":75,"audio_folder":"sonoras","pdf_folder":"pdf","file_mp3":"la-zuliana.mp3","file_pdf":"la-zuliana.pdf","downloads":0},
-
-  {"id":"linderos","title":"Linderos","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Frontera","mood":"Contemplativo","duration":77,"audio_folder":"sonoraudio","pdf_folder":"pdf","file_mp3":"linderos.mp3","file_pdf":"linderos.pdf","downloads":0},
-  {"id":"los-artistas","title":"Los Artistas","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Íntimo","style_decade":"2010s","ambience":"Taller","mood":"Creativo","duration":69,"audio_folder":"sonoraudio","pdf_folder":"pdf","file_mp3":"los-artistas.mp3","file_pdf":"los-artistas.pdf","downloads":0},
-  {"id":"los-patacones-de-mi-ninez","title":"Los Patácones de mi Niñez","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Folclórico","style_decade":"1980s","ambience":"Cocina","mood":"Nostálgico","duration":72,"audio_folder":"sonoraudio","pdf_folder":"pdf","file_mp3":"los-patacones-de-mi-ninez.mp3","file_pdf":"los-patacones-de-mi-ninez.pdf","downloads":0},
-  {"id":"medano","title":"Medaño","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Desierto","mood":"Solitario","duration":84,"audio_folder":"sonoraudio","pdf_folder":"pdf","file_mp3":"medano.mp3","file_pdf":"medano.pdf","downloads":0},
-  {"id":"nikoru","title":"Nikoru","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Íntimo","style_decade":"2020s","ambience":"Bosque","mood":"Tranquilo","duration":61,"audio_folder":"sonoraudio","pdf_folder":"pdf","file_mp3":"nikoru.mp3","file_pdf":"nikoru.pdf","downloads":0},
-  {"id":"pequenas-aventuras","title":"Pequeñas Aventuras","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Urbano","style_decade":"2000s","ambience":"Parque","mood":"Juguetón","duration":58,"audio_folder":"sonoraudio","pdf_folder":"pdf","file_mp3":"pequenas-aventuras.mp3","file_pdf":"pequenas-aventuras.pdf","downloads":0},
-  {"id":"royal","title":"Royal","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"1940s","ambience":"Salón","mood":"Elegante","duration":79,"audio_folder":"sonoraudio","pdf_folder":"pdf","file_mp3":"royal.mp3","file_pdf":"royal.pdf","downloads":0},
-  {"id":"silvestre","title":"Silvestre","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Folclórico","style_decade":"1950s","ambience":"Selva","mood":"Libre","duration":76,"audio_folder":"sonoraudio","pdf_folder":"pdf","file_mp3":"silvestre.mp3","file_pdf":"silvestre.pdf","downloads":0},
-  {"id":"tonada-marabina","title":"Tonada Marabina","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Folclórico","style_decade":"1960s","ambience":"Río","mood":"Melancólico","duration":83,"audio_folder":"sonoraudio","pdf_folder":"pdf","file_mp3":"tonada-marabina.mp3","file_pdf":"tonada-marabina.pdf","downloads":0},
-  {"id":"vako","title":"Vako","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Vacío","mood":"Minimalista","duration":65,"audio_folder":"sonoraudio","pdf_folder":"pdf","file_mp3":"vako.mp3","file_pdf":"vako.pdf","downloads":0},
-  {"id":"zapaticos","title":"Zapaticos","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Íntimo","style_decade":"1990s","ambience":"Infancia","mood":"Tierno","duration":60,"audio_folder":"sonoraudio","pdf_folder":"pdf","file_mp3":"zapaticos.mp3","file_pdf":"zapaticos.pdf","downloads":0},
-  {"id":"al-jazz","title":"Al Jazz","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Jazz","style_decade":"1950s","ambience":"Club nocturno","mood":"Relajado","duration":74,"audio_folder":"audiline","pdf_folder":"pdf","file_mp3":"al-jazz.mp3","file_pdf":"al-jazz.pdf","downloads":0},
+{"id":"bastian","title":"Bastián","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Recuerdo","mood":"Melancólico","duration":68,"audio_folder":"audios","pdf_folder":"pdf","file_mp3":"bastian.mp3","file_pdf":"bastian.pdf","downloads":12},
+{"id":"carabobo-22","title":"Carabobo-22","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Folclórico","style_decade":"1970s","ambience":"Campo","mood":"Contemplativo","duration":74,"audio_folder":"audios","pdf_folder":"pdf","file_mp3":"carabobo-22.mp3","file_pdf":"carabobo-22.pdf","downloads":8},
+{"id":"cotidiana","title":"Cotidiana","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Urbano","style_decade":"2020s","ambience":"Ciudad","mood":"Nostálgico","duration":52,"audio_folder":"audios","pdf_folder":"pdf","file_mp3":"cotidiana.mp3","file_pdf":"cotidiana.pdf","downloads":21},
+{"id":"desolacion","title":"Desolación","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Espacio","mood":"Melancólico","duration":81,"audio_folder":"audios","pdf_folder":"pdf","file_mp3":"desolacion.mp3","file_pdf":"desolacion.pdf","downloads":17},
+{"id":"el-espacio-de-los-juguetes","title":"El Espacio de los Juguetes","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Íntimo","style_decade":"1990s","ambience":"Recuerdo","mood":"Contemplativo","duration":63,"audio_folder":"audios","pdf_folder":"pdf","file_mp3":"el-espacio-de-los-juguetes.mp3","file_pdf":"el-espacio-de-los-juguetes.pdf","downloads":5},
+{"id":"el-infeliz","title":"El Infeliz","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Espacio","mood":"Misterioso","duration":77,"audio_folder":"audios","pdf_folder":"pdf","file_mp3":"el-infeliz.mp3","file_pdf":"el-infeliz.pdf","downloads":9},
+{"id":"el-paseo","title":"El Paseo","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Urbano","style_decade":"2020s","ambience":"Ciudad","mood":"Tranquilo","duration":58,"audio_folder":"audios","pdf_folder":"pdf","file_mp3":"el-paseo.mp3","file_pdf":"el-paseo.pdf","downloads":14},
+{"id":"entre-suenos-y-fantasias","title":"Entre Sueños y Fantasías","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Íntimo","style_decade":"2010s","ambience":"Recuerdo","mood":"Esperanzador","duration":72,"audio_folder":"audios","pdf_folder":"pdf","file_mp3":"entre-suenos-y-fantasias.mp3","file_pdf":"entre-suenos-y-fantasias.pdf","downloads":3},
+{"id":"escalones","title":"Escalones","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Ciudad","mood":"Contemplativo","duration":66,"audio_folder":"audios","pdf_folder":"pdf","file_mp3":"escalones.mp3","file_pdf":"escalones.pdf","downloads":11},
+{"id":"humbolt","title":"Humbolt","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Montaña","mood":"Contemplativo","duration":79,"audio_folder":"audios","pdf_folder":"pdf","file_mp3":"humbolt.mp3","file_pdf":"humbolt.pdf","downloads":7},
+{"id":"karim","title":"Karím","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Íntimo","style_decade":"2020s","ambience":"Recuerdo","mood":"Nostálgico","duration":64,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"karim.mp3","file_pdf":"karim.pdf","downloads":6},
+{"id":"kraloka","title":"Kraloka","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Espacio","mood":"Épico","duration":85,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"kraloka.mp3","file_pdf":"kraloka.pdf","downloads":24},
+{"id":"navio","title":"Navío","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Playa","mood":"Melancólico","duration":70,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"navio.mp3","file_pdf":"navio.pdf","downloads":19},
+{"id":"peldaños","title":"Peldaños","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Ciudad","mood":"Contemplativo","duration":61,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"peldaños.mp3","file_pdf":"peldaños.pdf","downloads":10},
+{"id":"pesadumbre","title":"Pesadumbre","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Espacio","mood":"Melancólico","duration":83,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"pesadumbre.mp3","file_pdf":"pesadumbre.pdf","downloads":16},
+{"id":"pescando-soledades","title":"Pescando Soledades","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Íntimo","style_decade":"2020s","ambience":"Playa","mood":"Tranquilo","duration":76,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"pescando-soledades.mp3","file_pdf":"pescando-soledades.pdf","downloads":4},
+{"id":"solemne","title":"Solemne","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Espacio","mood":"Épico","duration":88,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"solemne.mp3","file_pdf":"solemne.pdf","downloads":22},
+{"id":"sombra","title":"Sombra","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Ciudad","mood":"Misterioso","duration":56,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"sombra.mp3","file_pdf":"sombra.pdf","downloads":13},
+{"id":"valses-melancolicos","title":"Valses Melancólicos","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Folclórico","style_decade":"1930s","ambience":"Café","mood":"Melancólico","duration":82,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"valses-melancolicos.mp3","file_pdf":"valses-melancolicos.pdf","downloads":18},
+// === NUEVAS PIEZAS (22) ===
+{"id":"arte-ingenuo","title":"Arte Ingenuo","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Íntimo","style_decade":"2020s","ambience":"Taller","mood":"Inocente","duration":67,"audio_folder":"sonoras","pdf_folder":"pdf","file_mp3":"arte-ingenuo.mp3","file_pdf":"arte-ingenuo.pdf","downloads":0},
+{"id":"beka","title":"Beka","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Recuerdo","mood":"Nostálgico","duration":73,"audio_folder":"sonoras","pdf_folder":"pdf","file_mp3":"beka.mp3","file_pdf":"beka.pdf","downloads":0},
+{"id":"besitos","title":"Besitos","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Íntimo","style_decade":"2010s","ambience":"Hogar","mood":"Cariñoso","duration":59,"audio_folder":"sonoras","pdf_folder":"pdf","file_mp3":"besitos.mp3","file_pdf":"besitos.pdf","downloads":0},
+{"id":"calcceta","title":"Calcceta","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Urbano","style_decade":"2020s","ambience":"Barrio","mood":"Juguetón","duration":62,"audio_folder":"sonoras","pdf_folder":"pdf","file_mp3":"calcceta.mp3","file_pdf":"calcceta.pdf","downloads":0},
+{"id":"chipi","title":"Chipi","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Íntimo","style_decade":"2020s","ambience":"Infancia","mood":"Alegre","duration":55,"audio_folder":"sonoras","pdf_folder":"pdf","file_mp3":"chipi.mp3","file_pdf":"chipi.pdf","downloads":0},
+{"id":"cole","title":"Cole","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Urbano","style_decade":"2000s","ambience":"Escuela","mood":"Energético","duration":64,"audio_folder":"sonoras","pdf_folder":"pdf","file_mp3":"cole.mp3","file_pdf":"cole.pdf","downloads":0},
+{"id":"edbe-oriente","title":"Edbe Oriente","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Ciudad","mood":"Reflexivo","duration":78,"audio_folder":"sonoras","pdf_folder":"pdf","file_mp3":"edbe-oriente.mp3","file_pdf":"edbe-oriente.pdf","downloads":0},
+{"id":"elevacion","title":"Elevación","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Espacio","mood":"Esperanzador","duration":86,"audio_folder":"sonoras","pdf_folder":"pdf","file_mp3":"elevacion.mp3","file_pdf":"elevacion.pdf","downloads":0},
+{"id":"gara","title":"Gara","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Folclórico","style_decade":"1970s","ambience":"Llanos","mood":"Contemplativo","duration":71,"audio_folder":"sonoras","pdf_folder":"pdf","file_mp3":"gara.mp3","file_pdf":"gara.pdf","downloads":0},
+{"id":"kivanch","title":"Kivanch","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Desierto","mood":"Misterioso","duration":80,"audio_folder":"sonoras","pdf_folder":"pdf","file_mp3":"kivanch.mp3","file_pdf":"kivanch.pdf","downloads":0},
+{"id":"la-zuliana","title":"La Zuliana","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Folclórico","style_decade":"1960s","ambience":"Lago","mood":"Melancólico","duration":75,"audio_folder":"sonoras","pdf_folder":"pdf","file_mp3":"la-zuliana.mp3","file_pdf":"la-zuliana.pdf","downloads":0},
+{"id":"linderos","title":"Linderos","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Frontera","mood":"Contemplativo","duration":77,"audio_folder":"sonoraudio","pdf_folder":"pdf","file_mp3":"linderos.mp3","file_pdf":"linderos.pdf","downloads":0},
+{"id":"los-artistas","title":"Los Artistas","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Íntimo","style_decade":"2010s","ambience":"Taller","mood":"Creativo","duration":69,"audio_folder":"sonoraudio","pdf_folder":"pdf","file_mp3":"los-artistas.mp3","file_pdf":"los-artistas.pdf","downloads":0},
+{"id":"los-patacones-de-mi-ninez","title":"Los Patácones de mi Niñez","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Folclórico","style_decade":"1980s","ambience":"Cocina","mood":"Nostálgico","duration":72,"audio_folder":"sonoraudio","pdf_folder":"pdf","file_mp3":"los-patacones-de-mi-ninez.mp3","file_pdf":"los-patacones-de-mi-ninez.pdf","downloads":0},
+{"id":"medano","title":"Medaño","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Desierto","mood":"Solitario","duration":84,"audio_folder":"sonoraudio","pdf_folder":"pdf","file_mp3":"medano.mp3","file_pdf":"medano.pdf","downloads":0},
+{"id":"nikoru","title":"Nikoru","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Íntimo","style_decade":"2020s","ambience":"Bosque","mood":"Tranquilo","duration":61,"audio_folder":"sonoraudio","pdf_folder":"pdf","file_mp3":"nikoru.mp3","file_pdf":"nikoru.pdf","downloads":0},
+{"id":"pequenas-aventuras","title":"Pequeñas Aventuras","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Urbano","style_decade":"2000s","ambience":"Parque","mood":"Juguetón","duration":58,"audio_folder":"sonoraudio","pdf_folder":"pdf","file_mp3":"pequenas-aventuras.mp3","file_pdf":"pequenas-aventuras.pdf","downloads":0},
+{"id":"royal","title":"Royal","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"1940s","ambience":"Salón","mood":"Elegante","duration":79,"audio_folder":"sonoraudio","pdf_folder":"pdf","file_mp3":"royal.mp3","file_pdf":"royal.pdf","downloads":0},
+{"id":"silvestre","title":"Silvestre","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Folclórico","style_decade":"1950s","ambience":"Selva","mood":"Libre","duration":76,"audio_folder":"sonoraudio","pdf_folder":"pdf","file_mp3":"silvestre.mp3","file_pdf":"silvestre.pdf","downloads":0},
+{"id":"tonada-marabina","title":"Tonada Marabina","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Folclórico","style_decade":"1960s","ambience":"Río","mood":"Melancólico","duration":83,"audio_folder":"sonoraudio","pdf_folder":"pdf","file_mp3":"tonada-marabina.mp3","file_pdf":"tonada-marabina.pdf","downloads":0},
+{"id":"vako","title":"Vako","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Vacío","mood":"Minimalista","duration":65,"audio_folder":"sonoraudio","pdf_folder":"pdf","file_mp3":"vako.mp3","file_pdf":"vako.pdf","downloads":0},
+{"id":"zapaticos","title":"Zapaticos","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Íntimo","style_decade":"1990s","ambience":"Infancia","mood":"Tierno","duration":60,"audio_folder":"sonoraudio","pdf_folder":"pdf","file_mp3":"zapaticos.mp3","file_pdf":"zapaticos.pdf","downloads":0},
+{"id":"al-jazz","title":"Al Jazz","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Jazz","style_decade":"1950s","ambience":"Club nocturno","mood":"Relajado","duration":74,"audio_folder":"audiline","pdf_folder":"pdf","file_mp3":"al-jazz.mp3","file_pdf":"al-jazz.pdf","downloads":0},
 {"id":"a-ti","title":"A Ti","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Íntimo","style_decade":"2020s","ambience":"Hogar","mood":"Tierno","duration":63,"audio_folder":"audiline","pdf_folder":"pdf","file_mp3":"a-ti.mp3","file_pdf":"a-ti.pdf","downloads":0},
 {"id":"barco-de-papel","title":"Barco de Papel","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2010s","ambience":"Río","mood":"Nostálgico","duration":68,"audio_folder":"audiline","pdf_folder":"pdf","file_mp3":"barco-de-papel.mp3","file_pdf":"barco-de-papel.pdf","downloads":0},
 {"id":"comarca","title":"Comarca","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Folclórico","style_decade":"1970s","ambience":"Campo","mood":"Tranquilo","duration":77,"audio_folder":"audiline","pdf_folder":"pdf","file_mp3":"comarca.mp3","file_pdf":"comarca.pdf","downloads":0},
@@ -603,101 +556,30 @@ const LIBRARY = [
 {"id":"travesia","title":"Travesía","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Mar","mood":"Épico","duration":85,"audio_folder":"audiline","pdf_folder":"pdf","file_mp3":"travesia.mp3","file_pdf":"travesia.pdf","downloads":0}
 ];
 
-
+// === FUNCIONALIDAD PRINCIPAL ===
 document.addEventListener('DOMContentLoaded', function() {
   let selection = [];
 
-  // === MODAL DE REGISTRO REAL (Formspree) ===
-  document.getElementById('open-register-modal')?.addEventListener('click', () => {
+  // 🔹 ABRIR MODAL DE REGISTRO
+  document.getElementById('open-register-modal').addEventListener('click', () => {
     document.getElementById('register-modal').style.display = 'flex';
   });
-  document.getElementById('close-modal')?.addEventListener('click', () => {
+
+  document.getElementById('close-modal').addEventListener('click', () => {
     document.getElementById('register-modal').style.display = 'none';
   });
 
-  document.getElementById('composer-form')?.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const form = this;
-    const status = document.getElementById('form-status');
-    
-    status.textContent = '📨 Enviando...';
-    status.style.color = '#10b981';
-
-    fetch(form.action, {
-      method: 'POST',
-      body: new FormData(form),
-      headers: { 'Accept': 'application/json' }
-    })
-    .then(response => {
-      if (response.ok) {
-        status.textContent = '✅ ¡Solicitud enviada! Te contactaré en 48h.';
-        setTimeout(() => {
-          document.getElementById('register-modal').style.display = 'none';
-          form.reset();
-          status.textContent = '';
-        }, 3000);
-      } else {
-        status.textContent = '❌ Error. Intenta de nuevo.';
-        status.style.color = '#ef4444';
-      }
-    })
-    .catch(() => {
-      status.textContent = '⚠️ Sin conexión. Revisa tu internet.';
-      status.style.color = '#eab308';
-    });
+  // Cerrar modal al hacer clic fuera
+  document.getElementById('register-modal').addEventListener('click', (e) => {
+    if (e.target.id === 'register-modal') {
+      document.getElementById('register-modal').style.display = 'none';
+    }
   });
 
-  function updateSelectionUI() {
-    const countEl = document.getElementById('selection-count');
-    const listEl = document.getElementById('selection-list');
-    const barEl = document.getElementById('selection-bar');
-    
-    countEl.textContent = selection.length;
-    listEl.innerHTML = '';
-    
-    selection.forEach((item, i) => {
-      const card = document.createElement('div');
-      card.style.cssText = `
-        background: rgba(20,20,40,0.5);
-        border-radius: 8px;
-        padding: 0.5rem 0.8rem;
-        font-size: 0.8rem;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        min-width: 180px;
-      `;
-      
-      card.innerHTML = `
-        <strong>${item.title}</strong>
-        <small>${item.duration}s · ${item.composer.split(' ')[0]}</small>
-        <div style="display:flex; gap:6px; margin-top:4px;">
-          <button class="select-final" data-index="${i}" 
-                  style="padding:2px 8px; font-size:0.7rem; background:#10b981; border:none; border-radius:4px; color:white;">
-            ✅ Elegir
-          </button>
-          <button class="remove-item" data-index="${i}" 
-                  style="padding:2px 8px; font-size:0.7rem; background:#ef4444; border:none; border-radius:4px; color:white;">
-            ✖
-          </button>
-        </div>
-      `;
-      
-      listEl.appendChild(card);
-    });
-    
-    barEl.style.display = selection.length > 0 ? 'block' : 'none';
-  }
-
-  function showSaveButton(show = true) {
-    const btn = document.getElementById('save-btn');
-    if (btn) btn.style.display = show ? 'inline-block' : 'none';
-  }
-
+  // 🔹 GENERAR MÚSICA
   function generateMusic() {
     const selected = LIBRARY[Math.floor(Math.random() * LIBRARY.length)];
     sessionStorage.setItem('nebulaudio_selection', JSON.stringify(selected));
-
     const preview = document.getElementById('preview-section');
     preview.style.display = 'block';
     preview.scrollIntoView({ behavior: 'smooth' });
@@ -718,42 +600,68 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(() => {
       player.src = selected.audio_folder + '/' + selected.file_mp3;
       player.load();
-
       const pdfUrl = selected.pdf_folder + '/' + selected.file_pdf + '#toolbar=0&navpanes=0&scrollbar=0&zoom=80';
       pdfEmbed.src = pdfUrl;
-
       pdfTitle.textContent = selected.title;
       pdfComposer.textContent = selected.composer;
       pdfDuration.textContent = `${selected.duration}s`;
       pdfDownloads.textContent = selected.downloads || 0;
-
       status.textContent = `🎵 ${selected.title} · ${selected.duration}s`;
-      showSaveButton(true);
+      document.getElementById('save-btn').style.display = 'inline-block';
     }, 300);
   }
 
   document.getElementById('generate-btn').addEventListener('click', generateMusic);
   document.getElementById('compare-btn').addEventListener('click', generateMusic);
 
+  // 🔹 GUARDAR SELECCIÓN
   document.getElementById('save-btn').addEventListener('click', function() {
     const sel = JSON.parse(sessionStorage.getItem('nebulaudio_selection'));
     if (!sel) return;
-    
     if (selection.some(s => s.id === sel.id)) {
       alert('Ya guardaste esta obra.');
       return;
     }
-    
     if (selection.length >= 3) {
       alert('Máximo 3 obras guardadas. Elige una o retira una.');
       return;
     }
-    
     selection.push({...sel});
     updateSelectionUI();
     this.textContent = '✓ Guardada';
     setTimeout(() => this.textContent = '✚ Guardar', 1200);
   });
+
+  function updateSelectionUI() {
+    const countEl = document.getElementById('selection-count');
+    const listEl = document.getElementById('selection-list');
+    const barEl = document.getElementById('selection-bar');
+    countEl.textContent = selection.length;
+    listEl.innerHTML = '';
+    selection.forEach((item, i) => {
+      const card = document.createElement('div');
+      card.style.cssText = `
+        background: rgba(20,20,40,0.5);
+        border-radius: 8px;
+        padding: 0.5rem 0.8rem;
+        font-size: 0.8rem;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        min-width: 180px;
+      `;
+      card.innerHTML = `
+        <strong>${item.title}</strong>
+        <small>${item.duration}s · ${item.composer.split(' ')[0]}</small>
+        <div style="display:flex; gap:6px; margin-top:4px;">
+          <button class="select-final" data-index="${i}" style="padding:2px 8px; font-size:0.7rem; background:#10b981; border:none; border-radius:4px; color:white;">✅ Elegir</button>
+          <button class="remove-item" data-index="${i}" style="padding:2px 8px; font-size:0.7rem; background:#ef4444; border:none; border-radius:4px; color:white;">✖</button>
+        </div>
+      `;
+      listEl.appendChild(card);
+    });
+    barEl.style.display = selection.length > 0 ? 'block' : 'none';
+  }
 
   document.getElementById('selection-list').addEventListener('click', function(e) {
     if (e.target.classList.contains('select-final')) {
@@ -762,7 +670,6 @@ document.addEventListener('DOMContentLoaded', function() {
       sessionStorage.setItem('nebulaudio_selection', JSON.stringify(chosen));
       window.location.href = window.location.pathname + '?paid=1';
     }
-    
     if (e.target.classList.contains('remove-item')) {
       const idx = e.target.dataset.index;
       selection.splice(idx, 1);
@@ -770,7 +677,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  // 🔹 REGISTRO AUTOMÁTICO DE VENTAS (¡clave para socios.html!)
+  // 🔹 DESCARGA Y REGISTRO DE VENTA
   document.getElementById('download-btn').addEventListener('click', function() {
     const sel = JSON.parse(sessionStorage.getItem('nebulaudio_selection'));
     if (!sel) {
@@ -778,7 +685,7 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
 
-    // Generar UUID v4 sin librerías
+    // Generar UUID v4
     const uuid = ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
       (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
     );
@@ -795,7 +702,6 @@ document.addEventListener('DOMContentLoaded', function() {
       transaction_id: uuid
     };
 
-    // Guardar bajo clave única por compositor
     const key = `nebulaudio_sales_${sel.composer_id}`;
     const sales = JSON.parse(localStorage.getItem(key) || '[]');
     sales.push(sale);
@@ -805,6 +711,7 @@ document.addEventListener('DOMContentLoaded', function() {
     window.location.href = window.location.pathname + '?paid=1';
   });
 
+  // 🔹 PAYPAL
   if (typeof paypal !== 'undefined') {
     paypal.HostedButtons({ hostedButtonId: "7DJ5GCQ3RMKSN" }).render("#paypal-container-7DJ5GCQ3RMKSN");
   } else {
@@ -816,55 +723,53 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 300);
   }
 
+  // 🔹 SIMULACIÓN DE PAGO EXITOSO
   const urlParams = new URLSearchParams(window.location.search);
   if (urlParams.get('paid') === '1') {
     const sel = JSON.parse(sessionStorage.getItem('nebulaudio_selection'));
     if (sel) {
       document.getElementById('plans-section').style.display = 'block';
       document.getElementById('plans-section').scrollIntoView({ behavior: 'smooth' });
-      
+
       const infoContainer = document.querySelector('.plan.express');
-      const existingPayPal = infoContainer.querySelector('#paypal-container-7DJ5GCQ3RMKSN');
-      
-      if (existingPayPal && !infoContainer.querySelector('.chosen-info')) {
+      if (infoContainer && !infoContainer.querySelector('.chosen-info')) {
         const infoDiv = document.createElement('div');
         infoDiv.className = 'chosen-info';
-        infoDiv.innerHTML = `
-          <p style="font-size:0.75rem; opacity:0.7; margin:0.4rem 0;">
-            🎵 <strong>${sel.title}</strong> · ${sel.duration}s
-          </p>
-        `;
-        existingPayPal.insertAdjacentElement('beforebegin', infoDiv);
+        infoDiv.innerHTML = `<p style="font-size:0.75rem; opacity:0.7; margin:0.4rem 0;">🎵 <strong>${sel.title}</strong> · ${sel.duration}s</p>`;
+        infoContainer.querySelector('#paypal-container-7DJ5GCQ3RMKSN').insertAdjacentElement('beforebegin', infoDiv);
       }
     }
   }
 });
 
-// 🔧 Plantilla para generar nuevas entradas (puedes usar en Excel/Google Sheets)
-/*
-function generateLibraryEntry({
-  id, title, composer="Carlos Reyes (CERT)", composer_id="carlos-reyes-cert",
-  composer_paypal="certproducciones@gmail.com", style, style_decade="2020s",
-  ambience, mood, duration, audio_folder="audio", pdf_folder="pdf",
-  file_mp3, file_pdf, downloads=0
-}) {
-  return {
-    id, title, composer, composer_id, composer_paypal,
-    style, style_decade, ambience, mood, duration,
-    audio_folder, pdf_folder, file_mp3, file_pdf, downloads
-  };
-}
-// Ej: generateLibraryEntry({id:"nueva-obra", title:"Nueva Obra", ...})
-*/
-</script>
-</body>
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js')
-        .then(reg => console.log('Service Worker registrado:', reg.scope))
-        .catch(err => console.log('Error al registrar SW:', err));
+// 🔹 PWA: INSTALACIÓN
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById('install-pwa').style.display = 'inline-block';
+});
+
+document.getElementById('install-pwa')?.addEventListener('click', () => {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then((choiceResult) => {
+      if (choiceResult.outcome === 'accepted') {
+        console.log('Usuario instaló la PWA');
+      }
+      deferredPrompt = null;
     });
   }
+});
+
+// 🔹 PWA: SERVICE WORKER
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js')
+      .then(reg => console.log('SW registrado:', reg.scope))
+      .catch(err => console.log('Error SW:', err));
+  });
+}
 </script>
+</body>
 </html>
