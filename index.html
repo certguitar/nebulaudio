@@ -292,6 +292,8 @@ line-height: 1.5;
 .footer a:hover { text-decoration: underline; }
 </style>
 </head>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#5d7eba">
 <body>
 <div class="container">
 <div class="logo-top">
@@ -333,6 +335,30 @@ line-height: 1.5;
 <div class="recent-item">"Kraloka" — 85s</div>
 </div>
 </div>
+<button id="install-pwa" style="display:none; background:var(--pro); color:white; border:none; padding:0.5rem 1rem; border-radius:10px; font-size:0.9rem;">
+  📲 Instalar Nebulaudio App
+</button>
+
+<script>
+  let deferredPrompt;
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    document.getElementById('install-pwa').style.display = 'inline-block';
+  });
+
+  document.getElementById('install-pwa').addEventListener('click', () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('Usuario instaló la PWA');
+        }
+        deferredPrompt = null;
+      });
+    }
+  });
+</script>
 
 <div class="examples">
 <h2>🎧 Escucha ejemplos reales</h2>
@@ -533,14 +559,6 @@ const LIBRARY = [
   {"id":"navio","title":"Navío","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Playa","mood":"Melancólico","duration":70,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"navio.mp3","file_pdf":"navio.pdf","downloads":19},
   {"id":"peldaños","title":"Peldaños","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Ciudad","mood":"Contemplativo","duration":61,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"peldaños.mp3","file_pdf":"peldaños.pdf","downloads":10},
   {"id":"pesadumbre","title":"Pesadumbre","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Espacio","mood":"Melancólico","duration":83,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"pesadumbre.mp3","file_pdf":"pesadumbre.pdf","downloads":16},
-  {"id":"pescando-soledades","title":"Pescando Soledades","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Íntimo","style_decade":"2020s","ambience":"Playa","mood":"Tranquilo","duration":76,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"pescando-soledades.mp3","file_pdf":"pescando-soledades.pdf","downloads":4},
-  {"id":"solemne","title":"Solemne","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Espacio","mood":"Épico","duration":88,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"solemne.mp3","file_pdf":"solemne.pdf","downloads":22},
-  {"id":"sombra","title":"Sombra","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Ciudad","mood":"Misterioso","duration":56,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"sombra.mp3","file_pdf":"sombra.pdf","downloads":13},
-  {"id":"valses-melancolicos","title":"Valses Melancólicos","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Folclórico","style_decade":"1930s","ambience":"Café","mood":"Melancólico","duration":82,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"valses-melancolicos.mp3","file_pdf":"valses-melancolicos.pdf","downloads":18},
-
-  // === NUEVAS PIEZAS (22) ===
-
-   {"id":"pesadumbre","title":"Pesadumbre","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Espacio","mood":"Melancólico","duration":83,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"pesadumbre.mp3","file_pdf":"pesadumbre.pdf","downloads":16},
   {"id":"pescando-soledades","title":"Pescando Soledades","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Íntimo","style_decade":"2020s","ambience":"Playa","mood":"Tranquilo","duration":76,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"pescando-soledades.mp3","file_pdf":"pescando-soledades.pdf","downloads":4},
   {"id":"solemne","title":"Solemne","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Espacio","mood":"Épico","duration":88,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"solemne.mp3","file_pdf":"solemne.pdf","downloads":22},
   {"id":"sombra","title":"Sombra","composer":"Carlos Reyes (CERT)","composer_id":"carlos-reyes-cert","composer_paypal":"certproducciones@gmail.com","style":"Cinematográfico","style_decade":"2020s","ambience":"Ciudad","mood":"Misterioso","duration":56,"audio_folder":"audio","pdf_folder":"pdf","file_mp3":"sombra.mp3","file_pdf":"sombra.pdf","downloads":13},
@@ -840,6 +858,13 @@ function generateLibraryEntry({
 */
 </script>
 </body>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js')
+        .then(reg => console.log('Service Worker registrado:', reg.scope))
+        .catch(err => console.log('Error al registrar SW:', err));
+    });
+  }
+</script>
 </html>
-
-
