@@ -2,18 +2,18 @@
   "name": "Nebulaudio",
   "short_name": "Nebulaudio",
   "description": "Biblioteca ética de música humana — royalty-free para creadores.",
-  "start_url": "/",
+  "start_url": "/nebulaudio/",
   "display": "standalone",
   "background_color": "#0a0a14",
   "theme_color": "#5d7eba",
   "icons": [
     {
-      "src": "/icon-192.png",
+      "src": "/nebulaudio/icon-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/icon-512.png",
+      "src": "/nebulaudio/icon-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
