@@ -410,6 +410,7 @@
 
         <div class="controls">
           <button id="btn-edit" class="btn btn-update" style="display:none;" onclick="showDataInput()">✏️ Editar datos del mes</button>
+          <button id="open-upload-modal" class="btn btn-update" style="display:none;">📤 Subir nueva obra</button>
           <button class="btn btn-export" onclick="exportCSV()">📥 Exportar CSV</button>
         </div>
 
@@ -453,240 +454,271 @@
     </div>
   </div>
 
+  <!-- 📤 Modal para subir obras -->
+  <div id="upload-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:1000; justify-content:center; align-items:center;">
+    <div style="background:var(--bg-card); border-radius:20px; padding:2rem; max-width:600px; width:95%; max-height:90vh; overflow:auto; box-shadow:0 20px 40px rgba(0,0,0,0.5); position:relative;">
+      <button id="close-upload-modal" style="position:absolute; top:1rem; right:1rem; background:#334155; border:none; color:white; width:30px; height:30px; border-radius:50%; font-weight:bold;">×</button>
+      <h2 style="margin-bottom:1.2rem; color:var(--pro);">📤 Sube tu obra a Nebulaudio</h2>
+      <p style="opacity:0.85; margin-bottom:1.5rem; font-size:0.95rem;">
+        Completa los metadatos y adjunta tu MP3 + PDF. Revisaremos tu obra en 48h.
+      </p>
+      
+      <!-- iframe de Jotform (corregido, sin espacios) -->
+      <iframe
+        src="https://form.jotform.com/42672024585658"
+        style="width:100%; min-height:800px; border:none; background:transparent;"
+        frameborder="0"
+        scrolling="yes">
+      </iframe>
+    </div>
+  </div>
+
   <script>
-  const KEY_SOCIO = "nebula2026";
-  const KEY_ADMIN = "Cert$log171072";
-  let currentData = null;
-  let isAdmin = false;
-  let isAuthorized = false;
+    // 🔑 Claves actualizadas
+    const KEY_SOCIO = "nebula2026";
+    const KEY_ADMIN = "cert2025"; // ← Actualizada
+    let currentData = null;
+    let isAdmin = false;
+    let isAuthorized = false;
 
-  // ───────────────────────────────────────────────────────────────
-  // ✏️ DATOS DEL MES — Enero 2026
-  // ▼ EDITA ESTE BLOQUE CUANDO AGREGUES/ACTUALICES COMPOSITORES ▼
-  // Formato: { name: "Nombre (Abrev.)", works: N, downloads: N, paid: N.NN }
-  // ───────────────────────────────────────────────────────────────
-  const MONTHLY_DATA = [
-    { name: "Carlos Reyes (CERT)", works: 19, downloads: 42, paid: 0.00 },
-    { name: "Ana Martínez (I.B.)", works: 2, downloads: 15, paid: 19.13 },
-    { name: "JB",                 works: 0, downloads: 0,  paid: 0.00 }
-    // Agrega más aquí si lo deseas, por ejemplo:
-    // { name: "Luis Gómez (L.G.)", works: 5, downloads: 7, paid: 0.00 }
-  ];
-  // ───────────────────────────────────────────────────────────────
+    // ───────────────────────────────────────────────────────────────
+    // ✏️ DATOS DEL MES — Enero 2026
+    // ▼ EDITA ESTE BLOQUE CUANDO AGREGUES/ACTUALICES COMPOSITORES ▼
+    const MONTHLY_DATA = [
+      { name: "Carlos Reyes (CERT)", works: 19, downloads: 42, paid: 0.00 },
+      { name: "Ana Martínez (I.B.)", works: 2, downloads: 15, paid: 19.13 },
+      { name: "JB",                 works: 0, downloads: 0,  paid: 0.00 }
+    ];
+    // ───────────────────────────────────────────────────────────────
 
-  function closeAuthModal() {
-    document.getElementById('auth-modal').style.display = 'none';
-  }
-
-  function checkAccess() {
-    const key = document.getElementById('access-key').value.trim();
-    const error = document.getElementById('access-error');
-    
-    if (key === KEY_ADMIN) {
-      isAdmin = true;
-      document.getElementById('access-screen').style.display = 'none';
-      document.getElementById('main-content').style.display = 'block';
-      document.getElementById('btn-edit').style.display = 'inline-block';
-      currentData = JSON.parse(JSON.stringify(MONTHLY_DATA)); // ✅ Usa datos fijos
-      renderTable();
-    } else if (key === KEY_SOCIO) {
-      isAdmin = false;
-      isAuthorized = false;
-      document.getElementById('access-screen').style.display = 'none';
-      document.getElementById('main-content').style.display = 'block';
-      currentData = JSON.parse(JSON.stringify(MONTHLY_DATA)); // ✅ Mismos datos
-      renderTable();
-    } else {
-      error.textContent = "❌ Clave incorrecta";
-      document.getElementById('access-key').value = '';
-      document.getElementById('access-key').focus();
+    function closeAuthModal() {
+      document.getElementById('auth-modal').style.display = 'none';
     }
-  }
 
-  document.getElementById('access-key').addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') checkAccess();
-  });
+    function checkAccess() {
+      const key = document.getElementById('access-key').value.trim();
+      const error = document.getElementById('access-error');
+      
+      if (key === KEY_ADMIN) {
+        isAdmin = true;
+        document.getElementById('access-screen').style.display = 'none';
+        document.getElementById('main-content').style.display = 'block';
+        document.getElementById('btn-edit').style.display = 'inline-block';
+        document.getElementById('open-upload-modal').style.display = 'inline-block';
+        currentData = JSON.parse(JSON.stringify(MONTHLY_DATA));
+        renderTable();
+      } else if (key === KEY_SOCIO) {
+        isAdmin = false;
+        isAuthorized = false;
+        document.getElementById('access-screen').style.display = 'none';
+        document.getElementById('main-content').style.display = 'block';
+        document.getElementById('open-upload-modal').style.display = 'inline-block';
+        currentData = JSON.parse(JSON.stringify(MONTHLY_DATA));
+        renderTable();
+      } else {
+        error.textContent = "❌ Clave incorrecta";
+        document.getElementById('access-key').value = '';
+        document.getElementById('access-key').focus();
+      }
+    }
 
-  // === Edición (solo para admin) ===
-  function showDataInput() {
-    if (!isAdmin) return;
-    // Precarga los datos actuales en el formulario
-    const container = document.getElementById('composer-inputs');
-    container.innerHTML = '';
-    currentData.forEach(item => {
+    document.getElementById('access-key').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') checkAccess();
+    });
+
+    // === Edición (solo para admin) ===
+    function showDataInput() {
+      if (!isAdmin) return;
+      const container = document.getElementById('composer-inputs');
+      container.innerHTML = '';
+      currentData.forEach(item => {
+        const row = document.createElement('div');
+        row.className = 'composer-row';
+        row.innerHTML = `
+          <input type="text" class="composer-name" placeholder="Nombre del compositor" value="${item.name}">
+          <input type="number" class="composer-downloads" placeholder="Descargas" value="${item.downloads}" min="0">
+          <input type="number" class="composer-paid" placeholder="Pagado ($)" value="${item.paid.toFixed(2)}" step="0.01" min="0">
+        `;
+        container.appendChild(row);
+      });
+      document.getElementById('data-input-screen').style.display = 'flex';
+      document.getElementById('main-content').style.display = 'none';
+    }
+
+    function addComposerRow() {
+      const container = document.getElementById('composer-inputs');
       const row = document.createElement('div');
       row.className = 'composer-row';
       row.innerHTML = `
-        <input type="text" class="composer-name" placeholder="Nombre del compositor" value="${item.name}">
-        <input type="number" class="composer-downloads" placeholder="Descargas" value="${item.downloads}" min="0">
-        <input type="number" class="composer-paid" placeholder="Pagado ($)" value="${item.paid.toFixed(2)}" step="0.01" min="0">
+        <input type="text" class="composer-name" placeholder="Nombre del compositor" value="">
+        <input type="number" class="composer-downloads" placeholder="Descargas" value="0" min="0">
+        <input type="number" class="composer-paid" placeholder="Pagado ($)" value="0.00" step="0.01" min="0">
       `;
       container.appendChild(row);
-    });
-    document.getElementById('data-input-screen').style.display = 'flex';
-    document.getElementById('main-content').style.display = 'none';
-  }
-
-  function addComposerRow() {
-    const container = document.getElementById('composer-inputs');
-    const row = document.createElement('div');
-    row.className = 'composer-row';
-    row.innerHTML = `
-      <input type="text" class="composer-name" placeholder="Nombre del compositor" value="">
-      <input type="number" class="composer-downloads" placeholder="Descargas" value="0" min="0">
-      <input type="number" class="composer-paid" placeholder="Pagado ($)" value="0.00" step="0.01" min="0">
-    `;
-    container.appendChild(row);
-  }
-
-  function saveMonthlyData() {
-    if (!isAdmin) return;
-    const rows = document.querySelectorAll('.composer-row');
-    const newData = [];
-    for (let row of rows) {
-      const name = row.querySelector('.composer-name').value.trim();
-      const downloads = parseInt(row.querySelector('.composer-downloads').value) || 0;
-      const paid = parseFloat(row.querySelector('.composer-paid').value) || 0;
-      const works = 0; // opcional: podrías inferirlo o añadir campo
-      if (name) newData.push({ name, works, downloads, paid });
     }
 
-    // ✅ Notifica al admin que debe actualizar MONTHLY_DATA manualmente
-    const jsonStr = JSON.stringify(newData, null, 2);
-    alert(
-      "✅ Datos guardados temporalmente.\n\n" +
-      "⚠️ Para que TODOS los socios vean estos cambios:\n" +
-      "1. Copia el JSON que aparece a continuación.\n" +
-      "2. Reemplaza el contenido de MONTHLY_DATA en socios.html.\n" +
-      "3. Sube el archivo actualizado a GitHub.\n\n" +
-      "👇 Haz clic en Aceptar y luego copia el JSON:"
-    );
-    const confirmed = confirm("¿Abrir cuadro para copiar JSON ahora?");
-    if (confirmed) {
-      prompt("📌 Copia este JSON y pégalo en MONTHLY_DATA:", jsonStr);
-    }
-
-    currentData = newData;
-    document.getElementById('data-input-screen').style.display = 'none';
-    document.getElementById('main-content').style.display = 'block';
-    renderTable();
-  }
-
-  // === Tabla ===
-  function renderTable() {
-    if (!currentData || currentData.length === 0) {
-      document.getElementById('empty-message').style.display = 'block';
-      document.getElementById('socios-table').innerHTML = '';
-      return;
-    }
-
-    document.getElementById('empty-message').style.display = 'none';
-    const tbody = document.getElementById('socios-table');
-    tbody.innerHTML = '';
-
-    const sorted = [...currentData].sort((a, b) => {
-      const totalA = a.downloads * 1.275;
-      const totalB = b.downloads * 1.275;
-      return (totalB - b.paid) - (totalA - a.paid); // Orden por adeudado descendente
-    });
-
-    sorted.forEach((item, idx) => {
-      const totalEarn = item.downloads * 1.275;
-      const pending = totalEarn - item.paid;
-      const row = tbody.insertRow();
-
-      let actionCell = '';
-      if (isAdmin && isAuthorized && pending > 0) {
-        actionCell = `<button class="btn-mark-paid" onclick="markAsPaid(${idx})">✅ Marcar como pagado</button>`;
-      } else if (isAdmin && !isAuthorized && pending > 0) {
-        actionCell = `<button onclick="openAuthModal()" style="padding:4px 10px; font-size:0.75rem; background:var(--locked); color:white; border:none; border-radius:4px; opacity:0.4; cursor:pointer;">🔒 Acceso restringido</button>`;
-      } else {
-        actionCell = `<span style="opacity:0.5;">🔒 Acceso restringido</span>`;
+    function saveMonthlyData() {
+      if (!isAdmin) return;
+      const rows = document.querySelectorAll('.composer-row');
+      const newData = [];
+      for (let row of rows) {
+        const name = row.querySelector('.composer-name').value.trim();
+        const downloads = parseInt(row.querySelector('.composer-downloads').value) || 0;
+        const paid = parseFloat(row.querySelector('.composer-paid').value) || 0;
+        const works = 0;
+        if (name) newData.push({ name, works, downloads, paid });
       }
 
-      row.innerHTML = `
-        <td>${idx + 1}</td>
-        <td>${item.name}</td>
-        <td>${item.works > 0 ? item.works : '—'}</td>
-        <td>${item.downloads}</td>
-        <td class="amount ${pending > 0 ? 'status-pending' : 'status-paid'}">$${Math.max(0, pending).toFixed(2)}</td>
-        <td class="amount status-paid">$${item.paid.toFixed(2)}</td>
-        <td class="amount total-col">$${totalEarn.toFixed(2)}</td>
-        <td>${actionCell}</td>
-      `;
-    });
-  }
+      const jsonStr = JSON.stringify(newData, null, 2);
+      alert(
+        "✅ Datos guardados temporalmente.\n\n" +
+        "⚠️ Para que TODOS los socios vean estos cambios:\n" +
+        "1. Copia el JSON que aparece a continuación.\n" +
+        "2. Reemplaza el contenido de MONTHLY_DATA en socios.html.\n" +
+        "3. Sube el archivo actualizado a GitHub.\n\n" +
+        "👇 Haz clic en Aceptar y luego copia el JSON:"
+      );
+      const confirmed = confirm("¿Abrir cuadro para copiar JSON ahora?");
+      if (confirmed) {
+        prompt("📌 Copia este JSON y pégalo en MONTHLY_DATA:", jsonStr);
+      }
 
-  // === Gestión de pagos ===
-  function openAuthModal() {
-    if (!isAdmin) return;
-    document.getElementById('treasury-key').value = '';
-    document.getElementById('auth-status').textContent = '';
-    document.getElementById('auth-modal').style.display = 'flex';
-    document.getElementById('treasury-key').focus();
-  }
-
-  function authorizePayment() {
-    if (!isAdmin) return;
-    const input = document.getElementById('treasury-key').value.trim();
-    const statusEl = document.getElementById('auth-status');
-    
-    if (input === KEY_ADMIN) {
-      isAuthorized = true;
-      closeAuthModal();
+      currentData = newData;
+      document.getElementById('data-input-screen').style.display = 'none';
+      document.getElementById('main-content').style.display = 'block';
       renderTable();
-    } else {
-      statusEl.textContent = "❌ Clave incorrecta";
-    }
-  }
-
-  function markAsPaid(index) {
-    if (!isAdmin || !isAuthorized) return;
-    const item = currentData[index];
-    const total = item.downloads * 1.275;
-    item.paid = total; // ✅ Actualización real
-    renderTable();
-  }
-
-  // === Exportar CSV real ===
-  function exportCSV() {
-    if (!currentData || currentData.length === 0) {
-      alert("⚠️ No hay datos para exportar.");
-      return;
     }
 
-    let csvContent = "ID,Compositor,Obras,Descargas,Adeudado,Pagado,Total\n";
-    currentData.forEach((item, idx) => {
+    // === Tabla ===
+    function renderTable() {
+      if (!currentData || currentData.length === 0) {
+        document.getElementById('empty-message').style.display = 'block';
+        document.getElementById('socios-table').innerHTML = '';
+        return;
+      }
+
+      document.getElementById('empty-message').style.display = 'none';
+      const tbody = document.getElementById('socios-table');
+      tbody.innerHTML = '';
+
+      const sorted = [...currentData].sort((a, b) => {
+        const totalA = a.downloads * 1.275;
+        const totalB = b.downloads * 1.275;
+        return (totalB - b.paid) - (totalA - a.paid);
+      });
+
+      sorted.forEach((item, idx) => {
+        const totalEarn = item.downloads * 1.275;
+        const pending = totalEarn - item.paid;
+        const row = tbody.insertRow();
+
+        let actionCell = '';
+        if (isAdmin && isAuthorized && pending > 0) {
+          actionCell = `<button class="btn-mark-paid" onclick="markAsPaid(${idx})">✅ Marcar como pagado</button>`;
+        } else if (isAdmin && !isAuthorized && pending > 0) {
+          actionCell = `<button onclick="openAuthModal()" style="padding:4px 10px; font-size:0.75rem; background:var(--locked); color:white; border:none; border-radius:4px; opacity:0.4; cursor:pointer;">🔒 Acceso restringido</button>`;
+        } else {
+          actionCell = `<span style="opacity:0.5;">🔒 Acceso restringido</span>`;
+        }
+
+        row.innerHTML = `
+          <td>${idx + 1}</td>
+          <td>${item.name}</td>
+          <td>${item.works > 0 ? item.works : '—'}</td>
+          <td>${item.downloads}</td>
+          <td class="amount ${pending > 0 ? 'status-pending' : 'status-paid'}">$${Math.max(0, pending).toFixed(2)}</td>
+          <td class="amount status-paid">$${item.paid.toFixed(2)}</td>
+          <td class="amount total-col">$${totalEarn.toFixed(2)}</td>
+          <td>${actionCell}</td>
+        `;
+      });
+    }
+
+    // === Gestión de pagos ===
+    function openAuthModal() {
+      if (!isAdmin) return;
+      document.getElementById('treasury-key').value = '';
+      document.getElementById('auth-status').textContent = '';
+      document.getElementById('auth-modal').style.display = 'flex';
+      document.getElementById('treasury-key').focus();
+    }
+
+    function authorizePayment() {
+      if (!isAdmin) return;
+      const input = document.getElementById('treasury-key').value.trim();
+      const statusEl = document.getElementById('auth-status');
+      
+      if (input === KEY_ADMIN) { // ← Usa la misma clave de admin
+        isAuthorized = true;
+        closeAuthModal();
+        renderTable();
+      } else {
+        statusEl.textContent = "❌ Clave incorrecta";
+      }
+    }
+
+    function markAsPaid(index) {
+      if (!isAdmin || !isAuthorized) return;
+      const item = currentData[index];
       const total = item.downloads * 1.275;
-      const pending = total - item.paid;
-      const row = [
-        idx + 1,
-        `"${item.name.replace(/"/g, '""')}"`,
-        item.works || '—',
-        item.downloads,
-        pending.toFixed(2),
-        item.paid.toFixed(2),
-        total.toFixed(2)
-      ];
-      csvContent += row.join(",") + "\n";
+      item.paid = total;
+      renderTable();
+    }
+
+    // === Exportar CSV real ===
+    function exportCSV() {
+      if (!currentData || currentData.length === 0) {
+        alert("⚠️ No hay datos para exportar.");
+        return;
+      }
+
+      let csvContent = "ID,Compositor,Obras,Descargas,Adeudado,Pagado,Total\n";
+      currentData.forEach((item, idx) => {
+        const total = item.downloads * 1.275;
+        const pending = total - item.paid;
+        const row = [
+          idx + 1,
+          `"${item.name.replace(/"/g, '""')}"`,
+          item.works || '—',
+          item.downloads,
+          pending.toFixed(2),
+          item.paid.toFixed(2),
+          total.toFixed(2)
+        ];
+        csvContent += row.join(",") + "\n";
+      });
+
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      const timestamp = new Date().toISOString().slice(0,10);
+      link.download = `nebulaudio_socios_${timestamp}.csv`;
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // === Control del modal de subida ===
+    document.getElementById('open-upload-modal')?.addEventListener('click', () => {
+      document.getElementById('upload-modal').style.display = 'flex';
     });
 
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    const timestamp = new Date().toISOString().slice(0,10);
-    link.download = `nebulaudio_socios_${timestamp}.csv`;
-    link.style.visibility = 'hidden';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }
+    document.getElementById('close-upload-modal')?.addEventListener('click', () => {
+      document.getElementById('upload-modal').style.display = 'none';
+    });
 
-  // Inicialización
-  document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => document.getElementById('access-key')?.focus(), 100);
-  });
-</script>
+    document.getElementById('upload-modal')?.addEventListener('click', (e) => {
+      if (e.target.id === 'upload-modal') {
+        document.getElementById('upload-modal').style.display = 'none';
+      }
+    });
+
+    // Inicialización
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => document.getElementById('access-key')?.focus(), 100);
+    });
+  </script>
 </body>
 </html>
