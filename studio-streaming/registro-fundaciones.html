@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Registrar Fundación – Nebulaudio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0a0a14;
+      --bg-card: rgba(18, 18, 32, 0.65);
+      --text-primary: #f0f0ff;
+      --text-secondary: #a0a0c0;
+      --accent: #10b981;
+      --gold: #ffc107;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding: 1.5rem;
+      background-image:
+        linear-gradient(rgba(10, 10, 20, 0.85), rgba(10, 10, 20, 0.9)),
+        url('https://i.postimg.cc/4ywDV4xc/universo-nebulaudio.png');
+      background-size: cover;
+      background-attachment: fixed;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .header h1 {
+      font-size: 2.2rem;
+      background: linear-gradient(90deg, var(--accent), #8b5cf6);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 0.5rem;
+    }
+    .header p {
+      opacity: 0.8;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 1.8rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: var(--accent);
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 0.8rem;
+      border-radius: 8px;
+      background: rgba(10,10,20,0.5);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: white;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+    }
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .btn-submit {
+      background: linear-gradient(135deg, var(--accent), #0d9a6d);
+      color: white;
+      border: none;
+      padding: 0.9rem 1.8rem;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 1.1rem;
+      width: 100%;
+    }
+
+    .note {
+      background: rgba(16, 185, 129, 0.1);
+      border-left: 3px solid var(--accent);
+      padding: 1rem;
+      border-radius: 0 8px 8px 0;
+      margin-top: 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.85rem;
+      opacity: 0.6;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <h1>🌱 Registrar mi fundación</h1>
+      <p>Únete al ecosistema Nebulaudio y conecta con artistas que desean apoyar tu causa.</p>
+    </div>
+
+    <div class="card">
+      <form id="foundation-form">
+        <div class="form-group">
+          <label for="name">Nombre de la fundación *</label>
+          <input type="text" id="name" placeholder="Ej: Fundación NeuroArmonía" required>
+        </div>
+
+        <div class="form-group">
+          <label for="category">Categoría *</label>
+          <select id="category" required>
+            <option value="">Selecciona una categoría</option>
+            <option value="salud">Salud</option>
+            <option value="ambiente">Ambiente</option>
+            <option value="educacion">Educación</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="mission">Misión *</label>
+          <textarea id="mission" placeholder="Describe brevemente tu misión, enfoque y población beneficiada..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="website">Sitio web (opcional)</label>
+          <input type="url" id="website" placeholder="https://...">
+        </div>
+
+        <div class="form-group">
+          <label for="contact">Correo de contacto *</label>
+          <input type="email" id="contact" placeholder="contacto@fundacion.org" required>
+        </div>
+
+        <button type="submit" class="btn-submit" onclick="submitForm(event)">
+          ✅ Enviar solicitud
+        </button>
+
+        <div class="note">
+          <strong>Nota:</strong> CERT Producciones C.A. revisará tu solicitud manualmente. 
+          Solo se aceptan fundaciones sin fines de lucro, con impacto comprobable y transparencia en su gestión.
+        </div>
+      </form>
+    </div>
+
+    <footer>
+      © 2026 Nebulaudio – Una iniciativa ética de CERT Producciones C.A.
+    </footer>
+  </div>
+
+  <script>
+    function submitForm(e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      alert(`✅ ¡Gracias, ${name}!\n\nTu solicitud ha sido enviada. CERT te contactará en breve.`);
+      // En producción: enviar datos a backend o correo
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Luna Andina – Perfil de Artista | Nebulaudio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0a0a14;
+      --bg-card: rgba(18, 18, 32, 0.65);
+      --text-primary: #f0f0ff;
+      --text-secondary: #a0a0c0;
+      --accent: #10b981;
+      --gold: #ffc107;
+      --pending: #eab308;
+      --approved: #38C700;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding: 1.5rem;
+      background-image:
+        linear-gradient(rgba(10, 10, 20, 0.85), rgba(10, 10, 20, 0.9)),
+        url('https://i.postimg.cc/4ywDV4xc/universo-nebulaudio.png');
+      background-size: cover;
+      background-attachment: fixed;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .artist-header {
+      display: flex;
+      gap: 2rem;
+      margin-bottom: 2.5rem;
+      align-items: flex-start;
+    }
+    .artist-photo {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+    .artist-info {
+      flex: 1;
+    }
+    .artist-name {
+      font-size: 2.4rem;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(90deg, var(--accent), #8b5cf6);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .artist-bio {
+      line-height: 1.6;
+      margin-bottom: 1.2rem;
+      opacity: 0.9;
+    }
+
+    .phase-banner {
+      display: inline-block;
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+    .status-pending {
+      background: rgba(234, 179, 8, 0.2);
+      color: var(--pending);
+      border: 1px solid var(--pending);
+    }
+    .status-approved {
+      background: rgba(56, 199, 0, 0.2);
+      color: var(--approved);
+      border: 1px solid var(--approved);
+    }
+
+    .card {
+      background: var(--bg-card);
+      border-radius: 16px;
+      padding: 1.6rem;
+      margin-bottom: 1.8rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+
+    .section-title {
+      font-size: 1.4rem;
+      margin-bottom: 1.2rem;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .section-title::before {
+      content: "●";
+      color: var(--gold);
+      font-size: 1.2rem;
+    }
+
+    label {
+      display: block;
+      margin: 0.8rem 0 0.4rem;
+      font-weight: 500;
+    }
+    textarea, input {
+      width: 100%;
+      padding: 0.7rem;
+      border-radius: 8px;
+      background: rgba(10,10,20,0.5);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: white;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+    }
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .btn {
+      padding: 0.7rem 1.4rem;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      font-size: 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #0d9a6d);
+      color: white;
+    }
+    .btn-secondary {
+      background: rgba(139, 92, 246, 0.2);
+      color: #d0d0ff;
+    }
+
+    .foundation-display {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      background: rgba(16, 185, 129, 0.1);
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+    }
+    .foundation-logo {
+      width: 50px;
+      height: 50px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      font-weight: bold;
+    }
+
+    .why-section {
+      background: rgba(56, 199, 0, 0.1);
+      border-left: 3px solid var(--approved);
+      padding: 1.2rem;
+      border-radius: 0 8px 8px 0;
+      margin: 1.5rem 0;
+    }
+
+    /* === CROWDFUNDING === */
+    .funding-progress {
+      height: 12px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 6px;
+      margin: 1rem 0;
+      overflow: hidden;
+    }
+    .funding-bar {
+      height: 100%;
+      background: var(--accent);
+      width: 60%;
+    }
+
+    .support-tiers {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .tier-card {
+      background: rgba(30,30,50,0.7);
+      padding: 1rem;
+      border-radius: 12px;
+      text-align: center;
+    }
+    .tier-card button {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+
+    /* === DISCOGRAFÍA === */
+    .discography-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+    .album-card {
+      background: rgba(30,30,50,0.7);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .album-cover {
+      width: 100%;
+      height: 180px;
+      background: rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      font-weight: bold;
+    }
+    .album-info {
+      padding: 1rem;
+    }
+    .album-info h4 {
+      margin-bottom: 0.3rem;
+    }
+    .album-info p {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      margin-bottom: 0.8rem;
+    }
+    .album-actions button {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    /* === COMPOSITORES === */
+    .composer-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.2rem;
+      margin-top: 1rem;
+    }
+    .composer-card {
+      background: rgba(30,30,50,0.7);
+      padding: 1.2rem;
+      border-radius: 12px;
+      text-align: center;
+    }
+    .composer-card h4 {
+      margin-bottom: 0.5rem;
+      color: white;
+    }
+    .composer-card p {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      margin-bottom: 1rem;
+    }
+    .composer-card button {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    /* === MODAL DE DESCARGA === */
+    #download-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.85);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    #download-modal > div {
+      background: var(--bg-card);
+      border-radius: 20px;
+      padding: 2rem;
+      max-width: 600px;
+      width: 95%;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+      position: relative;
+    }
+    #download-modal button.close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: #334155;
+      border: none;
+      color: white;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .track-list {
+      margin: 1.5rem 0;
+    }
+    .track-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.85rem;
+      opacity: 0.6;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- === CABECERA DEL ARTISTA === -->
+    <div class="artist-header">
+      <div class="artist-photo">LA</div>
+      <div class="artist-info">
+        <h1 class="artist-name">Luna Andina</h1>
+        
+        <!-- Estado dinámico -->
+        <div class="phase-banner status-pending" id="status-banner">
+          ⏳ Pendiente de aprobación por Fundación NeuroArmonía
+        </div>
+      </div>
+    </div>
+
+    <!-- === FUNDACIÓN === -->
+    <div class="card">
+      <h2 class="section-title">🌱 Causa seleccionada</h2>
+      
+      <div class="foundation-display">
+        <div class="foundation-logo">NA</div>
+        <div>
+          <strong>Fundación NeuroArmonía</strong><br>
+          <span style="font-size:0.9rem; opacity:0.8;">Salud · Terapias musicales para niños</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- === FORMULARIO DE SEMBLANZA ARTÍSTICA (solo si está pendiente) === -->
+    <div class="card" id="artist-profile-form">
+      <h2 class="section-title">✍️ Completa tu perfil artístico</h2>
+      <p>La fundación revisará esta información junto con tu carta de intención.</p>
+      
+      <label for="artist-bio">Trayectoria artística</label>
+      <textarea id="artist-bio" placeholder="Ej: 5 años cantando en festivales andinos..."></textarea>
+
+      <label for="artist-dreams">Sueños y metas</label>
+      <textarea id="artist-dreams" placeholder="Ej: Llevar mi música a escuelas rurales..."></textarea>
+
+      <label for="production-goal">Objetivo de esta producción</label>
+      <textarea id="production-goal" placeholder="Ej: Crear un álbum que inspire esperanza..."></textarea>
+
+      <button class="btn btn-primary" onclick="saveArtistProfile()" style="margin-top:1rem;">
+        💾 Guardar y enviar a revisión
+      </button>
+    </div>
+
+    <!-- === CARTA DE INTENCIÓN === -->
+    <div class="card">
+      <h2 class="section-title">💬 Carta de intención</h2>
+      <div class="why-section" id="intention-display">
+        “Mi hermano pequeño recibió terapia musical para superar un trastorno del lenguaje. 
+        La Fundación NeuroArmonía cambió su vida. Quiero que mi voz sea un puente para otros niños.”
+      </div>
+    </div>
+
+    <!-- === COMPOSITORES DISPONIBLES === -->
+    <div class="card">
+      <h2 class="section-title">🎼 Compositores disponibles</h2>
+      
+      <div class="composer-list">
+        <div class="composer-card">
+          <h4>Carlos Reyes</h4>
+          <p>Especialidad: Cinematográfico, Folclórico</p>
+          <p><strong>Precio:</strong> $500/canción</p>
+          <button onclick="contactComposer('carlos-reyes')">Contratar</button>
+        </div>
+        <div class="composer-card">
+          <h4>Ana Martínez</h4>
+          <p>Especialidad: Íntimo, Urbano</p>
+          <p><strong>Precio:</strong> $400/canción</p>
+          <button onclick="contactComposer('ana-martinez')">Contratar</button>
+        </div>
+        <div class="composer-card">
+          <h4>Juanito Gómez</h4>
+          <p>Especialidad: Jazz, Balada</p>
+          <p><strong>Precio:</strong> $350/canción</p>
+          <button onclick="contactComposer('juanito-gomez')">Contratar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- === CROWDFUNDING (DEMO EN PROCESO) === -->
+    <div class="card">
+      <h2 class="section-title">🎵 Obra en producción: “Canto del Río”</h2>
+      
+      <p>Apoya esta obra y ayúdame a grabarla profesionalmente.</p>
+      
+      <div class="funding-progress">
+        <div class="funding-bar"></div>
+      </div>
+      <p><strong>$1,500 / $2,500</strong> recaudados</p>
+
+      <div class="support-tiers">
+        <div class="tier-card">
+          <h4>Mecenas ($1–$99)</h4>
+          <p>Apoyo directo al artista</p>
+          <button onclick="donate(20)">Donar $20</button>
+        </div>
+        <div class="tier-card">
+          <h4>Auspiciante ($100–$999)</h4>
+          <p>Carta aval + producto firmado</p>
+          <button onclick="donate(100)">Donar $100</button>
+        </div>
+        <div class="tier-card">
+          <h4>Patrocinante ($1,000+)</h4>
+          <p>20% regalías perpetuas</p>
+          <button onclick="becomeExecutive()">Convertirse en Patrocinante</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- === DISCOGRAFÍA PUBLICADA === -->
+    <div class="card">
+      <h2 class="section-title">💿 Discografía publicada</h2>
+      
+      <div class="discography-grid">
+        <div class="album-card">
+          <div class="album-cover">LUZ EN EL BOSQUE</div>
+          <div class="album-info">
+            <h4>Luz en el Bosque</h4>
+            <p>Álbum completo · 12 tracks</p>
+            <div class="album-actions">
+              <button onclick="openDownloadModal('luz-en-el-bosque')">Descargar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- === GESTIÓN DE PERFIL === -->
+    <div class="card">
+      <h2 class="section-title">🛠️ Gestión de perfil</h2>
+      
+      <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+        <button class="btn btn-secondary" onclick="editProfile()">✏️ Editar mi perfil</button>
+        <button class="btn btn-secondary" onclick="changePhoto()">📸 Cambiar foto de perfil</button>
+        <button class="btn btn-secondary" onclick="resendRequest()">🔄 Reenviar solicitud</button>
+        <button class="btn btn-secondary" onclick="chooseAnotherFoundation()">❤️ Elegir otra fundación</button>
+      </div>
+    </div>
+
+    <footer>
+      © 2026 Nebulaudio – Una iniciativa ética de CERT Producciones C.A.
+    </footer>
+  </div>
+
+  <!-- === MODAL DE DESCARGA === -->
+  <div id="download-modal">
+    <div>
+      <button class="close" onclick="closeDownloadModal()">×</button>
+      <h2 style="margin-bottom:1.5rem; color:var(--accent);">📥 Descargar “Luz en el Bosque”</h2>
+      
+      <div class="options">
+        <div class="option">
+          <h3>Álbum completo</h3>
+          <p>Precio: $12</p>
+          <button class="btn-primary" style="width:100%; margin-top:0.5rem;">Comprar álbum</button>
+        </div>
+        <div class="option" style="margin-top:1.5rem;">
+          <h3>Tracks individuales</h3>
+          <div class="track-list">
+            <div class="track-item">
+              <span>1. Luz en el Bosque</span>
+              <span>$1.50</span>
+            </div>
+            <div class="track-item">
+              <span>2. Canto del Río</span>
+              <span>$1.50</span>
+            </div>
+          </div>
+          <button class="btn-primary" style="width:100%; margin-top:0.5rem;">Comprar seleccionados</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Simulación: cargar estado desde localStorage
+    document.addEventListener('DOMContentLoaded', () => {
+      const application = JSON.parse(localStorage.getItem('foundationApplication') || '{}');
+      const profile = JSON.parse(localStorage.getItem('artistProfile') || '{}');
+
+      // Mostrar carta de intención si existe
+      if (application.intentionLetter) {
+        document.getElementById('intention-display').textContent = `"${application.intentionLetter}"`;
+      }
+
+      // Si ya fue aprobado, ocultar formulario de edición
+      if (profile.status === "approved") {
+        document.getElementById('status-banner').className = 'phase-banner status-approved';
+        document.getElementById('status-banner').textContent = '✅ Aprobado por Fundación NeuroArmonía';
+        document.getElementById('artist-profile-form').style.display = 'none';
+      }
+    });
+
+    function saveArtistProfile() {
+      const bio = document.getElementById('artist-bio').value.trim();
+      const dreams = document.getElementById('artist-dreams').value.trim();
+      const goal = document.getElementById('production-goal').value.trim();
+
+      if (!bio || !dreams || !goal) {
+        alert("Por favor, completa todos los campos.");
+        return;
+      }
+
+      const application = JSON.parse(localStorage.getItem('foundationApplication') || '{}');
+      const profile = {
+        name: "Luna Andina",
+        bio,
+        dreams,
+        productionGoal: goal,
+        foundation: application.foundation,
+        intentionLetter: application.intentionLetter,
+        status: "pending",
+        updatedAt: new Date().toISOString()
+      };
+      localStorage.setItem('artistProfile', JSON.stringify(profile));
+
+      alert("✅ ¡Perfil guardado y enviado a revisión!\n\nLa fundación evaluará tu solicitud.");
+    }
+
+    // Funciones de acción
+    function donate(amount) {
+      alert(`✅ ¡Gracias por tu aporte de $${amount}!`);
+    }
+    function becomeExecutive() {
+      alert("¡Felicidades! Eres el Patrocinante de esta obra.");
+    }
+    function openDownloadModal(albumId) {
+      document.getElementById('download-modal').style.display = 'flex';
+    }
+    function closeDownloadModal() {
+      document.getElementById('download-modal').style.display = 'none';
+    }
+    function contactComposer(composerId) {
+      alert(`📩 Contactando a ${composerId}...\n\nEn producción: abrirá correo o formulario.`);
+    }
+    function editProfile() {
+      alert("Abriendo editor de perfil...");
+    }
+    function changePhoto() {
+      alert("Selecciona una nueva foto de perfil.");
+    }
+    function resendRequest() {
+      alert("Solicitud reenviada a la fundación.");
+    }
+    function chooseAnotherFoundation() {
+      window.location.href = 'fundaciones.html';
+    }
+  </script>
+</body>
+</html>

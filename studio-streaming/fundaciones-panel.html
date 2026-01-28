@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Panel de Fundación – Nebulaudio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0a0a14;
+      --bg-card: rgba(18, 18, 32, 0.65);
+      --text-primary: #f0f0ff;
+      --text-secondary: #a0a0c0;
+      --accent: #10b981;
+      --gold: #ffc107;
+      --pending: #eab308;
+      --approved: #38C700;
+      --rejected: #ef4444;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding: 1.5rem;
+      background-image:
+        linear-gradient(rgba(10, 10, 20, 0.85), rgba(10, 10, 20, 0.9)),
+        url('https://i.postimg.cc/4ywDV4xc/universo-nebulaudio.png');
+      background-size: cover;
+      background-attachment: fixed;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+    .foundation-logo {
+      width: 80px;
+      height: 80px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 2rem;
+      color: var(--accent);
+    }
+    .header h1 {
+      font-size: 2rem;
+      margin: 0;
+    }
+    .header p {
+      opacity: 0.8;
+      margin-top: 0.3rem;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border-radius: 16px;
+      padding: 1.6rem;
+      margin-bottom: 1.8rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+
+    .section-title {
+      font-size: 1.4rem;
+      margin-bottom: 1.2rem;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .section-title::before {
+      content: "●";
+      color: var(--gold);
+      font-size: 1.2rem;
+    }
+
+    .artist-item {
+      background: rgba(30,30,50,0.7);
+      padding: 1.2rem;
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+      display: flex;
+      flex-direction: column;
+    }
+    .artist-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+    .artist-info h3 {
+      margin-bottom: 0.3rem;
+      color: white;
+    }
+    .artist-info p {
+      font-size: 0.95rem;
+      opacity: 0.85;
+      margin-bottom: 0.8rem;
+    }
+    .bio-section, .dreams-section, .goal-section {
+      background: rgba(30,30,50,0.5);
+      padding: 0.8rem;
+      border-radius: 8px;
+      margin-bottom: 0.8rem;
+      font-size: 0.95rem;
+    }
+    .why-section {
+      background: rgba(56, 199, 0, 0.1);
+      padding: 0.8rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+    .artist-actions {
+      display: flex;
+      gap: 0.8rem;
+      margin-top: 0.5rem;
+    }
+    .btn {
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      font-size: 0.95rem;
+      flex: 1;
+      text-align: center;
+    }
+    .btn-accept {
+      background: var(--approved);
+      color: white;
+    }
+    .btn-reject {
+      background: var(--rejected);
+      color: white;
+    }
+    .status-approved {
+      color: var(--approved);
+      font-weight: 600;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.85rem;
+      opacity: 0.6;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- === CABECERA DE LA FUNDACIÓN === -->
+    <div class="header">
+      <div class="foundation-logo">NA</div>
+      <div>
+        <h1>Fundación NeuroArmonía</h1>
+        <p>Salud · Terapias musicales para niños con trastornos neurológicos</p>
+      </div>
+    </div>
+
+    <!-- === ARTISTAS PENDIENTES === -->
+    <div class="card">
+      <h2 class="section-title">🎨 Solicitudes pendientes</h2>
+      <p style="margin-bottom:1.2rem;">Estos artistas desean representarte. Revisa su perfil completo antes de decidir.</p>
+      
+      <div id="pending-artists">
+        <!-- Ejemplo simulado con ambos textos -->
+        <div class="artist-item">
+          <div class="artist-header">
+            <div class="artist-info">
+              <h3>Luna Andina</h3>
+              <p>Cantautora andina · Obra: “Canto del Río”</p>
+            </div>
+          </div>
+
+          <!-- Carta de intención -->
+          <div class="why-section">
+            <strong>💬 Carta de intención:</strong><br>
+            “Mi hermano recibió terapia musical en tu fundación. Quiero devolver el favor.”
+          </div>
+
+          <!-- Semblanza artística -->
+          <div class="bio-section">
+            <strong>Trayectoria:</strong><br>
+            5 años cantando en festivales andinos, colaboraciones con músicos locales.
+          </div>
+          <div class="dreams-section">
+            <strong>Sueños y metas:</strong><br>
+            Llevar mi música a escuelas rurales, crear un festival comunitario.
+          </div>
+          <div class="goal-section">
+            <strong>Objetivo de esta producción:</strong><br>
+            Crear un álbum que inspire esperanza en tiempos difíciles.
+          </div>
+
+          <div class="artist-actions">
+            <button class="btn btn-accept" onclick="acceptArtist('luna-andina')">Aceptar</button>
+            <button class="btn btn-reject" onclick="rejectArtist('luna-andina')">Rechazar</button>
+          </div>
+        </div>
+
+        <!-- Segundo artista -->
+        <div class="artist-item">
+          <div class="artist-header">
+            <div class="artist-info">
+              <h3>Carlos del Sur</h3>
+              <p>Músico urbano · Obra: “Ciudad Sonora”</p>
+            </div>
+          </div>
+
+          <div class="why-section">
+            <strong>💬 Carta de intención:</strong><br>
+            “Creo en la música como herramienta de sanación social.”
+          </div>
+
+          <div class="bio-section">
+            <strong>Trayectoria:</strong><br>
+            Productor independiente desde 2020, talleres en barrios populares.
+          </div>
+          <div class="dreams-section">
+            <strong>Sueños y metas:</strong><br>
+            Crear un estudio móvil para jóvenes sin recursos.
+          </div>
+          <div class="goal-section">
+            <strong>Objetivo de esta producción:</strong><br>
+            Financiar talleres gratuitos de producción musical.
+          </div>
+
+          <div class="artist-actions">
+            <button class="btn btn-accept" onclick="acceptArtist('carlos-del-sur')">Aceptar</button>
+            <button class="btn btn-reject" onclick="rejectArtist('carlos-del-sur')">Rechazar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- === ARTISTAS APROBADOS === -->
+    <div class="card">
+      <h2 class="section-title">✅ Artistas aprobados</h2>
+      <p style="margin-bottom:1.2rem;">Estos artistas ya representan tu causa en Nebulaudio.</p>
+      
+      <div id="approved-artists">
+        <div class="artist-item">
+          <div class="artist-info">
+            <h3>María del Valle</h3>
+            <p>Obra: “Raíces del Alma” · Desde enero 2026</p>
+          </div>
+          <div class="artist-actions">
+            <span class="status-approved">Aprobado</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      © 2026 Nebulaudio – Una iniciativa ética de CERT Producciones C.A.
+    </footer>
+  </div>
+
+  <script>
+    function acceptArtist(artistId) {
+      alert(`✅ Has aceptado a ${artistId} como representante.\n\nSu perfil ahora es público.`);
+      // En producción: actualizar estado + notificar al artista
+    }
+
+    function rejectArtist(artistId) {
+      alert(`❌ Has rechazado a ${artistId}.\n\nEl artista podrá elegir otra fundación.`);
+      // En producción: marcar como rechazado + notificar
+    }
+  </script>
+</body>
+</html>

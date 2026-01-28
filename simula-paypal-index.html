@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Nebulaudio — Prueba Express</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; padding: 40px; background: #0f0f1a; color: #eee; }
+    .btn { padding: 12px 24px; margin: 10px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+    .btn-paypal { background: #009cde; color: white; }
+    .btn-download { background: #2ecc71; color: white; display: none; }
+    #status { margin-top: 20px; font-style: italic; color: #aaa; }
+  </style>
+</head>
+<body>
+  <h1>✨ Nebulaudio Express — Prueba Local</h1>
+  <p>Simulación de flujo de pago → descarga automática</p>
+
+  <button id="btnPayPal" class="btn btn-paypal">💳 Pagar con PayPal (simulado)</button>
+  <button id="btnDownload" class="btn btn-download">⬇️ Descargar MP3</button>
+
+  <p id="status">Esperando acción...</p>
+
+  <script>
+    const btnPayPal = document.getElementById('btnPayPal');
+    const btnDownload = document.getElementById('btnDownload');
+    const status = document.getElementById('status');
+
+    // Simular archivo de audio (reemplaza con tu MP3 real en producción)
+    const mockMP3 = 'data:audio/mpeg;base64,SUQzBAAAAAABEVRYWFgAAAAtAAADY29tbWVudABCaWdTb3VuZEJhbmsuY29tIC8gTGFTb25vdGhlcXVlLm9yZwBURU5DAAAAHQAAA1N3aXRjaCBQbHVzIMKpIE5DSCBTb2Z0d2FyZQBUSVQyAAAABgAAAzIyMzUAVFNTRQAAAA8AAANMYXZmNTcuODMuMTAwAAAAAAAAAAAAAAD/80DEAAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV'; // silencio de 0.3s
+
+    btnPayPal.addEventListener('click', () => {
+      if (!confirm('¿Confirmar pago de $15 USD para Nebulaudio Express?')) return;
+
+      status.textContent = '🚀 Redirigiendo a PayPal…';
+      btnPayPal.disabled = true;
+
+      setTimeout(() => {
+        status.textContent = '✅ Pago simulado. Volviendo a Nebulaudio…';
+        setTimeout(() => {
+          // Mostrar botón de descarga
+          btnDownload.style.display = 'inline-block';
+          status.textContent = '¡Listo! Haz clic abajo para descargar tu pieza.';
+          btnPayPal.disabled = false;
+        }, 800);
+      }, 1500);
+    });
+
+    btnDownload.addEventListener('click', () => {
+      const link = document.createElement('a');
+      link.href = mockMP3;
+      link.download = 'nebula_express_demo.mp3';
+      link.click();
+      status.textContent = '🎧 Archivo descargado. ¡Gracias por apoyar la música humana!';
+    });
+  </script>
+</body>
+</html>

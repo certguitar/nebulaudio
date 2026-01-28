@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🌱 Fundaciones – Nebulaudio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0a0a14;
+      --bg-card: rgba(18, 18, 32, 0.65);
+      --text-primary: #f0f0ff;
+      --text-secondary: #a0a0c0;
+      --accent: #10b981;
+      --health: #38C700;
+      --eco: #10b981;
+      --edu: #ffc107;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding: 1.5rem;
+      background-image:
+        linear-gradient(rgba(10, 10, 20, 0.85), rgba(10, 10, 20, 0.9)),
+        url('https://i.postimg.cc/4ywDV4xc/universo-nebulaudio.png');
+      background-size: cover;
+      background-attachment: fixed;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .header h1 {
+      font-size: 2.2rem;
+      background: linear-gradient(90deg, var(--accent), #8b5cf6);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 0.5rem;
+    }
+    .header p {
+      opacity: 0.8;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .filters {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      background: rgba(16, 185, 129, 0.15);
+      color: white;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+    .filter-btn.active {
+      background: var(--accent);
+    }
+
+    .foundations-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .foundation-card {
+      background: var(--bg-card);
+      border-radius: 16px;
+      padding: 1.4rem;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease;
+    }
+    .foundation-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .foundation-logo {
+      width: 60px;
+      height: 60px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      font-weight: bold;
+      color: var(--accent);
+    }
+
+    .foundation-name {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      color: white;
+    }
+
+    .foundation-tag {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      margin-bottom: 0.8rem;
+    }
+    .tag-health { background: rgba(56, 199, 0, 0.2); color: var(--health); }
+    .tag-eco { background: rgba(16, 185, 129, 0.2); color: var(--eco); }
+    .tag-edu { background: rgba(255, 193, 7, 0.2); color: var(--edu); }
+
+    .foundation-desc {
+      font-size: 0.95rem;
+      opacity: 0.85;
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+
+    .foundation-link {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    .btn-select {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      font-size: 1rem;
+      transition: opacity 0.2s;
+    }
+    .btn-select:hover {
+      opacity: 0.9;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.85rem;
+      opacity: 0.6;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <h1>🌱 Fundaciones Aliadas</h1>
+      <p>Elige una causa para vincular tu obra. Cada descarga apoyará su misión.</p>
+    </div>
+
+    <div class="filters">
+      <button class="filter-btn active" data-filter="all">Todas</button>
+      <button class="filter-btn" data-filter="salud">Salud</button>
+      <button class="filter-btn" data-filter="ambiente">Ambiente</button>
+      <button class="filter-btn" data-filter="educacion">Educación</button>
+    </div>
+
+    <div class="foundations-grid">
+      <!-- Fundación NeuroArmonía -->
+      <div class="foundation-card" data-category="salud">
+        <div class="foundation-logo">NA</div>
+        <div class="foundation-name">Fundación NeuroArmonía</div>
+        <span class="foundation-tag tag-health">Salud</span>
+        <p class="foundation-desc">Apoya terapias musicales para niños con trastornos neurológicos en Venezuela.</p>
+        <a href="https://neuroarmonia.org" target="_blank" class="foundation-link">Ver sitio web →</a>
+        <button class="btn-select" onclick="openIntentionModal('neuroarmonia', 'Fundación NeuroArmonía')">
+          ❤️ Seleccionar esta causa
+        </button>
+      </div>
+
+      <!-- Fundación Selva Viva -->
+      <div class="foundation-card" data-category="ambiente">
+        <div class="foundation-logo">SV</div>
+        <div class="foundation-name">Fundación Selva Viva</div>
+        <span class="foundation-tag tag-eco">Ambiente</span>
+        <p class="foundation-desc">Protege bosques nativos y promueve la biodiversidad en los Andes venezolanos.</p>
+        <a href="https://selvaviva.org" target="_blank" class="foundation-link">Ver sitio web →</a>
+        <button class="btn-select" onclick="openIntentionModal('selva-viva', 'Fundación Selva Viva')">
+          ❤️ Seleccionar esta causa
+        </button>
+      </div>
+
+      <!-- Música para Todos -->
+      <div class="foundation-card" data-category="educacion">
+        <div class="foundation-logo">MT</div>
+        <div class="foundation-name">Música para Todos</div>
+        <span class="foundation-tag tag-edu">Educación</span>
+        <p class="foundation-desc">Lleva talleres de música a escuelas rurales sin recursos.</p>
+        <a href="https://musicaparatodos.org" target="_blank" class="foundation-link">Ver sitio web →</a>
+        <button class="btn-select" onclick="openIntentionModal('musica-para-todos', 'Música para Todos')">
+          ❤️ Seleccionar esta causa
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de intención -->
+  <div id="intention-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:1000; justify-content:center; align-items:center;">
+    <div style="background:var(--bg-card); border-radius:20px; padding:2rem; max-width:600px; width:95%; box-shadow:0 20px 40px rgba(0,0,0,0.5); position:relative;">
+      <button onclick="closeIntentionModal()" style="position:absolute; top:1rem; right:1rem; background:#334155; border:none; color:white; width:30px; height:30px; border-radius:50%; font-weight:bold;">×</button>
+      
+      <h2 style="margin-bottom:1.5rem; color:var(--accent);">💬 ¿Por qué deseas apoyar a <span id="selected-foundation-name">esta fundación</span>?</h2>
+      
+      <label for="intention-letter">Escribe tu declaración de intención</label>
+      <textarea id="intention-letter" placeholder="Ej: Mi hermano recibió terapia musical en tu fundación..." style="width:100%; padding:0.7rem; margin-bottom:1.5rem; background:rgba(10,10,20,0.5); border:1px solid rgba(255,255,255,0.1); color:white; border-radius:8px; min-height:120px;"></textarea>
+      
+      <button class="btn btn-primary" style="width:100%;" onclick="submitIntention()">
+        📤 Enviar solicitud
+      </button>
+    </div>
+  </div>
+
+  <footer>
+    © 2026 Nebulaudio – Una iniciativa ética de CERT Producciones C.A.
+  </footer>
+
+  <script>
+    // Filtros
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
+        document.querySelectorAll('.foundation-card').forEach(card => {
+          card.style.display = (filter === 'all' || card.dataset.category === filter) ? 'block' : 'none';
+        });
+      });
+    });
+
+    // Modal y envío
+    let selectedFoundationForIntention = null;
+
+    function openIntentionModal(foundationId, foundationName) {
+      selectedFoundationForIntention = { id: foundationId, name: foundationName };
+      document.getElementById('selected-foundation-name').textContent = foundationName;
+      document.getElementById('intention-modal').style.display = 'flex';
+    }
+
+    function closeIntentionModal() {
+      document.getElementById('intention-modal').style.display = 'none';
+    }
+
+    function submitIntention() {
+      const letter = document.getElementById('intention-letter').value.trim();
+      if (!letter) {
+        alert("Por favor, escribe tu declaración de intención.");
+        return;
+      }
+
+      // Guardar la aplicación en localStorage
+      const application = {
+        foundation: selectedFoundationForIntention,
+        intentionLetter: letter,
+        artistProfile: JSON.parse(localStorage.getItem('artistProfile') || '{}'),
+        status: "pending",
+        submittedAt: new Date().toISOString()
+      };
+      localStorage.setItem('foundationApplication', JSON.stringify(application));
+
+      // Cerrar modal y REDIRIGIR DIRECTAMENTE al perfil del artista
+      closeIntentionModal();
+      window.location.href = 'perfil-artista.html';
+    }
+  </script>
+</body>
+</html>

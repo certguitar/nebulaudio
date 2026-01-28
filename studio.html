@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🌌 Nebulaudio Studio — Tu Estudio Privado</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0a0a14;
+      --bg-card: rgba(18, 18, 32, 0.65);
+      --text-primary: #f0f0ff;
+      --text-secondary: #a0a0c0;
+      --accent: #10b981;
+      --gold: #ffc107;
+      --pending: #eab308;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding: 1.5rem;
+      background-image:
+        linear-gradient(rgba(10, 10, 20, 0.85), rgba(10, 10, 20, 0.9)),
+        url('https://i.postimg.cc/4ywDV4xc/universo-nebulaudio.png');
+      background-size: cover;
+      background-attachment: fixed;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .header h1 {
+      font-size: 2.2rem;
+      background: linear-gradient(90deg, var(--accent), #8b5cf6);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 0.5rem;
+    }
+    .header p {
+      opacity: 0.8;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border-radius: 16px;
+      padding: 1.6rem;
+      margin-bottom: 1.8rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+
+    .step-title {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 1.2rem;
+      font-size: 1.3rem;
+      color: var(--accent);
+    }
+    .step-title::before {
+      content: "●";
+      color: var(--gold);
+      font-size: 1.4rem;
+    }
+
+    label {
+      display: block;
+      margin: 0.8rem 0 0.4rem;
+      font-weight: 500;
+    }
+    textarea, select, input {
+      width: 100%;
+      padding: 0.7rem;
+      border-radius: 8px;
+      background: rgba(10,10,20,0.5);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: white;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+    }
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .btn {
+      padding: 0.7rem 1.4rem;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      font-size: 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #0d9a6d);
+      color: white;
+    }
+    .btn-secondary {
+      background: rgba(139, 92, 246, 0.2);
+      color: #d0d0ff;
+    }
+
+    .instructions {
+      background: rgba(16, 185, 129, 0.1);
+      border-left: 3px solid var(--accent);
+      padding: 1rem;
+      border-radius: 0 8px 8px 0;
+      margin: 1.2rem 0;
+      font-size: 0.95rem;
+    }
+
+    .preview-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.2rem;
+      margin-top: 1rem;
+    }
+    .preview-card {
+      background: rgba(0,0,0,0.3);
+      padding: 1rem;
+      border-radius: 10px;
+      text-align: center;
+    }
+    .preview-card h4 {
+      margin-bottom: 0.6rem;
+      color: var(--gold);
+    }
+    .preview-card audio {
+      width: 100%;
+    }
+
+    .note {
+      font-size: 0.85rem;
+      opacity: 0.7;
+      margin-top: 0.5rem;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.85rem;
+      opacity: 0.6;
+    }
+
+    /* === MODAL DE FUNDACIONES === */
+    #foundations-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.85);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    #foundations-modal > div {
+      background: var(--bg-card);
+      border-radius: 20px;
+      padding: 2rem;
+      max-width: 800px;
+      width: 95%;
+      max-height: 90vh;
+      overflow: auto;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+      position: relative;
+    }
+    #foundations-modal h2 {
+      margin-bottom: 1.5rem;
+      color: var(--accent);
+      text-align: center;
+    }
+    .foundation-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.2rem;
+    }
+    .foundation-item {
+      background: rgba(30,30,50,0.7);
+      padding: 1.2rem;
+      border-radius: 12px;
+      text-align: center;
+    }
+    .foundation-item h3 {
+      margin-bottom: 0.5rem;
+      color: white;
+    }
+    .foundation-item p {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      margin-bottom: 1rem;
+    }
+    .foundation-item button {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    /* === MODAL DE INTENCIÓN === */
+    #intention-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.85);
+      z-index: 1001;
+      justify-content: center;
+      align-items: center;
+    }
+    #intention-modal > div {
+      background: var(--bg-card);
+      border-radius: 20px;
+      padding: 2rem;
+      max-width: 600px;
+      width: 95%;
+      max-height: 90vh;
+      overflow: auto;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+      position: relative;
+    }
+    #intention-modal button.close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: #334155;
+      border: none;
+      color: white;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <h1>🌌 Nebulaudio Studio</h1>
+      <p>Tu estudio privado para crear música con propósito. Plan activo: <strong>$12/mes</strong></p>
+    </div>
+
+    <!-- Paso 1: Describe tu obra -->
+    <div class="card">
+      <div class="step-title">1. Describe tu obra</div>
+      
+      <label for="style-prompt">Estilo musical deseado</label>
+      <select id="style-prompt">
+        <option value="folclorico" selected>Folclórico venezolano</option>
+        <option value="cinematico">Cinematográfico</option>
+        <option value="urbano">Urbano</option>
+        <option value="jazz">Jazz</option>
+        <option value="balada">Balada</option>
+      </select>
+
+      <label for="concept">Tema o concepto de la letra</label>
+      <textarea id="concept" placeholder="Ej: 'una despedida en la playa', 'la esperanza después de la tormenta'"></textarea>
+
+      <label for="lyrics-hint">¿Qué emociones debe transmitir la voz?</label>
+      <input type="text" id="lyrics-hint" placeholder="Ej: melancolía, alegría, nostalgia">
+
+      <button class="btn btn-primary" onclick="generatePreview()">
+        🎵 Generar referencia instrumental + IA
+      </button>
+      <p class="note">Nota: La IA generará una pista y una melodía de referencia.</p>
+    </div>
+
+    <!-- Paso 2: Referencias -->
+    <div class="card">
+      <div class="step-title">2. Escucha las referencias</div>
+      
+      <div class="instructions">
+        <strong>🎧 Usa audífonos:</strong> necesitas escuchar la pista mientras grabas tu voz.
+      </div>
+
+      <div class="preview-section">
+        <div class="preview-card">
+          <h4>Instrumental</h4>
+          <audio controls><source src="demo/instrumental.mp3" type="audio/mpeg"></audio>
+        </div>
+        <div class="preview-card">
+          <h4>Voz IA (referencia)</h4>
+          <audio controls><source src="demo/ia-vocal.mp3" type="audio/mpeg"></audio>
+          <p class="note">Melodía guía para tu letra</p>
+        </div>
+      </div>
+
+      <button class="btn btn-secondary" onclick="downloadLyricsPDF()">
+        📄 Descargar letra en PDF
+      </button>
+    </div>
+
+    <!-- Paso 3: Graba tu voz -->
+    <div class="card">
+      <div class="step-title">3. Graba tu voz</div>
+      
+      <div class="instructions">
+        Canta siguiendo la melodía de referencia. Puedes grabar hasta 3 minutos.
+      </div>
+
+      <button class="btn btn-primary" onclick="startRecording()" id="record-btn">
+        🎙️ Iniciar grabación
+      </button>
+      
+      <audio id="voice-preview" controls style="display:none; margin-top:1rem;"></audio>
+      
+      <button class="btn btn-secondary" onclick="openFoundationsModal()" id="publish-btn" disabled>
+        ✅ Subir mi demo a Nebulaudio Streaming
+      </button>
+      <p class="note">Disponible tras grabar tu voz.</p>
+    </div>
+
+    <footer>
+      © 2026 Nebulaudio – Una iniciativa ética de CERT Producciones C.A.
+    </footer>
+  </div>
+
+  <!-- === MODAL: SELECCIÓN DE FUNDACIÓN === -->
+  <div id="foundations-modal">
+    <div>
+      <button class="close" onclick="closeFoundationsModal()">×</button>
+      <h2>🌱 Elige una causa para apoyar</h2>
+      <p style="text-align:center; margin-bottom:1.5rem; opacity:0.8;">
+        Selecciona una fundación. Tu obra la representará ante patrocinantes.
+      </p>
+      
+      <div class="foundation-list">
+        <div class="foundation-item">
+          <h3>Fundación NeuroArmonía</h3>
+          <p>Salud · Terapias musicales para niños con trastornos neurológicos</p>
+          <button onclick="selectFoundation('neuroarmonia', 'Fundación NeuroArmonía')">
+            ❤️ Seleccionar
+          </button>
+        </div>
+        <div class="foundation-item">
+          <h3>Fundación Selva Viva</h3>
+          <p>Ambiente · Protección de bosques nativos en los Andes</p>
+          <button onclick="selectFoundation('selva-viva', 'Fundación Selva Viva')">
+            ❤️ Seleccionar
+          </button>
+        </div>
+        <div class="foundation-item">
+          <h3>Música para Todos</h3>
+          <p>Educación · Talleres en escuelas rurales sin recursos</p>
+          <button onclick="selectFoundation('musica-para-todos', 'Música para Todos')">
+            ❤️ Seleccionar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- === MODAL: CARTA DE INTENCIÓN === -->
+  <div id="intention-modal">
+    <div>
+      <button class="close" onclick="closeIntentionModal()">×</button>
+      <h2 style="margin-bottom:1.5rem; color:var(--accent);">💬 ¿Por qué deseas apoyar a <span id="intention-foundation-name">esta fundación</span>?</h2>
+      
+      <label for="intention-letter">Escribe tu declaración de intención</label>
+      <textarea id="intention-letter" placeholder="Ej: Mi hermano recibió terapia musical en tu fundación..."></textarea>
+
+      <button class="btn btn-primary" style="width:100%;" onclick="submitIntention()">
+        📤 Enviar solicitud
+      </button>
+    </div>
+  </div>
+
+  <script>
+    let selectedFoundation = null;
+
+    function generatePreview() {
+      alert("✅ Referencias generadas.");
+    }
+
+    function downloadLyricsPDF() {
+      const concept = document.getElementById('concept').value || "Tu obra aún no tiene letra.";
+      alert(`📄 Letra:\n"${concept}"`);
+    }
+
+    function startRecording() {
+      alert("🎙️ Grabación simulada.");
+      document.getElementById('voice-preview').style.display = 'block';
+      document.getElementById('publish-btn').disabled = false;
+    }
+
+    function openFoundationsModal() {
+      document.getElementById('foundations-modal').style.display = 'flex';
+    }
+
+    function closeFoundationsModal() {
+      document.getElementById('foundations-modal').style.display = 'none';
+    }
+
+    // ✅ CORREGIDO: ahora abre el modal de intención
+    function selectFoundation(id, name) {
+      selectedFoundation = { id, name };
+      document.getElementById('intention-foundation-name').textContent = name;
+      closeFoundationsModal();
+      document.getElementById('intention-modal').style.display = 'flex';
+    }
+
+    function closeIntentionModal() {
+      document.getElementById('intention-modal').style.display = 'none';
+    }
+
+    function submitIntention() {
+      const letter = document.getElementById('intention-letter').value.trim();
+      if (!letter) {
+        alert("Por favor, escribe tu declaración de intención.");
+        return;
+      }
+
+      // Guardar aplicación
+      const application = {
+        foundation: selectedFoundation,
+        intentionLetter: letter,
+        status: "pending",
+        submittedAt: new Date().toISOString()
+      };
+      localStorage.setItem('foundationApplication', JSON.stringify(application));
+
+      // ✅ Redirigir al perfil del artista
+      closeIntentionModal();
+      window.location.href = 'perfil-artista.html';
+    }
+  </script>
+</body>
+</html>

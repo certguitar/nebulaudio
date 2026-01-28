@@ -1,0 +1,38 @@
+🔗 Así quedan las URLs completas:
+Archivo
+URL pública
+index.html
+https://certguitar.github.io/nebulaudio/
+estatutos-nebulaudio.html
+https://certguitar.github.io/nebulaudio/estatutos-nebulaudio.html
+bienvenida-compositor.html
+https://certguitar.github.io/nebulaudio/bienvenida-compositor.html
+compositor-template.html
+https://certguitar.github.io/nebulaudio/compositor-template.html
+oficina/cert-nebulaudio.html
+✅ https://certguitar.github.io/nebulaudio/oficina/cert-nebulaudio.html
+➡️ Esta última es la clave:
+✅ Ya puedes acceder al panel privado con:
+→ https://certguitar.github.io/nebulaudio/oficina/cert-nebulaudio.html
+→ Usa la clave: cert2025
+
+Y sí, las ventas que registres desde index.html (con ?paid=1) se guardarán en localStorage de ese dominio, así que el panel las verá — porque están en el mismo origen (certguitar.github.io).
+
+📤 Para compartir con un nuevo compositor:
+Personaliza compositor-template.html (reemplaza {{NOMBRE}}, etc.).
+Guárdalo como, por ejemplo: compositor-ana-martinez.html
+Súbelo a GitHub.
+Envíale esta URL:
+→ https://certguitar.github.io/nebulaudio/compositor-ana-martinez.html
+No necesitas backend, ni hosting adicional — GitHub Pages lo hace todo.
+
+🛠 Acción inmediata:
+Verifica los nombres exactos de:
+estatutos-nebulaudio.html
+bienvenida-compositor.html
+compositor-template.html
+→ Deben estar en minúsculas, sin espacios, con guiones.
+Prueba estas URLs directas:
+https://certguitar.github.io/nebulaudio/estatutos-nebulaudio.html
+https://certguitar.github.io/nebulaudio/bienvenida-compositor.html
+https://certguitar.github.io/nebulaudio/oficina/cert-nebulaudio.html ✅

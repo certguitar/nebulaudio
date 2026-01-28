@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🔍 Nebulaudio — Ver Datos Reales</title>
+  <style>
+    body {
+      font-family: monospace;
+      background: #0a0a14;
+      color: #e0e0ff;
+      padding: 1.5rem;
+      line-height: 1.6;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    h1 {
+      color: #10b981;
+      margin-bottom: 1rem;
+    }
+    .key {
+      color: #8b5cf6;
+      margin-top: 1.5rem;
+    }
+    .json {
+      background: #0d0d1a;
+      border-left: 3px solid #10b981;
+      padding: 0.8rem;
+      margin: 0.6rem 0;
+      overflow-x: auto;
+      white-space: pre-wrap;
+    }
+    .empty {
+      color: #eab308;
+      font-style: italic;
+    }
+    .note {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: rgba(22, 22, 40, 0.6);
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔍 Nebulaudio — Auditoría de Datos (Solo Lectura)</h1>
+  
+  <div id="output"></div>
+
+  <div class="note">
+    ℹ️ Esta página <strong>solo lee</strong> <code>localStorage</code>.<br>
+    No modifica, no envía, no simula. Es una ventana directa a los datos reales generados por <code>index.html</code>.<br>
+    Úsala para verificar que las ventas se registran correctamente antes de marcar pagos en <code>socios.html</code>.
+  </div>
+
+  <script>
+    function renderData() {
+      const output = document.getElementById('output');
+      const keys = Object.keys(localStorage)
+        .filter(k => k.startsWith('nebulaudio_sales_'))
+        .sort();
+
+      if (keys.length === 0) {
+        output.innerHTML = '<p class="empty">📭 No hay datos de ventas en localStorage.</p><p>Realiza una compra en <code>index.html</code> para generar registros.</p>';
+        return;
+      }
+
+      let html = `<p>✅ Encontradas ${keys.length} claves de ventas:</p>`;
+      
+      keys.forEach(key => {
+        try {
+          const rawData = localStorage.getItem(key);
+          const parsed = JSON.parse(rawData);
+          html += `
+            <div class="key">🔑 <strong>${key}</strong></div>
+            <div class="json">${JSON.stringify(parsed, null, 2)}</div>
+          `;
+        } catch (e) {
+          html += `
+            <div class="key">⚠️ <strong>${key}</strong> — <span style="color:#ef4444">Error al parsear</span></div>
+            <div class="json" style="color:#ef4444; border-left-color:#ef4444;">${e.message}\nValor bruto: ${JSON.stringify(localStorage.getItem(key))}</div>
+          `;
+        }
+      });
+
+      output.innerHTML = html;
+    }
+
+    // Render inicial + escuchar cambios (útil si pruebas en vivo)
+    renderData();
+    window.addEventListener('storage', renderData); // sincroniza si abres index.html en otra pestaña
+  </script>
+</body>
+</html>

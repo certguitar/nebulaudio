@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Notificaciones – Nebulaudio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0a0a14;
+      --bg-card: rgba(18, 18, 32, 0.65);
+      --text-primary: #f0f0ff;
+      --text-secondary: #a0a0c0;
+      --accent: #10b981;
+      --gold: #ffc107;
+      --approved: #38C700;
+      --rejected: #ef4444;
+      --pending: #eab308;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding: 1.5rem;
+      background-image:
+        linear-gradient(rgba(10, 10, 20, 0.85), rgba(10, 10, 20, 0.9)),
+        url('https://i.postimg.cc/4ywDV4xc/universo-nebulaudio.png');
+      background-size: cover;
+      background-attachment: fixed;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .header h1 {
+      font-size: 2.2rem;
+      background: linear-gradient(90deg, var(--accent), #8b5cf6);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 0.5rem;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border-radius: 16px;
+      padding: 1.6rem;
+      margin-bottom: 1.8rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+
+    .notification-item {
+      background: rgba(30,30,50,0.7);
+      padding: 1.2rem;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      position: relative;
+    }
+
+    .notification-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.6rem;
+    }
+    .notification-title {
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    .notification-date {
+      font-size: 0.85rem;
+      opacity: 0.7;
+    }
+
+    .notification-body {
+      line-height: 1.5;
+      margin-bottom: 0.8rem;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    .status-approved {
+      background: rgba(56, 199, 0, 0.2);
+      color: var(--approved);
+    }
+    .status-rejected {
+      background: rgba(239, 68, 68, 0.2);
+      color: var(--rejected);
+    }
+    .status-pending {
+      background: rgba(234, 179, 8, 0.2);
+      color: var(--pending);
+    }
+
+    .notification-actions {
+      display: flex;
+      gap: 0.8rem;
+    }
+    .btn {
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      font-size: 0.9rem;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+    .btn-secondary {
+      background: rgba(139, 92, 246, 0.2);
+      color: #d0d0ff;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.85rem;
+      opacity: 0.6;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <h1>🔔 Notificaciones</h1>
+      <p>Tus actualizaciones más recientes en Nebulaudio.</p>
+    </div>
+
+    <!-- === NOTIFICACIONES DEL ARTISTA === -->
+    <div class="card">
+      <h2 style="font-size:1.4rem; color:var(--accent); margin-bottom:1.2rem;">Para ti, Luna Andina</h2>
+      
+      <div class="notification-item">
+        <div class="notification-header">
+          <span class="notification-title">🎉 ¡Solicitud aceptada!</span>
+          <span class="notification-date">Hoy, 10:30 AM</span>
+        </div>
+        <div class="notification-body">
+          La <strong>Fundación NeuroArmonía</strong> ha aceptado tu solicitud. 
+          Tu perfil ahora es público y puedes comenzar a recibir apoyo.
+        </div>
+        <div class="notification-actions">
+          <button class="btn btn-primary" onclick="window.location='perfil-artista.html'">
+            Ver mi perfil
+          </button>
+        </div>
+      </div>
+
+      <div class="notification-item">
+        <div class="notification-header">
+          <span class="notification-title">❌ Solicitud rechazada</span>
+          <span class="notification-date">Ayer, 2:15 PM</span>
+        </div>
+        <div class="notification-body">
+          La <strong>Fundación Selva Viva</strong> no puede representarte en este momento. 
+          Puedes elegir otra causa desde tu estudio.
+        </div>
+        <div class="notification-actions">
+          <button class="btn btn-secondary" onclick="window.location='studio.html#foundations'">
+            Elegir otra fundación
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- === NOTIFICACIONES DE LA FUNDACIÓN === -->
+    <div class="card">
+      <h2 style="font-size:1.4rem; color:var(--accent); margin-bottom:1.2rem;">Para ti, Fundación NeuroArmonía</h2>
+      
+      <div class="notification-item">
+        <div class="notification-header">
+          <span class="notification-title">🎨 Nueva solicitud</span>
+          <span class="notification-date">Hoy, 9:45 AM</span>
+        </div>
+        <div class="notification-body">
+          El artista <strong>Luna Andina</strong> desea representarte. 
+          Revisa su perfil y decide si aceptas su representación.
+        </div>
+        <div class="notification-actions">
+          <button class="btn btn-primary" onclick="window.location='fundaciones-panel.html'">
+            Gestionar solicitudes
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      © 2026 Nebulaudio – Una iniciativa ética de CERT Producciones C.A.
+    </footer>
+  </div>
+
+  <script>
+    // En producción, este archivo se personalizará según el usuario logueado
+    // Por ahora, muestra notificaciones simuladas para ambos roles
+  </script>
+</body>
+</html>
