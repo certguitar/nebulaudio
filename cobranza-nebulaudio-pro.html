@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nebulaudio Pro - Pago Único $25.69</title>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0a0a14;
+      color: white;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+    }
+    .card {
+      background: rgba(20, 20, 40, 0.9);
+      padding: 40px;
+      border-radius: 20px;
+      text-align: center;
+      border: 2px solid #667eea;
+      box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
+    }
+    .logo {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: #667eea;
+    }
+    .price {
+      font-size: 3rem;
+      color: #667eea;
+      margin: 20px 0;
+      font-weight: bold;
+    }
+    .description {
+      margin: 20px 0;
+      line-height: 1.6;
+      color: #aaa;
+    }
+    .info-box {
+      background: rgba(102, 126, 234, 0.1);
+      padding: 15px;
+      border-radius: 10px;
+      margin: 20px 0;
+      font-size: 0.9rem;
+      text-align: left;
+    }
+    #paypal-button-container {
+      max-width: 300px;
+      margin: 30px auto;
+    }
+    .download-info {
+      background: rgba(16, 185, 129, 0.1);
+      border-left: 4px solid #10b981;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 25px 0;
+      text-align: left;
+      font-size: 0.9rem;
+    }
+    .download-info p {
+      margin: 5px 0;
+    }
+    .download-info strong {
+      color: #10b981;
+    }
+    .support-contact {
+      margin-top: 20px;
+      padding: 12px;
+      background: rgba(239, 68, 68, 0.1);
+      border-radius: 8px;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">✨</div>
+    <h1>Nebulaudio I.A.<br>Bocetos Musicales Pro</h1>
+    <p>Versión v1.0 - Acceso único permanente</p>
+    
+    <div class="price">$25.69 USD</div>
+    
+    <div class="description">
+      <p>✅ Incluye todas las actualizaciones menores de esta versión<br>
+         ✅ A través de tu compra y la I.A se financian salarios universales para nuestros socios compositores de Nebulaudio Express<br>
+         ✅ Descarga inmediata después del pago</p>
+    </div>
+    
+    <div class="info-box">
+      <p><strong>💡 ¿Qué obtienes?</strong></p>
+      <p>• Generación de bocetos musicales con IA (8-24s)<br>
+         • Acumulación de prompts para explorar combinaciones<br>
+         • Post-producción: superposición y concatenación de pistas<br>
+         • Transferencia QR a tu móvil<br>
+         • Acceso a Nebulaudio Studio Streaming para colaborar con compositores, productores y curadores de la industria musical</p>
+    </div>
+    
+    <div id="paypal-button-container"></div>
+    
+    <!-- INFORMACIÓN DE DESCARGA -->
+    <div class="download-info">
+      <p><strong>📦 Información de descarga:</strong></p>
+      <p>• <strong>Archivo:</strong> Nebulaudio-Pro-v1.0.exe</p>
+      <p>• <strong>Tamaño:</strong> ~85 MB</p>
+      <p>• <strong>Plataforma:</strong> Windows 10/11</p>
+      <p>• <strong>Requisitos:</strong> 4GB RAM mínimo, conexión a internet para transferencia QR</p>
+    </div>
+    
+    <div class="support-contact">
+      <p>📧 <strong>¿Problemas con la descarga?</strong><br>
+         Contacta: <a href="mailto:cert@cproducciones.com" style="color:#667eea; text-decoration:underline;">cert@cproducciones.com</a></p>
+    </div>
+    
+    <div class="info-box" style="margin-top:30px;">
+      <p>🔒 <strong>Pago seguro vía PayPal</strong><br>
+         💳 Aceptamos tarjetas de crédito/débito (no necesitas cuenta PayPal)<br>
+         📧 El dinero va directamente a CERT Producciones C.A.<br>
+         🤝 Cada descarga apoya al fondo de protección de compositores Nebulaudio Express</p>
+    </div>
+  </div>
+
+  <!-- PAYPAL SDK - TU CLIENT ID AQUÍ -->
+  <script src="https://www.paypal.com/sdk/js?client-id=AVWUH7ggoAikedPxyW_hECPH_8unC3Sqcsql9FBa7_pXvMIzqs8eVuII81VZP-LP34y5QKZaZttiDBwC&currency=USD"></script>
+  
+  <script>
+    paypal.Buttons({
+      style: {
+        layout: 'vertical',
+        color: 'blue',
+        shape: 'rect',
+        label: 'pay',
+        height: 55
+      },
+      createOrder: function(data, actions) {
+        return actions.order.create({
+          purchase_units: [{
+            amount: {
+              value: '25.69'
+            },
+            description: 'Nebulaudio Pro v1.0 - Acceso Único'
+          }]
+        });
+      },
+      onApprove: function(data, actions) {
+        return actions.order.capture().then(function(details) {
+          // ✅ PAGO CONFIRMADO → DESCARGA DIRECTA DEL .EXE
+          window.location.href = 'https://github.com/CERTGuitar/nebulaudio-pro-releases/releases/download/v1.0/Nebulaudio-Pro-v1.0.exe';
+        });
+      },
+      onError: function(err) {
+        alert('Error en el pago. Por favor, inténtalo de nuevo.');
+        console.error(err);
+      }
+    }).render('#paypal-button-container');
+  </script>
+</body>
+</html>
