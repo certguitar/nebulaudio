@@ -145,7 +145,7 @@
       onApprove: function(data, actions) {
         return actions.order.capture().then(function(details) {
           // ✅ PAGO CONFIRMADO → DESCARGA DIRECTA DEL .EXE
-          window.location.href = 'https://github.com/CERTGuitar/nebulaudio-pro-releases/releases/download/v1.0/Nebulaudio-Pro-v1.0.exe';
+          window.location.href = 'https://github.com/certguitar/nebulaudio-pro-releases/releases/download/v1.0.0/Nebulaudio-Pro-v1.0.zip';
         });
       },
       onError: function(err) {
